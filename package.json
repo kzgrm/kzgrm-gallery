@@ -12,6 +12,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.1.5"
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/svelte": "^8.0.4",
+    "@astrojs/vercel": "^10.0.4",
+    "astro": "^6.1.5",
+    "svelte": "^5.55.2",
+    "typescript": "^5.9.3"
   }
 }

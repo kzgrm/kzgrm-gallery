@@ -1,46 +1,67 @@
-# Astro Starter Kit: Basics
+# KZGRM Circle Website
 
-```sh
-npm create astro@latest -- --template basics
-```
+Astro + Svelteで構築した、サークル向けの静的Webサイトです。  
+Vercelへのデプロイを前提にしています。
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 技術スタック
 
-## 🚀 Project Structure
+- Astro
+- Svelte（活動一覧のタグ絞り込みUI）
+- Astro Content Collections（Markdown運用）
+- Vercel Adapter
 
-Inside of your Astro project, you'll see the following folders and files:
+## ページ構成
+
+- `/` トップ
+- `/about` サークル紹介
+- `/activities` 活動情報一覧
+- `/activities/[slug]` 活動詳細
+- `/contact` お問い合わせ
+
+## ディレクトリ
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+  components/
+    ActivityFilter.svelte
+  content/
+    activities/
+      *.md
+  content.config.ts
+  layouts/
+    Layout.astro
+  pages/
+    index.astro
+    about.astro
+    activities/
+      index.astro
+      [slug].astro
+    contact.astro
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 活動記事の追加方法
 
-## 🧞 Commands
+1. `src/content/activities/` にMarkdownファイルを追加
+2. Frontmatterに以下を設定
+   - `title` (string)
+   - `date` (YYYY-MM-DD)
+   - `summary` (string)
+   - `tags` (string[])
+   - `draft` (boolean)
+3. `draft: false` の記事のみ公開されます
 
-All commands are run from the root of the project, from a terminal:
+## 開発コマンド
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- `npm install`: 依存のインストール
+- `npm run dev`: ローカル開発サーバー起動
+- `npm run build`: 本番ビルド
+- `npm run preview`: ビルド結果の確認
 
-## 👀 Want to learn more?
+## Vercelデプロイ
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. GitHubリポジトリをVercelに接続
+2. Production Branchを`main`に設定
+3. Pull RequestごとのPreview Deployを有効化
+4. `main` マージで本番反映
+
+初期構成では環境変数は不要です（問い合わせは外部フォーム導線）。

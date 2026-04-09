@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const activities = await getCollection('activities', ({ data }) => !data.draft);
+  return activities.map((activity) => ({
+    params: { slug: activity.id },
+    props: { activity }
+  }));
+}
+
+const { activity } = Astro.props;
+const { Content } = await render(activity);
+---
+
+<Layout title={`KZGRM Circle | ${activity.data.title}`} description={activity.data.summary}>
+  <article>
+    <p><a href="/activities">活動情報一覧へ戻る</a></p>
+    <h1>{activity.data.title}</h1>
+    <p>{activity.data.date.toLocaleDateString('ja-JP')}</p>
+    {activity.data.location && <p>場所: {activity.data.location}</p>}
+    {activity.data.eventType && <p>区分: {activity.data.eventType}</p>}
+    <p>タグ: {activity.data.tags.join(' / ')}</p>
+    <hr />
+    <Content />
+  </article>
+</Layout>

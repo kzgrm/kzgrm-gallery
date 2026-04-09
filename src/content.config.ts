@@ -6,12 +6,8 @@ const activities = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
-    summary: z.string().max(180),
     tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-    coverImage: z.string().optional(),
-    location: z.string().optional(),
-    eventType: z.string().optional()
+    thumnail: z.string()
   })
 });
 

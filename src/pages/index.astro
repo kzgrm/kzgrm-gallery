@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const latestActivities = (await getCollection('activities', ({ data }) => !data.draft))
+const latestActivities = (await getCollection('activities'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 ---

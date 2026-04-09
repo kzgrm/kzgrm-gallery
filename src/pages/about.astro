@@ -4,36 +4,90 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="kzgrm" description="kzgrm">
   <h1>About Us</h1>
-  <p>かざぐるまっていうサークルのホームページだよ～～～～</p>
+  <p>かざぐるまっていうサークルのホームページだよ～～～</p>
 
-  <h2>Accounts</h2>
-  <ul>
-    <li>Discord</li>
-    <li>mail</li>
-  </ul>
-  風下-kazashimo
-  <ul>
-    <li>
-      <a href="https://www.youtube.com/@kazashimo_ch" target="_blank" rel="noopener noreferrer">
-        YouTube: @kazashimo_ch
-      </a>
-    </li>
-    <li>
-      <a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">
-        X (Twitter): @haru01234567890
-      </a>
-    </li>
-    <li>
-      <a href="https://www.tiktok.com/@kazashimo9346" target="_blank" rel="noopener noreferrer">
-        TikTok: @kazashimo9346
-      </a>
-    </li>
-    <li>
-      <a href="https://www.amazon.co.jp/hz/wishlist/ls/2PZZB1ZGEC13D?ref_=wl_share" target="_blank" rel="noopener noreferrer">
-        Amazonほしい物リスト
-      </a>
+  <h2>Character</h2>
+  <section class="kazashimo-section">
+    <h2>風下-kazashimo</h2>
+    <ul>
+      <li>
+        <a href="https://www.youtube.com/@kazashimo_ch" target="_blank" rel="noopener noreferrer">
+          <img class="sns-icon" src="https://cdn.simpleicons.org/youtube/000000" alt="" aria-hidden="true" />
+          YouTube: @kazashimo_ch
+        </a>
+      </li>
+      <li>
+        <a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">
+          <img class="sns-icon" src="https://cdn.simpleicons.org/x/000000" alt="" aria-hidden="true" />
+          X (Twitter): @haru01234567890
+        </a>
+      </li>
+      <li>
+        <a href="https://www.tiktok.com/@kazashimo9346" target="_blank" rel="noopener noreferrer">
+          <img class="sns-icon" src="https://cdn.simpleicons.org/tiktok/000000" alt="" aria-hidden="true" />
+          TikTok: @kazashimo9346
+        </a>
+      </li>
+      <li>
+        <a href="https://www.amazon.co.jp/hz/wishlist/ls/2PZZB1ZGEC13D?ref_=wl_share" target="_blank" rel="noopener noreferrer">
+          <img class="sns-icon" src="https://api.iconify.design/fa6-brands:amazon.svg?color=%23000000" alt="" aria-hidden="true" />
+          Amazonほしい物リスト
+        </a>
+      </li>
+    </ul>
+  </section>
+  
+  <h2>Members</h2>
+    <ul>
+      <li>はる</li>
+      <li>ふぉるね</li>
+      <li>なっつ</li>
+    </ul>
 
-    </li>
-    <li>kzgrm</li>
-  </ul>
 </Layout>
+
+<style>
+  .kazashimo-section {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1rem;
+    border-radius: 0.8rem;
+    border: 1px solid #dbe1ea;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .kazashimo-section::before {
+    content: '';
+    position: absolute;
+    inset: -8%;
+    z-index: -1;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+      url('/images/about/kzsm.jpg') center / cover no-repeat;
+    transform: rotate(0deg) scale(1.02);
+    transition: transform 360ms ease;
+    transform-origin: center;
+  }
+
+  .kazashimo-section:hover::before {
+    transform: rotate(-2deg) scale(1.05);
+  }
+
+  .kazashimo-section h2 {
+    margin-top: 0;
+  }
+
+  .kazashimo-section a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .sns-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+  }
+
+</style>

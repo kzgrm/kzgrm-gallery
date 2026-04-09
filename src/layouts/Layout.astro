@@ -2,11 +2,13 @@
 interface Props {
   title: string;
   description?: string;
+  wide?: boolean;
 }
 
 const {
   title,
-  description = 'kzgrm'
+  description = 'kzgrm',
+  wide = false
 } = Astro.props;
 ---
 
@@ -33,13 +35,13 @@ const {
       <nav>
         <ul>
           <li><a href="/about">About Us</a></li>
-          <li><a href="/activities">activities</a></li>
-          <li><a href="/gallery">gallery</a></li>
-          <li><a href="/contact">contact</a></li>
+          <li><a href="/activities">Activities</a></li>
+          <li><a href="/gallery">Gallery</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
     </header>
-    <main class="container">
+    <main class={`container ${wide ? 'container-wide' : ''}`}>
       <slot />
     </main>
     <footer class="site-footer">
@@ -129,9 +131,13 @@ const {
   }
 
   .container {
-    max-width: 920px;
+    width: min(100% - 2rem, 920px);
     margin: 0 auto;
-    padding: 2rem 1.25rem 3rem;
+    padding: clamp(1rem, 2vw, 2rem) 0 clamp(2rem, 3vw, 3rem);
+  }
+
+  .container-wide {
+    width: min(100% - 2rem, 1240px);
   }
 
   .site-footer {
@@ -155,5 +161,29 @@ const {
     height: auto;
     display: block;
     margin-inline: auto;
+  }
+
+  @media (max-width: 768px) {
+    .site-header {
+      flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+    }
+
+    .site-title img {
+      height: 32px;
+    }
+
+    nav ul {
+      flex-wrap: wrap;
+      gap: 0.7rem 1rem;
+    }
+
+    .container {
+      width: min(100% - 1.25rem, 920px);
+    }
+
+    .container-wide {
+      width: min(100% - 1.25rem, 1240px);
+    }
   }
 </style>

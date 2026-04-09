@@ -3,21 +3,19 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ActivityFilter from '../../components/ActivityFilter.svelte';
 
-const activities = (await getCollection('activities', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
+const activities = (await getCollection('activities')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const activityItems = activities.map((activity) => ({
   title: activity.data.title,
   url: `/activities/${activity.id}/`,
   date: activity.data.date.toLocaleDateString('ja-JP'),
-  summary: activity.data.summary,
+  thumnail: activity.data.thumnail,
   tags: activity.data.tags
 }));
 ---
 
 <Layout title="kzgrm" description="kzgrm">
-  <h1>kzgrm</h1>
-  <p>kzgrm</p>
+  <h1>Activities</h1>
+  <p>今までの活動だよ〜〜〜</p>
   <ActivityFilter client:load activities={activityItems} />
 </Layout>

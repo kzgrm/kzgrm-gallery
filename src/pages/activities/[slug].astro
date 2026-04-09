@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const activities = await getCollection('activities', ({ data }) => !data.draft);
+  const activities = await getCollection('activities');
   return activities.map((activity) => ({
     params: { slug: activity.id },
     props: { activity }
@@ -14,13 +14,11 @@ const { activity } = Astro.props;
 const { Content } = await render(activity);
 ---
 
-<Layout title={`kzgrm | ${activity.data.title}`} description={activity.data.summary}>
+<Layout title={`kzgrm | ${activity.data.title}`} description={activity.data.title}>
   <article>
     <p><a href="/activities">kzgrm</a></p>
     <h1>{activity.data.title}</h1>
     <p>{activity.data.date.toLocaleDateString('ja-JP')}</p>
-    {activity.data.location && <p>kzgrm: {activity.data.location}</p>}
-    {activity.data.eventType && <p>kzgrm: {activity.data.eventType}</p>}
     <p>kzgrm: {activity.data.tags.join(' / ')}</p>
     <hr />
     <Content />

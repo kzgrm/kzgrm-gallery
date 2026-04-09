@@ -1,13 +1,9 @@
 ---
 title: kzgrm
 date: 2026-04-06
-summary: kzgrm
 tags:
   - kzgrm
-  - kzgrm
-draft: false
-location: kzgrm
-eventType: kzgrm
+thumnail: /header.png
 ---
 
 kzgrm

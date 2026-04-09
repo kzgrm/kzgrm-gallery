@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhotoGalleryViews from '../components/PhotoGalleryViews.svelte';
+
+const photos = [
+  {
+    src: '/header.png',
+    alt: 'kzgrm header',
+    caption: 'kzgrm'
+  },
+  {
+    src: '/favicon.svg',
+    alt: 'kzgrm icon',
+    caption: 'kzgrm'
+  },
+  {
+    src: '/header.png',
+    alt: 'kzgrm logo',
+    caption: 'kzgrm'
+  }
+];
+---
+
+<Layout title="kzgrm gallery" description="kzgrm">
+  <h1>kzgrm gallery</h1>
+  <p>kzgrm</p>
+  <PhotoGalleryViews client:load photos={photos} />
+</Layout>

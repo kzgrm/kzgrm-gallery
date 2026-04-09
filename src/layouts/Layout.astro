@@ -26,11 +26,15 @@ const {
   </head>
   <body>
     <header class="site-header">
-      <a class="site-title" href="/">kzgrm</a>
+      <a class="site-title" href="/">
+        <img class="site-icon" src="/favicon.svg" alt="" aria-hidden="true" />
+        <img src="/header.png" alt="kzgrm" />
+      </a>
       <nav>
         <ul>
-          <li><a href="/about">about</a></li>
+          <li><a href="/about">About Us</a></li>
           <li><a href="/activities">activities</a></li>
+          <li><a href="/gallery">gallery</a></li>
           <li><a href="/contact">contact</a></li>
         </ul>
       </nav>
@@ -39,7 +43,7 @@ const {
       <slot />
     </main>
     <footer class="site-footer">
-      <small>{new Date().getFullYear()} kzgrm</small>
+      <small>{new Date().getFullYear()} kazaguruma</small>
     </footer>
   </body>
 </html>
@@ -51,7 +55,7 @@ const {
     --card: #ffffff;
     --text: #0f172a;
     --muted: #475569;
-    --accent: #2563eb;
+    --accent: #5A64B1;
     --border: #dbe1ea;
   }
 
@@ -80,9 +84,22 @@ const {
   }
 
   .site-title {
-    font-weight: 700;
-    color: var(--text);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     text-decoration: none;
+  }
+
+  .site-icon {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 auto;
+  }
+
+  .site-title img {
+    display: block;
+    width: auto;
+    height: 40px;
   }
 
   nav ul {

@@ -14,14 +14,14 @@ const { activity } = Astro.props;
 const { Content } = await render(activity);
 ---
 
-<Layout title={`KZGRM Circle | ${activity.data.title}`} description={activity.data.summary}>
+<Layout title={`kzgrm | ${activity.data.title}`} description={activity.data.summary}>
   <article>
-    <p><a href="/activities">活動情報一覧へ戻る</a></p>
+    <p><a href="/activities">kzgrm</a></p>
     <h1>{activity.data.title}</h1>
     <p>{activity.data.date.toLocaleDateString('ja-JP')}</p>
-    {activity.data.location && <p>場所: {activity.data.location}</p>}
-    {activity.data.eventType && <p>区分: {activity.data.eventType}</p>}
-    <p>タグ: {activity.data.tags.join(' / ')}</p>
+    {activity.data.location && <p>kzgrm: {activity.data.location}</p>}
+    {activity.data.eventType && <p>kzgrm: {activity.data.eventType}</p>}
+    <p>kzgrm: {activity.data.tags.join(' / ')}</p>
     <hr />
     <Content />
   </article>

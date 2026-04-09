@@ -1,19 +1,19 @@
 ---
-title: 新歓説明会を開催しました
+title: kzgrm
 date: 2026-04-01
-summary: 今年度の新歓説明会を実施し、活動内容と年間スケジュールを紹介しました。
+summary: kzgrm
 tags:
-  - 新歓
-  - 説明会
+  - kzgrm
+  - kzgrm
 draft: false
-location: 学生会館 3F
-eventType: 説明会
+location: kzgrm
+eventType: kzgrm
 ---
 
-4月最初の活動として新歓説明会を開催しました。
+kzgrm
 
-- サークルの理念と活動方針
-- 年間イベント予定
-- 参加方法と連絡先
+- kzgrm
+- kzgrm
+- kzgrm
 
-参加希望の方はお問い合わせページからご連絡ください。
+kzgrm

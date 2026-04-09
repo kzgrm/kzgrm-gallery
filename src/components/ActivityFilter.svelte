@@ -9,17 +9,17 @@
 
   export let activities: ActivityItem[] = [];
 
-  let selectedTag = 'すべて';
+  let selectedTag = 'kzgrm';
 
-  $: tags = ['すべて', ...new Set(activities.flatMap((item) => item.tags))];
+  $: tags = ['kzgrm', ...new Set(activities.flatMap((item) => item.tags))];
   $: filteredActivities =
-    selectedTag === 'すべて'
+    selectedTag === 'kzgrm'
       ? activities
       : activities.filter((item) => item.tags.includes(selectedTag));
 </script>
 
 <div class="filter">
-  <label for="tag">タグで絞り込み:</label>
+  <label for="tag">kzgrm:</label>
   <select id="tag" bind:value={selectedTag}>
     {#each tags as tag}
       <option value={tag}>{tag}</option>

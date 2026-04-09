@@ -6,7 +6,7 @@ interface Props {
 
 const {
   title,
-  description = 'サークルの活動紹介サイトです。最新の活動情報を掲載します。'
+  description = 'kzgrm'
 } = Astro.props;
 ---
 
@@ -22,16 +22,16 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="KZGRM Circle" />
+    <meta property="og:site_name" content="kzgrm" />
   </head>
   <body>
     <header class="site-header">
-      <a class="site-title" href="/">KZGRM Circle</a>
+      <a class="site-title" href="/">kzgrm</a>
       <nav>
         <ul>
-          <li><a href="/about">サークル紹介</a></li>
-          <li><a href="/activities">活動情報</a></li>
-          <li><a href="/contact">お問い合わせ</a></li>
+          <li><a href="/about">about</a></li>
+          <li><a href="/activities">activities</a></li>
+          <li><a href="/contact">contact</a></li>
         </ul>
       </nav>
     </header>
@@ -39,7 +39,7 @@ const {
       <slot />
     </main>
     <footer class="site-footer">
-      <small>© {new Date().getFullYear()} KZGRM Circle</small>
+      <small>{new Date().getFullYear()} kzgrm</small>
     </footer>
   </body>
 </html>

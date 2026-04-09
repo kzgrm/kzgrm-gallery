@@ -7,21 +7,21 @@ const latestActivities = (await getCollection('activities', ({ data }) => !data.
   .slice(0, 3);
 ---
 
-<Layout title="KZGRM Circle | トップ" description="KZGRM Circleの公式サイトです。活動情報を随時更新します。">
+<Layout title="kzgrm" description="kzgrm">
   <section>
-    <h1>つながりを作る、学びを広げる。</h1>
+    <h1>kzgrm</h1>
     <p>
-      KZGRM Circleは、メンバー同士がアイデアを持ち寄り、交流しながら成長できるコミュニティです。
+      kzgrm
     </p>
     <p>
-      <a href="/about">サークル紹介を見る</a>
+      <a href="/about">about</a>
       ・
-      <a href="/activities">活動情報を見る</a>
+      <a href="/activities">activities</a>
     </p>
   </section>
 
   <section>
-    <h2>直近の活動ハイライト</h2>
+    <h2>kzgrm</h2>
     <ul>
       {latestActivities.map((activity) => (
         <li>

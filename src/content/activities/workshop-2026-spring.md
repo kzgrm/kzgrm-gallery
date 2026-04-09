@@ -1,21 +1,21 @@
 ---
-title: 春の制作ワークショップ
+title: kzgrm
 date: 2026-04-06
-summary: チームでアイデアを出し合い、短時間で作品を形にするワークショップを実施しました。
+summary: kzgrm
 tags:
-  - ワークショップ
-  - 制作
+  - kzgrm
+  - kzgrm
 draft: false
-location: 共用スペースA
-eventType: 制作会
+location: kzgrm
+eventType: kzgrm
 ---
 
-春学期の最初の制作会として、短時間のワークショップを行いました。
+kzgrm
 
-主な流れ:
+kzgrm
 
-1. テーマ決め
-2. プロトタイプ制作
-3. ふりかえり共有
+1. kzgrm
+2. kzgrm
+3. kzgrm
 
-次回は成果物の発表会を予定しています。
+kzgrm

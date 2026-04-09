@@ -63,6 +63,15 @@ const {
     box-sizing: border-box;
   }
 
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -130,5 +139,21 @@ const {
     border-top: 1px solid var(--border);
     padding: 1.25rem;
     color: var(--muted);
+  }
+
+  /*
+    改行を手動で扱いたいテキスト向け:
+    改行文字をそのまま表示しつつ、長い行は折り返す。
+  */
+  .manual-break {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  :global(article img) {
+    width: min(100%, 720px);
+    height: auto;
+    display: block;
+    margin-inline: auto;
   }
 </style>

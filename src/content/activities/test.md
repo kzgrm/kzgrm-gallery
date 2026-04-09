@@ -1,5 +1,5 @@
 ---
-title: kzgrm
+title: test
 date: 2026-04-01
 summary: kzgrm
 tags:
@@ -9,5 +9,6 @@ location: kzgrm
 eventType: kzgrm
 ---
 
-![kzgrm](/images/activities/kazaguruma.png)
-a
+
+![kzgrm](/header.png)
+

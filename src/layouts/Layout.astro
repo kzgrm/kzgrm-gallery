@@ -47,6 +47,22 @@ const {
     <footer class="site-footer">
       <small>{new Date().getFullYear()} kazaguruma</small>
     </footer>
+    <script is:inline>
+      (function () {
+        var el = document.querySelector('.site-icon');
+        if (!el) return;
+        var endDeg = Math.floor(Math.random() * 360);
+        /* 非ラップ角: 終了より 720deg（2周）大きく開始 → 反時計回りに2回転して終了角へ */
+        var startDeg = endDeg + 720;
+        el.style.setProperty('--favicon-end', endDeg + 'deg');
+        el.style.setProperty('--favicon-start', startDeg + 'deg');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          el.style.transform = 'rotate(' + endDeg + 'deg)';
+        } else {
+          el.classList.add('site-icon--spin');
+        }
+      })();
+    </script>
   </body>
 </html>
 
@@ -63,6 +79,11 @@ const {
 
   * {
     box-sizing: border-box;
+  }
+
+  /* スクロールバー表示の有無で viewport 幅が変わらないようにする */
+  html {
+    scrollbar-gutter: stable;
   }
 
   img,
@@ -92,6 +113,8 @@ const {
     background: var(--card);
     position: sticky;
     top: 0;
+    /* main が DOM 後ろにあると重なり部分で上に描画されるため、常に前面に */
+    z-index: 10;
   }
 
   .site-title {
@@ -105,6 +128,29 @@ const {
     width: 28px;
     height: 28px;
     flex: 0 0 auto;
+    display: block;
+    transform-origin: center center;
+  }
+
+  /* ヘッダー favicon: 乱数の終了角まで、反時計回りに2周（720deg） */
+  .site-icon--spin {
+    animation: site-icon-spin 1.45s cubic-bezier(0.28, 0.9, 0.32, 1) forwards;
+  }
+
+  @keyframes site-icon-spin {
+    from {
+      transform: rotate(var(--favicon-start));
+    }
+    to {
+      transform: rotate(var(--favicon-end));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-icon--spin {
+      animation: none;
+      transform: rotate(var(--favicon-end));
+    }
   }
 
   .site-title img {

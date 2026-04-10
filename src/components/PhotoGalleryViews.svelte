@@ -1,51 +1,81 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   type PhotoItem = {
     src: string;
     alt: string;
     caption?: string;
   };
 
+  type ScatterSlot = {
+    left: number;
+    top: number;
+    rot: number;
+    z: number;
+    delay: number;
+    sx: number;
+    sy: number;
+  };
+
   let { photos = [] as PhotoItem[] }: { photos?: PhotoItem[] } = $props();
 
-  let view = $state<'grid' | 'list' | 'spotlight' | 'threeD' | 'cosmos'>('grid');
+  let view = $state<'grid' | 'scatter'>('scatter');
+  let scatterLayout = $state<ScatterSlot[]>([]);
+  let scatterReady = $state(false);
   let currentIndex = $state(0);
   let lightboxOpen = $state(false);
-  let yaw = $state(0);
-  let pitch = $state(0);
 
   const hasPhotos = $derived(photos.length > 0);
   const currentPhoto = $derived(photos[currentIndex]);
 
-  const angleStep = $derived(photos.length > 0 ? 360 / photos.length : 0);
-  const ringRotate = $derived(-currentIndex * angleStep);
+  function shuffle<T>(items: T[]): T[] {
+    const a = [...items];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
-  const cosmosItems = $derived.by(() => {
-    if (!hasPhotos) return [] as Array<{ src: string; alt: string; x: number; y: number; z: number; r: number; s: number }>;
+  function buildScatterLayout(n: number): ScatterSlot[] {
+    const zs = shuffle(Array.from({ length: n }, (_, i) => i + 1));
+    const slots: ScatterSlot[] = [];
+    const placed: { x: number; y: number }[] = [];
 
-    const base = photos[0];
-    const total = Math.max(18, photos.length * 8);
-    const items: Array<{ src: string; alt: string; x: number; y: number; z: number; r: number; s: number }> = [];
-    let seed = 8731;
-    const rand = () => {
-      seed = (seed * 1664525 + 1013904223) % 4294967296;
-      return seed / 4294967296;
-    };
+    for (let i = 0; i < n; i++) {
+      let x = 0.5;
+      let y = 0.5;
+      let tries = 0;
+      while (tries < 40) {
+        x = 0.1 + Math.random() * 0.8;
+        y = 0.06 + Math.random() * 0.82;
+        const tooClose = placed.some((p) => Math.hypot((p.x - x) * 1.15, p.y - y) < 0.055);
+        if (!tooClose || tries > 28) break;
+        tries++;
+      }
+      placed.push({ x, y });
 
-    for (let i = 0; i < total; i += 1) {
-      items.push({
-        src: base.src,
-        alt: `${base.alt}-${i + 1}`,
-        x: (rand() - 0.5) * 900,
-        y: (rand() - 0.5) * 520,
-        z: (rand() - 0.5) * 1100,
-        r: rand() * 360,
-        s: 0.72 + rand() * 0.55
+      const rot = -17 + Math.random() * 34;
+      slots.push({
+        left: x * 100,
+        top: y * 100,
+        rot,
+        z: zs[i]!,
+        delay: i * 52 + Math.random() * 70,
+        sx: (Math.random() - 0.5) * 260,
+        sy: -140 - Math.random() * 160
       });
     }
-    return items;
+    return slots;
+  }
+
+  onMount(() => {
+    if (!photos.length) return;
+    scatterLayout = buildScatterLayout(photos.length);
+    scatterReady = true;
   });
 
-  function setView(nextView: 'grid' | 'list' | 'spotlight' | 'threeD' | 'cosmos') {
+  function setView(nextView: 'grid' | 'scatter') {
     view = nextView;
     lightboxOpen = false;
   }
@@ -69,21 +99,6 @@
     currentIndex = (currentIndex - 1 + photos.length) % photos.length;
   }
 
-  function onCosmosMove(event: MouseEvent) {
-    const currentTarget = event.currentTarget as HTMLElement | null;
-    if (!currentTarget) return;
-    const rect = currentTarget.getBoundingClientRect();
-    const nx = (event.clientX - rect.left) / rect.width - 0.5;
-    const ny = (event.clientY - rect.top) / rect.height - 0.5;
-    yaw = nx * 26;
-    pitch = -ny * 18;
-  }
-
-  function resetCosmosView() {
-    yaw = 0;
-    pitch = 0;
-  }
-
   $effect(() => {
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeLightbox();
@@ -99,11 +114,8 @@
 
 <section>
   <div class="toolbar">
-    <button class:active={view === 'grid'} onclick={() => setView('grid')}>grid</button>
-    <button class:active={view === 'list'} onclick={() => setView('list')}>list</button>
-    <button class:active={view === 'spotlight'} onclick={() => setView('spotlight')}>spotlight</button>
-    <button class:active={view === 'threeD'} onclick={() => setView('threeD')}>3d</button>
-    <button class:active={view === 'cosmos'} onclick={() => setView('cosmos')}>cosmos</button>
+    <button class:active={view === 'scatter'} onclick={() => setView('scatter')} type="button">random</button>
+    <button class:active={view === 'grid'} onclick={() => setView('grid')} type="button">grid</button>
   </div>
 
   {#if !hasPhotos}
@@ -112,87 +124,46 @@
     <ul class="grid">
       {#each photos as photo, index}
         <li>
-          <button class="thumb" onclick={() => openLightbox(index)}>
+          <button class="thumb" onclick={() => openLightbox(index)} type="button">
             <img src={photo.src} alt={photo.alt} loading="lazy" />
           </button>
         </li>
       {/each}
     </ul>
-  {:else if view === 'list'}
-    <ul class="list">
-      {#each photos as photo, index}
-        <li>
-          <button class="row" onclick={() => openLightbox(index)}>
-            <img src={photo.src} alt={photo.alt} loading="lazy" />
-            <span>{photo.caption ?? photo.alt}</span>
+  {:else if scatterReady && scatterLayout.length === photos.length}
+    <div class="table-wrap" aria-label="写真がランダムに重なって表示されています">
+      <div class="table-surface">
+        {#each photos as photo, index}
+          {@const slot = scatterLayout[index]}
+          <button
+            class="scatter-card"
+            style:--left="{slot.left}%"
+            style:--top="{slot.top}%"
+            style:--rot="{slot.rot}deg"
+            style:--z={slot.z}
+            style:--delay="{slot.delay}ms"
+            style:--sx="{slot.sx}px"
+            style:--sy="{slot.sy}px"
+            onclick={() => openLightbox(index)}
+            type="button"
+          >
+            <img src={photo.src} alt={photo.alt} loading="lazy" draggable="false" />
           </button>
-        </li>
-      {/each}
-    </ul>
-  {:else if view === 'spotlight'}
-    <section class="spotlight">
-      <img src={currentPhoto.src} alt={currentPhoto.alt} />
-      <p>{currentPhoto.caption ?? currentPhoto.alt}</p>
-      <div class="controls">
-        <button onclick={prev}>prev</button>
-        <button onclick={next}>next</button>
+        {/each}
       </div>
-    </section>
-  {:else if view === 'threeD'}
-    <section class="three-d-wrap">
-      <div class="controls">
-        <button onclick={prev}>prev</button>
-        <button onclick={next}>next</button>
-      </div>
-      <div class="scene">
-        <div class="ring" style={`--ring-rotate: ${ringRotate}deg;`}>
-          {#each photos as photo, index}
-            <button
-              class="panel"
-              style={`--panel-rotate: ${index * angleStep}deg;`}
-              onclick={() => openLightbox(index)}
-            >
-              <img src={photo.src} alt={photo.alt} loading="lazy" />
-            </button>
-          {/each}
-        </div>
-      </div>
-      <p>{currentPhoto.caption ?? currentPhoto.alt}</p>
-    </section>
+    </div>
   {:else}
-    <section class="cosmos-wrap">
-      <p>kzgrm cosmos view</p>
-      <div
-        class="cosmos-scene"
-        role="application"
-        aria-label="cosmos-view"
-        onmousemove={onCosmosMove}
-        onmouseleave={resetCosmosView}
-      >
-        <div class="cosmos-world" style={`transform: rotateX(${pitch}deg) rotateY(${yaw}deg);`}>
-          {#each cosmosItems as item, index}
-            <button
-              class="cosmos-card"
-              style={`transform: translate3d(${item.x}px, ${item.y}px, ${item.z}px) rotateZ(${item.r}deg) scale(${item.s});`}
-              onclick={() => openLightbox(index % photos.length)}
-            >
-              <img src={item.src} alt={item.alt} loading="lazy" />
-            </button>
-          {/each}
-        </div>
-      </div>
-      <p>mouse move: viewpoint control / click: lightbox</p>
-    </section>
+    <p class="scatter-loading">random…</p>
   {/if}
 </section>
 
 {#if lightboxOpen && hasPhotos}
   <div class="lightbox">
-    <button class="backdrop" onclick={closeLightbox} aria-label="close"></button>
-    <button class="nav prev" onclick={(event) => { event.stopPropagation(); prev(); }}>‹</button>
+    <button class="backdrop" onclick={closeLightbox} aria-label="close" type="button"></button>
+    <button class="nav prev" onclick={(event) => { event.stopPropagation(); prev(); }} type="button">‹</button>
     <img src={currentPhoto.src} alt={currentPhoto.alt} />
-    <button class="nav next" onclick={(event) => { event.stopPropagation(); next(); }}>›</button>
-    <button class="close" onclick={(event) => { event.stopPropagation(); closeLightbox(); }}>×</button>
+    <button class="nav next" onclick={(event) => { event.stopPropagation(); next(); }} type="button">›</button>
+    <button class="close" onclick={(event) => { event.stopPropagation(); closeLightbox(); }} type="button">×</button>
   </div>
 {/if}
 
@@ -204,8 +175,6 @@
   }
 
   .toolbar button,
-  .controls button,
-  .row,
   .thumb {
     border: 1px solid #dbe1ea;
     background: #fff;
@@ -240,108 +209,79 @@
     display: block;
   }
 
-  .list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 0.7rem;
+  .scatter-loading {
+    color: #64748b;
+    margin: 2rem 0;
   }
 
-  .row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-align: left;
+  .table-wrap {
+    margin: 0 -0.25rem;
+    padding: 0.25rem;
   }
 
-  .row img {
-    width: 96px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 0.4rem;
-  }
-
-  .spotlight img {
-    width: 100%;
-    max-height: 460px;
-    object-fit: contain;
-    border: 1px solid #dbe1ea;
-    border-radius: 0.8rem;
-    background: #fff;
-  }
-
-  .controls {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .three-d-wrap {
-    display: grid;
-    gap: 0.8rem;
-  }
-
-  .scene {
-    perspective: 1200px;
-    height: 360px;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    border: 1px solid #dbe1ea;
-    border-radius: 0.8rem;
-    background:
-      radial-gradient(circle at center, #ffffff 0%, #eef2ff 55%, #e2e8f0 100%);
-  }
-
-  .ring {
+  .table-surface {
     position: relative;
-    width: 280px;
-    height: 180px;
-    transform-style: preserve-3d;
-    transform: rotateX(0deg) rotateY(var(--ring-rotate));
-    transition: transform 380ms ease;
-    will-change: transform;
+    min-height: min(78vh, 860px);
+    border-radius: 0.85rem;
+    background: linear-gradient(168deg, #ebe3dc 0%, #d9cdc3 42%, #cbbfb4 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -2px 12px rgba(80, 60, 40, 0.12),
+      0 12px 40px rgba(15, 23, 42, 0.08);
+    overflow: visible;
   }
 
-  .scene:hover .ring {
-    transform: rotateX(12deg) rotateY(var(--ring-rotate));
-  }
-
-  .panel {
+  .scatter-card {
     position: absolute;
-    width: 220px;
-    height: 140px;
-    left: 30px;
-    top: 20px;
-    border: 1px solid #dbe1ea;
-    border-radius: 0.7rem;
-    overflow: hidden;
+    left: var(--left);
+    top: var(--top);
+    z-index: var(--z);
+    width: clamp(132px, 24vmin, 228px);
+    aspect-ratio: 4 / 3;
+    margin: 0;
     padding: 0;
+    border: none;
+    border-radius: 0.4rem;
     background: #fff;
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.65) inset,
+      0 10px 28px rgba(15, 23, 42, 0.22);
     cursor: pointer;
-    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.15);
-    transform: rotateY(var(--panel-rotate)) translateZ(260px) translateY(0) scale(1);
-    transition: transform 240ms ease, box-shadow 240ms ease;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    transform: translate(-50%, -50%) rotate(var(--rot));
+    animation: scatter-in 0.95s cubic-bezier(0.22, 0.82, 0.28, 1) var(--delay) both;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .scene:hover .panel:hover {
-    transform: rotateY(var(--panel-rotate)) translateZ(290px) translateY(-10px) scale(1.04);
-    box-shadow: 0 18px 30px rgba(15, 23, 42, 0.28);
+  .scatter-card:focus-visible {
+    outline: 2px solid #5a64b1;
+    outline-offset: 3px;
   }
 
-  .panel img {
+  .scatter-card:hover {
+    filter: brightness(1.03);
+  }
+
+  .scatter-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 240ms ease, filter 240ms ease;
+    pointer-events: none;
+    user-select: none;
   }
 
-  .scene:hover .panel:hover img {
-    transform: scale(1.06);
-    filter: saturate(1.1);
+  @keyframes scatter-in {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) translate(var(--sx), var(--sy)) rotate(calc(var(--rot) + 6deg))
+        scale(0.42);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(var(--rot)) scale(1);
+    }
   }
 
   .lightbox {
@@ -390,60 +330,13 @@
     right: 0.9rem;
   }
 
-  .cosmos-wrap {
-    display: grid;
-    gap: 0.7rem;
-  }
+  @media (max-width: 768px) {
+    .table-surface {
+      min-height: min(72vh, 720px);
+    }
 
-  .cosmos-scene {
-    height: 520px;
-    border-radius: 0.8rem;
-    border: 1px solid #dbe1ea;
-    overflow: hidden;
-    perspective: 1400px;
-    background:
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.2), transparent 30%),
-      radial-gradient(circle at 80% 10%, rgba(130, 150, 255, 0.25), transparent 24%),
-      linear-gradient(180deg, #0b1020 0%, #11182f 55%, #1e293b 100%);
-  }
-
-  .cosmos-world {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 220ms ease-out;
-  }
-
-  .cosmos-card {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 130px;
-    height: 86px;
-    margin-left: -65px;
-    margin-top: -43px;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 0.45rem;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-    cursor: pointer;
-    overflow: hidden;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
-  }
-
-  .cosmos-card:hover {
-    border-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.55);
-  }
-
-  .cosmos-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    .scatter-card {
+      width: clamp(118px, 38vw, 200px);
+    }
   }
 </style>

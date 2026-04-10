@@ -16,7 +16,7 @@ const { Content } = await render(activity);
 
 <Layout title={`kzgrm | ${activity.data.title}`} description={activity.data.title}>
   <article>
-    <p><a href="/activities">kzgrm</a></p>
+    <p><a href="/activities">もどる</a></p>
     <h1>{activity.data.title}</h1>
     <p>{activity.data.date.toLocaleDateString('ja-JP')}</p>
     <p>kzgrm: {activity.data.tags.join(' / ')}</p>

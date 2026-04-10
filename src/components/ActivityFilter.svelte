@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate';
   import { fly } from 'svelte/transition';
 
   type ActivityItem = {
@@ -32,7 +33,6 @@
 </script>
 
 <div class="filter">
-  <span class="filter-label">tags:</span>
   <div class="tag-buttons">
     <button
       class:active={selectedTags.length === 0}
@@ -40,7 +40,7 @@
       onclick={clearTags}
       type="button"
     >
-      all
+      ALL
     </button>
     {#each tags as tag}
       <button
@@ -57,7 +57,12 @@
 
 <ul class="cards">
   {#each filteredActivities as activity (activity.url)}
-    <li class="card" in:fly={{ x: 28, duration: 240 }} out:fly={{ x: -28, duration: 220 }}>
+    <li
+      class="card"
+      in:fly={{ x: 28, duration: 240 }}
+      out:fly={{ x: -28, duration: 220 }}
+      animate:flip={{ duration: 320 }}
+    >
       <div class="preview-bg" aria-hidden="true" style={`background-image: url('${activity.thumnail}');`}></div>
       <a href={activity.url} class="content">
         <h3>{activity.title}</h3>
@@ -75,12 +80,6 @@
     align-items: flex-start;
     gap: 0.8rem;
     margin: 1.2rem 0;
-  }
-
-  .filter-label {
-    color: #475569;
-    padding-top: 0.35rem;
-    white-space: nowrap;
   }
 
   .tag-buttons {

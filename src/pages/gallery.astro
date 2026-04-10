@@ -2,23 +2,29 @@
 import Layout from '../layouts/Layout.astro';
 import PhotoGalleryViews from '../components/PhotoGalleryViews.svelte';
 
-const photos = [
-  {
-    src: '/header.png',
-    alt: 'kzgrm header',
-    caption: 'kzgrm'
-  },
-  {
-    src: '/favicon.svg',
-    alt: 'kzgrm icon',
-    caption: 'kzgrm'
-  },
-  {
-    src: '/header.png',
-    alt: 'kzgrm logo',
-    caption: 'kzgrm'
-  }
-];
+const baseSamples = [
+  { src: '/images/gallery/sample-01.svg', alt: 'サンプル 1', caption: 'sample 01' },
+  { src: '/images/gallery/sample-02.svg', alt: 'サンプル 2', caption: 'sample 02' },
+  { src: '/images/gallery/sample-03.svg', alt: 'サンプル 3', caption: 'sample 03' },
+  { src: '/images/gallery/sample-04.svg', alt: 'サンプル 4', caption: 'sample 04' },
+  { src: '/images/gallery/sample-05.svg', alt: 'サンプル 5', caption: 'sample 05' },
+  { src: '/images/gallery/sample-06.svg', alt: 'サンプル 6', caption: 'sample 06' },
+  { src: '/images/gallery/sample-07.svg', alt: 'サンプル 7', caption: 'sample 07' },
+  { src: '/images/gallery/sample-08.svg', alt: 'サンプル 8', caption: 'sample 08' },
+  { src: '/images/gallery/sample-09.svg', alt: 'サンプル 9', caption: 'sample 09' },
+  { src: '/images/gallery/sample-10.svg', alt: 'サンプル 10', caption: 'sample 10' }
+] as const;
+
+/** 同じ10枚を循環して20枚分 */
+const photos = Array.from({ length: 20 }, (_, i) => {
+  const b = baseSamples[i % 10]!;
+  const n = i + 1;
+  return {
+    src: b.src,
+    alt: `${b.alt} (${n}/20)`,
+    caption: `${b.caption} #${n}`
+  };
+});
 ---
 
 <Layout title="kzgrm gallery" description="kzgrm" wide={true}>

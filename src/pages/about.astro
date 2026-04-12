@@ -12,38 +12,42 @@ import Layout from '../layouts/Layout.astro';
     <ul>
       <li>
         <a href="https://www.youtube.com/@kazashimo_ch" target="_blank" rel="noopener noreferrer">
-          <img class="sns-icon" src="https://cdn.simpleicons.org/youtube/000000" alt="" aria-hidden="true" />
+          <img class="sns-icon" src="https://cdn.simpleicons.org/youtube/475569" alt="" aria-hidden="true" />
           YouTube: @kazashimo_ch
         </a>
       </li>
       <li>
         <a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">
-          <img class="sns-icon" src="https://cdn.simpleicons.org/x/000000" alt="" aria-hidden="true" />
+          <img class="sns-icon" src="https://cdn.simpleicons.org/x/475569" alt="" aria-hidden="true" />
           X (Twitter): @haru01234567890
         </a>
       </li>
       <li>
         <a href="https://www.tiktok.com/@kazashimo9346" target="_blank" rel="noopener noreferrer">
-          <img class="sns-icon" src="https://cdn.simpleicons.org/tiktok/000000" alt="" aria-hidden="true" />
+          <img class="sns-icon" src="https://cdn.simpleicons.org/tiktok/475569" alt="" aria-hidden="true" />
           TikTok: @kazashimo9346
         </a>
       </li>
       <li>
         <a href="https://www.amazon.co.jp/hz/wishlist/ls/2PZZB1ZGEC13D?ref_=wl_share" target="_blank" rel="noopener noreferrer">
-          <img class="sns-icon" src="https://api.iconify.design/fa6-brands:amazon.svg?color=%23000000" alt="" aria-hidden="true" />
+          <img
+            class="sns-icon"
+            src="https://api.iconify.design/fa6-brands:amazon.svg?color=%23475569"
+            alt=""
+            aria-hidden="true"
+          />
           Amazonほしい物リスト
         </a>
       </li>
     </ul>
   </section>
-  
-  <h2>Members</h2>
-    <ul>
-      <li>はる</li>
-      <li>ふぉるね</li>
-      <li>なっつ</li>
-    </ul>
 
+  <h2>Members</h2>
+  <ul>
+    <li>はる</li>
+    <li>ふぉるね</li>
+    <li>なっつ</li>
+  </ul>
 </Layout>
 
 <style>
@@ -78,10 +82,21 @@ import Layout from '../layouts/Layout.astro';
     margin-top: 0;
   }
 
+  :global(main.container > section.kazashimo-section > ul) {
+    padding-inline-start: 0.85rem;
+  }
+
   .kazashimo-section a {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    color: #334155;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .kazashimo-section a:hover {
+    color: #5a64b1;
   }
 
   .sns-icon {
@@ -89,5 +104,4 @@ import Layout from '../layouts/Layout.astro';
     height: 1rem;
     flex: 0 0 auto;
   }
-
 </style>

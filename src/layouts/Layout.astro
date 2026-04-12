@@ -18,6 +18,9 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- ヘッダー画像を先に取得し、描画までの「一瞬消える」感を抑える -->
+    <link rel="preload" href="/header.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -29,8 +32,25 @@ const {
   <body>
     <header class="site-header">
       <a class="site-title" href="/">
-        <img class="site-icon" src="/favicon.svg" alt="" aria-hidden="true" />
-        <img src="/header.png" alt="kzgrm" />
+        <img
+          class="site-icon"
+          src="/favicon.svg"
+          alt=""
+          aria-hidden="true"
+          width="28"
+          height="28"
+          fetchpriority="high"
+          decoding="sync"
+        />
+        <img
+          class="site-header-logo"
+          src="/header.webp"
+          alt="kzgrm"
+          width="201"
+          height="40"
+          fetchpriority="high"
+          decoding="sync"
+        />
       </a>
       <nav>
         <ul>
@@ -75,6 +95,11 @@ const {
     --muted: #475569;
     --accent: #5A64B1;
     --border: #dbe1ea;
+    /* docs/color-scheme.md と同順 — ヘッダーナビ hover 用 */
+    --nav-hover-1: #a66fe4;
+    --nav-hover-2: #ffdb53;
+    --nav-hover-3: #5a64b1;
+    --nav-hover-4: #d2d1d6;
   }
 
   * {
@@ -84,6 +109,7 @@ const {
   /* スクロールバー表示の有無で viewport 幅が変わらないようにする */
   html {
     scrollbar-gutter: stable;
+    height: 100%;
   }
 
   img,
@@ -97,13 +123,25 @@ const {
 
   body {
     margin: 0;
+    min-height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.7;
   }
 
+  /* コンテンツが少ないページでもフッターを viewport 下端に置く（スティッキーフッター） */
+  body > main {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+  }
+
   .site-header {
+    flex-shrink: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,10 +191,14 @@ const {
     }
   }
 
-  .site-title img {
+  .site-header-logo {
     display: block;
     width: auto;
     height: 40px;
+  }
+
+  .site-title img {
+    display: block;
   }
 
   nav ul {
@@ -172,8 +214,20 @@ const {
     text-decoration: none;
   }
 
-  nav a:hover {
-    color: var(--accent);
+  nav li:nth-child(1) a:hover {
+    color: var(--nav-hover-1);
+  }
+
+  nav li:nth-child(2) a:hover {
+    color: var(--nav-hover-2);
+  }
+
+  nav li:nth-child(3) a:hover {
+    color: var(--nav-hover-3);
+  }
+
+  nav li:nth-child(4) a:hover {
+    color: var(--nav-hover-4);
   }
 
   .container {
@@ -186,11 +240,33 @@ const {
     width: min(100% - 2rem, 1240px);
   }
 
+  /*
+    各ページの装飾用リスト（slot 内のため :global）。
+    article 内の Markdown 箇条書きは main > article > ul となりこのセレクタに合わない。
+  */
+  :global(main.container > ul),
+  :global(main.container > section > ul) {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
   .site-footer {
+    flex-shrink: 0;
     text-align: center;
-    border-top: 1px solid var(--border);
-    padding: 1.25rem;
-    color: var(--muted);
+    padding: 0.65rem 1rem 1rem;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    background: var(--bg);
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+  }
+
+  .site-footer small {
+    font-weight: 400;
+    letter-spacing: 0.02em;
   }
 
   /*
@@ -215,7 +291,7 @@ const {
       padding: 0.75rem 1rem;
     }
 
-    .site-title img {
+    .site-header-logo {
       height: 32px;
     }
 

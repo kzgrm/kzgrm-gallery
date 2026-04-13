@@ -1,68 +1,62 @@
-# KZGRM Circle Website
+# kzgrm gallery
 
-Astro + Svelteで構築した、サークル向けの静的Webサイトです。  
-Vercelへのデプロイを前提にしています。
+Static website for the **kazaguruma** circle, built with [Astro](https://astro.build/) and deployed on [Vercel](https://vercel.com/).
 
-## 技術スタック
+## Tech stack
 
-- Astro
-- Svelte（活動一覧のタグ絞り込みUI）
-- Astro Content Collections（Markdown運用）
-- Vercel Adapter
+- **Astro** — pages & content collections  
+- **Svelte** — interactive UI (e.g. activity filters)  
+- **Markdown** — activity posts under `src/content/activities/`
 
-## ページ構成
+## Routes
 
-- `/` トップ
-- `/about` サークル紹介
-- `/activities` 活動情報一覧
-- `/activities/[slug]` 活動詳細
-- `/contact` お問い合わせ
+| Path | Description |
+|------|-------------|
+| `/` | Home |
+| `/about` | About & contact |
+| `/activities` | Activity list |
+| `/activities/[slug]` | Activity detail |
+| `/gallery` | Photo gallery |
 
-## ディレクトリ
+## Local development
 
-```text
-src/
-  components/
-    ActivityFilter.svelte
-  content/
-    activities/
-      *.md
-  content.config.ts
-  layouts/
-    Layout.astro
-  pages/
-    index.astro
-    about.astro
-    activities/
-      index.astro
-      [slug].astro
-    contact.astro
+```bash
+npm install
+npm run dev
 ```
 
-## 活動記事の追加方法
+- **Build:** `npm run build`  
+- **Preview build:** `npm run preview`
 
-1. `src/content/activities/` にMarkdownファイルを追加
-2. Frontmatterに以下を設定
-   - `title` (string)
-   - `date` (YYYY-MM-DD)
-   - `summary` (string)
-   - `tags` (string[])
-   - `draft` (boolean)
-3. `draft: false` の記事のみ公開されます
+Dev server port is set in `astro.config.mjs` (default in this project: `9999`).
 
-## 開発コマンド
+## Content: activities
 
-- `npm install`: 依存のインストール
-- `npm run dev`: ローカル開発サーバー起動
-- `npm run build`: 本番ビルド
-- `npm run preview`: ビルド結果の確認
+Add a `.md` file in `src/content/activities/` with frontmatter:
 
-## Vercelデプロイ
+| Field | Type | Notes |
+|-------|------|--------|
+| `title` | string | |
+| `date` | `YYYY-MM-DD` | |
+| `tags` | string array | |
+| `thumnail` | string | Public URL path (e.g. `/images/...`) |
 
-1. GitHubリポジトリをVercelに接続
-2. Production Branchを`main`に設定
-3. Pull RequestごとのPreview Deployを有効化
-4. `main` マージで本番反映
+Body is rendered below the metadata on the detail page.
 
-初期構成では環境変数は不要です（問い合わせは外部フォーム導線）。
+## Deploy
 
+Connect the GitHub repo to Vercel, use the Astro preset, and deploy from `main`. Preview deployments on pull requests are optional but typical.
+
+No environment variables are required for the default setup.
+
+---
+
+## 日本語
+
+**kzgrm gallery** はサークル **kazaguruma** 向けの静的サイトです。Astro で組み、Vercel に公開します。
+
+- **技術:** Astro / Svelte / Markdown（活動記事）
+- **主なページ:** ホーム、About（連絡先含む）、活動一覧・詳細、ギャラリー
+- **開発:** `npm install` → `npm run dev`（ポートは `astro.config.mjs` 参照）
+- **活動記事:** `src/content/activities/` に `.md` を追加。frontmatter は `title`, `date`, `tags`, `thumnail`（表記はコードに合わせています）
+- **デプロイ:** GitHub と Vercel を連携し、`main` から本番反映。初期構成では環境変数は不要です。

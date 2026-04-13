@@ -9,5 +9,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://kzgrm-gallery.vercel.app',
   integrations: [svelte(), sitemap()],
-  adapter: vercel()
+  adapter: vercel(),
+  server: {
+    port: 9999
+  }
 });

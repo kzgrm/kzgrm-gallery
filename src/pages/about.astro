@@ -48,6 +48,21 @@ import Layout from '../layouts/Layout.astro';
     <li>ふぉるね</li>
     <li>なっつ</li>
   </ul>
+
+  <section class="contact-section" aria-labelledby="contact-heading">
+    <h2 id="contact-heading">Contact</h2>
+    <p>kzgrm</p>
+    <ul>
+      <li>
+        kzgrm: <a href="mailto:contact@example.com">contact@example.com</a>
+      </li>
+      <li>
+        kzgrm:
+        <a href="https://forms.gle/" target="_blank" rel="noopener noreferrer">kzgrm</a>
+      </li>
+    </ul>
+    <p>kzgrm</p>
+  </section>
 </Layout>
 
 <style>
@@ -103,5 +118,25 @@ import Layout from '../layouts/Layout.astro';
     width: 1rem;
     height: 1rem;
     flex: 0 0 auto;
+  }
+
+  .contact-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .contact-section h2 {
+    margin-top: 0;
+  }
+
+  .contact-section a {
+    color: #334155;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .contact-section a:hover {
+    color: #5a64b1;
   }
 </style>

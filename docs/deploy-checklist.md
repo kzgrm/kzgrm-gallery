@@ -15,7 +15,7 @@
 
 ## 公開前チェック
 
-- `/`、`/about`、`/activities`、`/contact` が表示される
+- `/`、`/about`（末尾に Contact）、`/activities` が表示される
 - `/activities/[slug]` の詳細ページが開ける
 - `npm run build` が成功する
 - sitemap (`/sitemap-index.xml`) が生成される

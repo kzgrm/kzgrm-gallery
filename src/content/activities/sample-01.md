@@ -8,3 +8,5 @@ thumnail: /header.png
 ---
 
 kzgrm サンプル本文です。
+
+renderで編集

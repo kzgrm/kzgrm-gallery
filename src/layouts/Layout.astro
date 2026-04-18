@@ -18,6 +18,12 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="preload" href="/header.webp" as="image" type="image/webp" fetchpriority="high" />
     <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
@@ -88,17 +94,33 @@ const {
 <style>
   :root {
     color-scheme: light;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --text: #0f172a;
-    --muted: #475569;
-    --accent: #5A64B1;
-    --border: #dbe1ea;
-    /* docs/color-scheme.md と同順 — ヘッダーナビ hover 用 */
-    --nav-hover-1: #a66fe4;
-    --nav-hover-2: #ffdb53;
-    --nav-hover-3: #5a64b1;
-    --nav-hover-4: #d2d1d6;
+    /* ベース: 明るいグレー / アクセント: 紺・紫・黄 */
+    --bg: #e4e7ec;
+    --bg-elevated: #f1f3f7;
+    --card: #f5f6fa;
+    --text: #1a2332;
+    --muted: #5a6578;
+    --navy: #1e3a5f;
+    --navy-deep: #152a45;
+    --purple: #6d28d9;
+    --purple-soft: #8b5cf6;
+    --yellow: #e8cf3a;
+    --yellow-deep: #d4b82a;
+    --accent: var(--purple);
+    --accent-strong: var(--purple-soft);
+    --link: var(--navy);
+    --link-hover: var(--purple);
+    --border: rgba(30, 58, 95, 0.1);
+    --hero-grad-1: rgba(109, 40, 217, 0.08);
+    --hero-grad-2: rgba(255, 255, 255, 0.97);
+    --surface-grad: linear-gradient(165deg, #f5f6fa 0%, #eceef4 45%, #e2e5ee 100%);
+    --shadow-soft: 0 4px 20px rgba(30, 58, 95, 0.06), 0 1px 3px rgba(30, 58, 95, 0.04);
+    --shadow-strong: 0 16px 40px rgba(30, 58, 95, 0.1), 0 4px 12px rgba(30, 58, 95, 0.05);
+    --ring-accent: rgba(109, 40, 217, 0.35);
+    --nav-hover-1: var(--navy);
+    --nav-hover-2: var(--purple);
+    --nav-hover-3: #c9a227;
+    --nav-hover-4: var(--purple-soft);
   }
 
   * {
@@ -109,6 +131,7 @@ const {
   html {
     scrollbar-gutter: stable;
     height: 100%;
+    overflow-x: clip;
   }
 
   img,
@@ -126,10 +149,37 @@ const {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #e4e7ee;
+    background-image:
+      radial-gradient(ellipse 120% 80% at 100% -20%, rgba(109, 40, 217, 0.11), transparent 55%),
+      radial-gradient(ellipse 90% 70% at -10% 30%, rgba(30, 58, 95, 0.09), transparent 50%),
+      radial-gradient(ellipse 70% 50% at 85% 100%, rgba(232, 207, 58, 0.08), transparent 48%),
+      radial-gradient(ellipse 50% 40% at 20% 95%, rgba(139, 92, 246, 0.06), transparent 50%),
+      linear-gradient(165deg, rgba(255, 255, 255, 0.55) 0%, transparent 42%, rgba(255, 255, 255, 0.2) 100%),
+      repeating-linear-gradient(
+        -18deg,
+        transparent,
+        transparent 72px,
+        rgba(30, 58, 95, 0.018) 72px,
+        rgba(30, 58, 95, 0.018) 73px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 63px,
+        rgba(109, 40, 217, 0.02) 63px,
+        rgba(109, 40, 217, 0.02) 64px
+      );
+    background-attachment: fixed;
     color: var(--text);
     line-height: 1.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      background-attachment: scroll;
+    }
   }
 
   /* コンテンツが少ないページでもフッターを viewport 下端に置く（スティッキーフッター） */
@@ -147,7 +197,9 @@ const {
     gap: 1rem;
     padding: 1rem 1.25rem;
     border-bottom: 1px solid var(--border);
-    background: var(--card);
+    background: rgba(241, 243, 247, 0.88);
+    backdrop-filter: saturate(180%) blur(14px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 4px 18px rgba(30, 58, 95, 0.05);
     position: sticky;
     top: 0;
     /* main が DOM 後ろにあると重なり部分で上に描画されるため、常に前面に */
@@ -157,7 +209,7 @@ const {
   .site-title {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.65rem;
     text-decoration: none;
   }
 
@@ -203,14 +255,29 @@ const {
   nav ul {
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 0.65rem;
     margin: 0;
     padding: 0;
   }
 
   nav a {
-    color: var(--muted);
+    color: var(--link);
     text-decoration: none;
+    font-weight: 500;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 1px 2px rgba(30, 58, 95, 0.04);
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  nav a:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(109, 40, 217, 0.28);
+    box-shadow: 0 4px 16px rgba(109, 40, 217, 0.1);
   }
 
   nav li:nth-child(1) a:hover {
@@ -230,6 +297,8 @@ const {
   }
 
   .container {
+    display: flex;
+    flex-direction: column;
     width: min(100% - 2rem, 920px);
     margin: 0 auto;
     padding: clamp(1rem, 2vw, 2rem) 0 clamp(2rem, 3vw, 3rem);
@@ -237,6 +306,139 @@ const {
 
   .container-wide {
     width: min(100% - 2rem, 1240px);
+  }
+
+  :global(main.container > *:first-child) {
+    margin-top: 0;
+  }
+
+  :global(main.container > h1) {
+    margin: 0;
+    text-align: center;
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border-radius: 1.25rem;
+    font-size: clamp(1.75rem, 2.8vw, 2.45rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 243, 247, 0.98) 100%),
+      linear-gradient(135deg, var(--hero-grad-1) 0%, transparent 50%);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+  }
+
+  :global(main.container > h1::after) {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 1.25rem 0 0 1.25rem;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--purple) 55%, var(--yellow-deep) 100%);
+    pointer-events: none;
+  }
+
+  :global(main.container > p) {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 1.03rem;
+  }
+
+  :global(main.container > p a) {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--navy);
+    background: rgba(109, 40, 217, 0.08);
+    border: 1px solid rgba(109, 40, 217, 0.22);
+    border-radius: 999px;
+    padding: 0.28rem 0.8rem;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  :global(main.container > p a:hover) {
+    transform: translateY(-1px);
+    background: rgba(109, 40, 217, 0.14);
+    border-color: rgba(109, 40, 217, 0.38);
+    color: var(--purple);
+  }
+
+  :global(main.container > section) {
+    margin-top: 1.25rem;
+    text-align: center;
+    padding: clamp(1.15rem, 2.2vw, 1.55rem);
+    border-radius: 1.15rem;
+    background: var(--surface-grad);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  :global(main.container > section:hover) {
+    box-shadow: var(--shadow-strong);
+    border-color: rgba(109, 40, 217, 0.22);
+    transform: translateY(-1px);
+  }
+
+  :global(main.container > section h2) {
+    margin-top: 0;
+  }
+
+  :global(main.container > section > h1) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  :global(main.container ul li) {
+    padding: 0.42rem 0.15rem;
+  }
+
+  :global(main.container a) {
+    color: var(--link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+  }
+
+  :global(main.container a:hover) {
+    color: var(--link-hover);
+  }
+
+  :global(main.container article) {
+    color: var(--text);
+    padding: clamp(0.5rem, 1.5vw, 1rem) 0;
+  }
+
+  :global(main.container article h1) {
+    margin: 0.5rem 0 0.35rem;
+    font-size: clamp(1.45rem, 2.8vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  :global(main.container article > p) {
+    color: var(--muted);
+  }
+
+  :global(main.container article a) {
+    color: var(--purple);
+    font-weight: 500;
+  }
+
+  :global(main.container article a:hover) {
+    color: var(--navy);
+  }
+
+  :global(main.container article hr) {
+    margin: 1.5rem 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
   }
 
   /*
@@ -256,11 +458,12 @@ const {
   .site-footer {
     flex-shrink: 0;
     text-align: center;
-    padding: 0.65rem 1rem 1rem;
-    font-size: 0.75rem;
-    color: #94a3b8;
-    background: var(--bg);
-    border-top: 1px solid rgba(148, 163, 184, 0.25);
+    padding: 0.85rem 1rem 1.15rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    background: rgba(236, 239, 244, 0.85);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(8px);
   }
 
   .site-footer small {
@@ -304,12 +507,20 @@ const {
       gap: 0.7rem 1rem;
     }
 
+    nav a {
+      padding: 0.34rem 0.68rem;
+    }
+
     .container {
       width: min(100% - 1.25rem, 920px);
     }
 
     .container-wide {
       width: min(100% - 1.25rem, 1240px);
+    }
+
+    :global(main.container > h1) {
+      padding: 1.1rem;
     }
   }
 </style>

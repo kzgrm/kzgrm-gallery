@@ -90,18 +90,30 @@
   }
 
   .tag-btn {
-    border: 1px solid #dbe1ea;
-    border-radius: 0.5rem;
-    padding: 0.3rem 0.65rem;
-    background: #fff;
+    border: 1px solid rgba(20, 24, 32, 0.1);
+    border-radius: 999px;
+    padding: 0.32rem 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
     color: #334155;
+    font-weight: 500;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(28, 31, 39, 0.04);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .tag-btn:hover {
+    border-color: rgba(109, 40, 217, 0.35);
   }
 
   .tag-btn.active {
-    border-color: #5a64b1;
-    color: #5a64b1;
-    background: #eef2ff;
+    border-color: rgba(109, 40, 217, 0.45);
+    color: #1e3a5f;
+    background: rgba(109, 40, 217, 0.1);
+    box-shadow: 0 4px 16px rgba(109, 40, 217, 0.12);
   }
 
   .cards {
@@ -112,12 +124,21 @@
   }
 
   .card {
-    border: 1px solid #dbe1ea;
-    border-radius: 0.75rem;
-    background: #fff;
+    border: 1px solid rgba(30, 58, 95, 0.1);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #f7f8fc 0%, #eceef4 100%);
     padding: 1rem;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(30, 58, 95, 0.05);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    border-color: rgba(109, 40, 217, 0.25);
+    box-shadow: 0 12px 36px rgba(109, 40, 217, 0.08);
   }
 
   .content {

@@ -9,7 +9,7 @@ const activityItems = activities.map((activity) => ({
   title: activity.data.title,
   url: `/activities/${activity.id}/`,
   date: activity.data.date.toLocaleDateString('ja-JP'),
-  thumnail: activity.data.thumnail,
+  thumnail: `https://picsum.photos/seed/kzgrm-act-${activity.id}/640/400`,
   tags: activity.data.tags
 }));
 ---

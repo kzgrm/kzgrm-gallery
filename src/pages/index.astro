@@ -5,31 +5,837 @@ import { getCollection } from 'astro:content';
 const latestActivities = (await getCollection('activities'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+const featureSeeds = ['kzgrm-f1', 'kzgrm-f2', 'kzgrm-f3'] as const;
 ---
 
-<Layout title="kzgrm" description="kzgrm">
-  <section>
-    <h1>kzgrm</h1>
-    <p>
-      kzgrm
-    </p>
-    <p>
-      <a href="/about">about</a>
-      ・
-      <a href="/activities">activities</a>
-    </p>
-  </section>
+<Layout title="kzgrm" description="かざぐるまのギャラリー・活動紹介">
+  <div class="product-landing">
+    <header class="pl-hero">
+      <div class="pl-hero__bg" aria-hidden="true"></div>
+      <div class="pl-hero__noise" aria-hidden="true"></div>
+      <span class="pl-hero__index" aria-hidden="true">01</span>
+      <div class="pl-hero__shell">
+        <div class="pl-hero__panel">
+          <div class="pl-hero__intro">
+            <p class="pl-hero__eyebrow">公式ギャラリー &amp; 情報サイト</p>
+            <h1 class="pl-hero__title">KAZAGURUMA</h1>
+            <p class="pl-hero__lead">
+              「かざぐるま」というサークルのホームページです。
+            </p>
+          </div>
+          <div class="pl-hero__actions">
+            <a class="pl-btn pl-btn--primary" href="/gallery">ギャラリーを見る</a>
+            <a class="pl-btn pl-btn--ghost" href="/activities">活動一覧</a>
+          </div>
+        </div>
+        <div class="pl-hero__meta">
+          <ul class="pl-hero__specs" aria-label="サイトの概要">
+            <li><strong>写真</strong><span>グリッド / ランダム表示</span></li>
+            <li><strong>活動</strong><span>タグで絞り込み</span></li>
+            <li><strong>公開</strong><span>静的サイトで高速</span></li>
+          </ul>
+        </div>
+      </div>
+    </header>
 
-  <section>
-    <h2>kzgrm</h2>
-    <ul>
-      {latestActivities.map((activity) => (
-        <li>
-          <a href={`/activities/${activity.id}/`}>{activity.data.title}</a>
-          {' - '}
-          {activity.data.date.toLocaleDateString('ja-JP')}
-        </li>
-      ))}
-    </ul>
-  </section>
+    <section class="pl-section pl-section--features" aria-labelledby="pl-features-heading">
+      <div class="pl-section__head pl-section__head--split">
+        <span class="pl-section__label">Features</span>
+        <div class="pl-section__intro">
+          <h2 id="pl-features-heading">主な機能</h2>
+          <p class="pl-section__sub">見る・探す・知る、の3つを中心に設計しています。</p>
+        </div>
+      </div>
+      <div class="pl-feature-grid">
+        {featureSeeds.map((seed, i) => (
+          <article class:list={['pl-feature-card', { 'pl-feature-card--span': i === 0 }]}>
+            <div class="pl-feature-card__visual">
+              <img
+                src={`https://picsum.photos/seed/${seed}/640/400`}
+                alt=""
+                width="640"
+                height="400"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <h3 class="pl-feature-card__title">
+              {i === 0 && 'ギャラリー'}
+              {i === 1 && '活動アーカイブ'}
+              {i === 2 && 'サークル情報'}
+            </h3>
+            <p class="pl-feature-card__text">
+              {i === 0 &&
+                '一覧表示とランダム配置の2モード。ライトボックスで拡大閲覧できます。'}
+              {i === 1 &&
+                '開催日・タグで整理。気になるテーマだけに絞って読めます。'}
+              {i === 2 &&
+                'メンバーや連絡先、キャラクター情報を About に集約しています。'}
+            </p>
+            <a
+              class="pl-feature-card__link"
+              href={i === 0 ? '/gallery' : i === 1 ? '/activities' : '/about'}
+            >
+              詳しく見る
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="pl-section pl-section--showcase" aria-labelledby="pl-showcase-heading">
+      <span class="pl-showcase__index" aria-hidden="true">02</span>
+      <div class="pl-showcase">
+        <div class="pl-showcase__body">
+          <h2 id="pl-showcase-heading">写真で伝える、活動の温度</h2>
+          <p>
+            イベントの記録や制作物、集合写真など — テキストだけでは残りにくい空気感を、画像として残せるようにしました。
+          </p>
+          <ul class="pl-checklist">
+            <li>スマホでも見やすいカードレイアウト</li>
+            <li>キーボード操作に対応したライトボックス</li>
+            <li>軽量な静的配信で表示が速い</li>
+          </ul>
+          <a class="pl-text-link" href="/gallery">ギャラリーページへ →</a>
+        </div>
+        <div class="pl-showcase__visual">
+          <img
+            src="https://picsum.photos/seed/kzgrm-showcase/720/520"
+            alt="かざぐるまの活動の様子（プレースホルダ画像）"
+            width="720"
+            height="520"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="pl-section pl-section--updates" aria-labelledby="pl-updates-heading">
+      <div class="pl-updates__top">
+        <span class="pl-section__label">News</span>
+        <div class="pl-section__head pl-section__head--row">
+          <div>
+            <h2 id="pl-updates-heading">最新の活動</h2>
+            <p class="pl-section__sub">直近の更新からピックアップしています。</p>
+          </div>
+          <a class="pl-outline-btn" href="/activities">すべて見る</a>
+        </div>
+      </div>
+      <ol class="pl-update-list">
+        {latestActivities.map((activity) => (
+          <li>
+            <a class="pl-update-list__link" href={`/activities/${activity.id}/`}>
+              <span class="pl-update-list__title">{activity.data.title}</span>
+              <time class="pl-update-list__date" datetime={activity.data.date.toISOString()}>
+                {activity.data.date.toLocaleDateString('ja-JP')}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="pl-cta" aria-labelledby="pl-cta-heading">
+      <div class="pl-cta__bg" aria-hidden="true"></div>
+      <div class="pl-cta__inner">
+        <h2 id="pl-cta-heading">まずはギャラリーから</h2>
+        <p>雰囲気の近い一枚を探してみてください。</p>
+        <a class="pl-btn pl-btn--primary pl-btn--lg" href="/gallery">いますぐ見る</a>
+      </div>
+    </section>
+  </div>
 </Layout>
+
+<style>
+  .product-landing {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.75rem, 3.5vw, 2.75rem);
+    position: relative;
+  }
+
+  /* Layout の main.container 上パディングと同量を相殺し、ヘッダー直下に密着 */
+  :global(main.container) > .product-landing {
+    margin-top: calc(-1 * clamp(1rem, 2vw, 2rem));
+  }
+
+  /* --- Hero（ファーストビュー：ビューポート横いっぱい） --- */
+  .pl-hero {
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+    overflow: hidden;
+    min-height: clamp(320px, 52vh, 520px);
+    border: none;
+    border-bottom: 1px solid rgba(30, 58, 95, 0.1);
+    box-shadow: 0 28px 64px rgba(30, 58, 95, 0.11);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .pl-hero__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        118deg,
+        rgba(245, 246, 250, 0.96) 0%,
+        rgba(236, 239, 246, 0.75) 38%,
+        rgba(228, 232, 241, 0.35) 62%,
+        rgba(109, 40, 217, 0.07) 100%
+      ),
+      url('https://picsum.photos/seed/kzgrm-hero-wide/1400/900') center / cover no-repeat;
+  }
+
+  .pl-hero__noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+  }
+
+  .pl-hero__index {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
+    right: clamp(1rem, 3vw, 1.75rem);
+    z-index: 2;
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: rgba(30, 58, 95, 0.07);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .pl-hero__shell {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 2rem, 920px);
+    max-width: 920px;
+    margin-inline: auto;
+    padding: clamp(1.25rem, 3.5vw, 2.5rem) 0 clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    box-sizing: border-box;
+  }
+
+  .pl-hero__panel {
+    text-align: left;
+    padding: clamp(1.25rem, 3vw, 1.85rem) clamp(1.15rem, 3vw, 1.75rem);
+    border-radius: 1.1rem;
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2.2vw, 1.35rem);
+  }
+
+  .pl-hero__intro {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.45rem, 1.2vw, 0.65rem);
+    max-width: 38rem;
+  }
+
+  .pl-hero__eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ca8a04;
+  }
+
+  .pl-hero__title {
+    margin: 0;
+    font-size: clamp(2.2rem, 4.2vw + 1rem, 3.25rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: #1e3a5f;
+  }
+
+  .pl-hero__lead {
+    margin: 0;
+    font-size: clamp(0.98rem, 1.5vw, 1.06rem);
+    line-height: 1.65;
+    color: var(--muted, #5c6478);
+  }
+
+  .pl-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 0.75rem;
+    margin: 0;
+    padding-top: 0.15rem;
+  }
+
+  .pl-hero__meta {
+    margin: 0;
+    padding: 0;
+  }
+
+  .pl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1.15rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .pl-btn--primary {
+    color: #1e3a5f;
+    background: linear-gradient(175deg, #f0e060 0%, #e8cf3a 45%, #d4b82a 100%);
+    box-shadow: 0 6px 22px rgba(232, 207, 58, 0.35);
+  }
+
+  .pl-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(232, 207, 58, 0.42);
+  }
+
+  .pl-btn--ghost {
+    color: #1e3a5f;
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(30, 58, 95, 0.2);
+    backdrop-filter: blur(8px);
+  }
+
+  .pl-btn--ghost:hover {
+    border-color: rgba(109, 40, 217, 0.45);
+    background: rgba(255, 255, 255, 0.95);
+    color: #6d28d9;
+    transform: translateY(-2px);
+  }
+
+  .pl-btn--lg {
+    padding: 0.65rem 1.45rem;
+    font-size: 1rem;
+  }
+
+  .pl-hero__specs {
+    list-style: none;
+    margin: 0;
+    padding: clamp(0.85rem, 2vw, 1.1rem) clamp(0.85rem, 2vw, 1.15rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem 0.75rem;
+    border-radius: 0.9rem;
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .pl-hero__specs li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1 1 auto;
+    min-width: min(100%, 11rem);
+    max-width: 20rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(30, 58, 95, 0.1);
+    box-shadow: 0 4px 18px rgba(30, 58, 95, 0.06);
+  }
+
+  .pl-hero__specs strong {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1e3a5f;
+  }
+
+  .pl-hero__specs span {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--muted, #5c6478);
+    line-height: 1.45;
+  }
+
+  /* --- Sections --- */
+  .pl-section {
+    --pl-pad: clamp(1.35rem, 2.8vw, 2rem);
+    position: relative;
+    text-align: left;
+    padding: var(--pl-pad);
+    border-radius: 1.2rem;
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, transparent 55%),
+      linear-gradient(168deg, #f0f2f8 0%, #e6e9f2 52%, #dde1eb 100%);
+    border: 1px solid rgba(30, 58, 95, 0.09);
+    box-shadow: 0 6px 28px rgba(30, 58, 95, 0.06), 0 1px 0 rgba(255, 255, 255, 0.75) inset;
+    overflow: hidden;
+  }
+
+  .pl-section__head {
+    margin-bottom: 1.25rem;
+  }
+
+  .pl-section__head--split {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem 1.75rem;
+    align-items: start;
+    margin-bottom: 1.35rem;
+  }
+
+  .pl-section__label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6d28d9;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding-top: 0.25rem;
+    opacity: 0.85;
+  }
+
+  .pl-section__intro {
+    min-width: 0;
+  }
+
+  .pl-section__head--row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .pl-updates__top {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem 1.75rem;
+    align-items: start;
+    margin-bottom: 1.1rem;
+  }
+
+  .pl-updates__top .pl-section__head--row {
+    margin-bottom: 0;
+  }
+
+  .pl-section h2 {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text, #1c1f27);
+  }
+
+  .pl-section__sub {
+    margin: 0;
+    font-size: 0.98rem;
+    color: var(--muted, #5c6478);
+    line-height: 1.55;
+  }
+
+  .pl-outline-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--text, #1c1f27);
+    border: 1px solid rgba(20, 24, 32, 0.14);
+    background: rgba(255, 255, 255, 0.85);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pl-outline-btn:hover {
+    border-color: rgba(109, 40, 217, 0.4);
+    background: rgba(109, 40, 217, 0.08);
+    color: #6d28d9;
+    transform: translateY(-1px);
+  }
+
+  /* Feature grid — ベント風（左に縦長、右に2枚） */
+  .pl-feature-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+  }
+
+  .pl-feature-card--span {
+    grid-row: span 2;
+  }
+
+  .pl-feature-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0.85rem;
+    border-radius: 1rem;
+    background: linear-gradient(160deg, #ffffff 0%, #f4f6fb 100%);
+    border: 1px solid rgba(30, 58, 95, 0.09);
+    box-shadow: 0 8px 28px rgba(30, 58, 95, 0.06);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pl-feature-card:hover {
+    border-color: rgba(109, 40, 217, 0.22);
+    box-shadow: 0 14px 44px rgba(109, 40, 217, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .pl-feature-card--span .pl-feature-card__visual {
+    aspect-ratio: 3 / 4;
+    max-height: min(52vh, 420px);
+  }
+
+  .pl-feature-card__visual {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .pl-feature-card__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pl-feature-card__title {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .pl-feature-card__text {
+    margin: 0 0 0.85rem;
+    flex: 1 1 auto;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--muted, #5c6478);
+  }
+
+  .pl-feature-card__link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6d28d9;
+    text-decoration: none;
+  }
+
+  .pl-feature-card__link:hover {
+    color: #1e3a5f;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* Showcase — テキスト左・画像は下げてずらす */
+  .pl-section--showcase {
+    padding-top: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+
+  .pl-showcase__index {
+    position: absolute;
+    top: var(--pl-pad, 1.5rem);
+    right: var(--pl-pad, 1.5rem);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(109, 40, 217, 0.12);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .pl-showcase {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+    align-items: start;
+  }
+
+  .pl-showcase__body {
+    padding-top: 0.5rem;
+    max-width: 32rem;
+  }
+
+  .pl-showcase__visual {
+    border-radius: 1.05rem;
+    overflow: hidden;
+    border: 1px solid rgba(30, 58, 95, 0.1);
+    box-shadow:
+      0 20px 50px rgba(30, 58, 95, 0.12),
+      0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    transform: translateY(1.75rem) translateX(-0.35rem) rotate(-0.75deg);
+  }
+
+  .pl-showcase__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .pl-showcase__body h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+    padding-left: 0.75rem;
+    border-left: 4px solid #6d28d9;
+    color: #1e3a5f;
+  }
+
+  .pl-showcase__body p {
+    margin: 0 0 1rem;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--muted, #5c6478);
+  }
+
+  .pl-checklist {
+    margin: 0 0 1rem;
+    padding-left: 1.1rem;
+    color: var(--text, #1c1f27);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .pl-checklist li {
+    margin-bottom: 0.35rem;
+  }
+
+  .pl-text-link {
+    font-weight: 600;
+    color: #6d28d9;
+    text-decoration: none;
+  }
+
+  .pl-text-link:hover {
+    color: #1e3a5f;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* Updates — インデントの段差 */
+  .pl-update-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0.5rem;
+    border-left: 2px solid rgba(109, 40, 217, 0.22);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .pl-update-list li:nth-child(1) .pl-update-list__link {
+    margin-left: 0;
+  }
+
+  .pl-update-list li:nth-child(2) .pl-update-list__link {
+    margin-left: 0.75rem;
+  }
+
+  .pl-update-list li:nth-child(3) .pl-update-list__link {
+    margin-left: 1.5rem;
+  }
+
+  .pl-update-list__link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 0.85rem;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(30, 58, 95, 0.08);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pl-update-list__link:hover {
+    border-color: rgba(109, 40, 217, 0.28);
+    background: #fff;
+    transform: translateX(6px);
+  }
+
+  .pl-update-list__title {
+    font-weight: 600;
+  }
+
+  .pl-update-list__date {
+    font-size: 0.88rem;
+    color: var(--muted, #5c6478);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Bottom CTA — 右寄せブロック */
+  .pl-cta {
+    position: relative;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    border: 1px solid rgba(30, 58, 95, 0.12);
+  }
+
+  .pl-cta__bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        115deg,
+        rgba(30, 58, 95, 0.88) 0%,
+        rgba(109, 40, 217, 0.55) 45%,
+        rgba(30, 58, 95, 0.35) 100%
+      ),
+      url('https://picsum.photos/seed/kzgrm-cta/1400/700') center / cover no-repeat;
+  }
+
+  .pl-cta__inner {
+    position: relative;
+    z-index: 1;
+    padding: 2rem clamp(1.25rem, 4vw, 3rem);
+    max-width: 26rem;
+    margin-left: auto;
+  }
+
+  .pl-cta__inner h2 {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .pl-cta__inner p {
+    margin: 0 0 1.15rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .pl-cta .pl-btn--primary {
+    margin-left: auto;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  @media (max-width: 900px) {
+    .pl-feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pl-feature-card--span {
+      grid-row: auto;
+    }
+
+    .pl-feature-card--span .pl-feature-card__visual {
+      aspect-ratio: 4 / 3;
+      max-height: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pl-hero {
+      min-height: clamp(340px, 58vh, 520px);
+    }
+
+    .pl-hero__shell {
+      width: min(100% - 1.25rem, 920px);
+      padding-bottom: clamp(1rem, 3vw, 1.35rem);
+    }
+
+    .pl-hero__specs {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .pl-hero__index {
+      font-size: 2.5rem;
+    }
+
+    .pl-section__head--split {
+      grid-template-columns: 1fr;
+    }
+
+    .pl-section__label {
+      writing-mode: horizontal-tb;
+      letter-spacing: 0.14em;
+    }
+
+    .pl-updates__top {
+      grid-template-columns: 1fr;
+    }
+
+    .pl-update-list li:nth-child(n) .pl-update-list__link {
+      margin-left: 0;
+    }
+
+    .pl-showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .pl-showcase__visual {
+      transform: none;
+      order: -1;
+    }
+
+    .pl-section__head--row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pl-outline-btn {
+      justify-content: center;
+    }
+
+    .pl-cta {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .pl-cta__inner {
+      margin-left: 0;
+      text-align: center;
+    }
+
+    .pl-cta .pl-btn--primary {
+      margin-left: 0;
+    }
+  }
+</style>

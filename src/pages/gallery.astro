@@ -3,16 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import PhotoGalleryViews from '../components/PhotoGalleryViews.svelte';
 
 const baseSamples = [
-  { src: '/images/gallery/sample-01.svg', alt: 'サンプル 1', caption: 'sample 01' },
-  { src: '/images/gallery/sample-02.svg', alt: 'サンプル 2', caption: 'sample 02' },
-  { src: '/images/gallery/sample-03.svg', alt: 'サンプル 3', caption: 'sample 03' },
-  { src: '/images/gallery/sample-04.svg', alt: 'サンプル 4', caption: 'sample 04' },
-  { src: '/images/gallery/sample-05.svg', alt: 'サンプル 5', caption: 'sample 05' },
-  { src: '/images/gallery/sample-06.svg', alt: 'サンプル 6', caption: 'sample 06' },
-  { src: '/images/gallery/sample-07.svg', alt: 'サンプル 7', caption: 'sample 07' },
-  { src: '/images/gallery/sample-08.svg', alt: 'サンプル 8', caption: 'sample 08' },
-  { src: '/images/gallery/sample-09.svg', alt: 'サンプル 9', caption: 'sample 09' },
-  { src: '/images/gallery/sample-10.svg', alt: 'サンプル 10', caption: 'sample 10' }
+  { seed: 'kzgrm-g01', alt: 'プレースホルダ 1', caption: 'photo 01' },
+  { seed: 'kzgrm-g02', alt: 'プレースホルダ 2', caption: 'photo 02' },
+  { seed: 'kzgrm-g03', alt: 'プレースホルダ 3', caption: 'photo 03' },
+  { seed: 'kzgrm-g04', alt: 'プレースホルダ 4', caption: 'photo 04' },
+  { seed: 'kzgrm-g05', alt: 'プレースホルダ 5', caption: 'photo 05' },
+  { seed: 'kzgrm-g06', alt: 'プレースホルダ 6', caption: 'photo 06' },
+  { seed: 'kzgrm-g07', alt: 'プレースホルダ 7', caption: 'photo 07' },
+  { seed: 'kzgrm-g08', alt: 'プレースホルダ 8', caption: 'photo 08' },
+  { seed: 'kzgrm-g09', alt: 'プレースホルダ 9', caption: 'photo 09' },
+  { seed: 'kzgrm-g10', alt: 'プレースホルダ 10', caption: 'photo 10' }
 ] as const;
 
 /** 同じ10枚を循環して20枚分 */
@@ -20,7 +20,7 @@ const photos = Array.from({ length: 20 }, (_, i) => {
   const b = baseSamples[i % 10]!;
   const n = i + 1;
   return {
-    src: b.src,
+    src: `https://picsum.photos/seed/${b.seed}/640/480`,
     alt: `${b.alt} (${n}/20)`,
     caption: `${b.caption} #${n}`
   };

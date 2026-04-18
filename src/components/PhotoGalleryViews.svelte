@@ -176,16 +176,18 @@
 
   .toolbar button,
   .thumb {
-    border: 1px solid #dbe1ea;
-    background: #fff;
+    border: 1px solid rgba(30, 58, 95, 0.12);
+    background: #f5f6fa;
     border-radius: 0.6rem;
     padding: 0.45rem 0.7rem;
     cursor: pointer;
   }
 
   .toolbar button.active {
-    border-color: #5a64b1;
-    color: #5a64b1;
+    border-color: #6d28d9;
+    color: #1e3a5f;
+    background: rgba(109, 40, 217, 0.1);
+    box-shadow: 0 2px 12px rgba(109, 40, 217, 0.15);
   }
 
   .grid {
@@ -222,12 +224,15 @@
   .table-surface {
     position: relative;
     min-height: min(78vh, 860px);
-    border-radius: 0.85rem;
-    background: linear-gradient(168deg, #ebe3dc 0%, #d9cdc3 42%, #cbbfb4 100%);
+    border-radius: 1rem;
+    background:
+      radial-gradient(ellipse 95% 75% at 50% 0%, rgba(255, 255, 255, 0.9), transparent 58%),
+      linear-gradient(168deg, #eceef4 0%, #dfe3eb 40%, #d4d9e3 100%);
+    border: 1px solid rgba(30, 58, 95, 0.1);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -2px 12px rgba(80, 60, 40, 0.12),
-      0 12px 40px rgba(15, 23, 42, 0.08);
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 0 rgba(30, 58, 95, 0.05),
+      0 16px 48px rgba(30, 58, 95, 0.07);
     overflow: visible;
   }
 
@@ -255,7 +260,7 @@
   }
 
   .scatter-card:focus-visible {
-    outline: 2px solid #5a64b1;
+    outline: 2px solid #6d28d9;
     outline-offset: 3px;
   }
 
@@ -287,7 +292,8 @@
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(21, 42, 69, 0.88);
+    backdrop-filter: blur(8px);
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
@@ -315,7 +321,7 @@
   .nav,
   .close {
     border: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(232, 207, 58, 0.25);
     color: #fff;
     font-size: 1.8rem;
     width: 2.6rem;

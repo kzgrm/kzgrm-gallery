@@ -336,34 +336,6 @@ const featureSeeds = ['kzgrm-f1', 'kzgrm-f2', 'kzgrm-f3'] as const;
     font-size: 1rem;
   }
 
-  .pl-hero__specs {
-    list-style: none;
-    margin: 0;
-    padding: clamp(0.85rem, 2vw, 1.1rem) clamp(0.85rem, 2vw, 1.15rem);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.65rem 0.75rem;
-    border-radius: 0.9rem;
-    background: transparent;
-    border: 1px solid transparent;
-    box-shadow: none;
-    backdrop-filter: none;
-  }
-
-  .pl-hero__specs li {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    flex: 1 1 auto;
-    min-width: min(100%, 11rem);
-    max-width: 20rem;
-    padding: 0.65rem 0.9rem;
-    border-radius: 0.75rem;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(30, 58, 95, 0.1);
-    box-shadow: 0 4px 18px rgba(30, 58, 95, 0.06);
-  }
-
   .pl-hero__specs strong {
     font-size: 0.8rem;
     font-weight: 700;
@@ -377,6 +349,12 @@ const featureSeeds = ['kzgrm-f1', 'kzgrm-f2', 'kzgrm-f3'] as const;
     font-weight: 500;
     color: var(--muted, #5c6478);
     line-height: 1.45;
+  }
+
+  .pl-hero__specs strong::after {
+    content: " :";
+    margin-left: 0.15rem;
+    opacity: 0.45;
   }
 
   /* --- Sections --- */
@@ -783,6 +761,10 @@ const featureSeeds = ['kzgrm-f1', 'kzgrm-f2', 'kzgrm-f3'] as const;
     .pl-hero__specs {
       grid-template-columns: 1fr;
       gap: 0.5rem;
+    }
+
+    .pl-hero__specs li {
+      padding: 0.3rem 0;
     }
 
     .pl-hero__index {

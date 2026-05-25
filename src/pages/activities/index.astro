@@ -1,17 +1,25 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import ActivityFilter from '../../components/ActivityFilter.svelte';
 
-const activities = (await getCollection('activities')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const activities = (await getCollection('activities')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
 
-const activityItems = activities.map((activity) => ({
-  title: activity.data.title,
-  url: `/activities/${activity.id}/`,
-  date: activity.data.date.toLocaleDateString('ja-JP'),
-  thumnail: activity.data.thumnail,
-  tags: activity.data.tags
-}));
+const activityItems = await Promise.all(
+  activities.map(async (activity) => {
+    const thumbnail = await getImage({ src: activity.data.thumnail });
+    return {
+      title: activity.data.title,
+      url: `/activities/${activity.id}/`,
+      date: activity.data.date.toLocaleDateString('ja-JP'),
+      thumnail: thumbnail.src,
+      tags: activity.data.tags
+    };
+  })
+);
 ---
 
 <Layout title="kzgrm" description="kzgrm">

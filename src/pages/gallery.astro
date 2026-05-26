@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
 const imageModules = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/images/gallery/*.svg',
+  '/src/assets/images/gallery/*.{svg,png,jpg,jpeg,webp,avif}',
   { eager: true }
 );
 

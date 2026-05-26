@@ -15,5 +15,5 @@ Kazashimo Greeting Reel
 出演：風下
 音楽：[ああああ](https://x.com/q07a_?s=20)
 企画：[haru](https://x.com/haru01234567890) / [ふぉるね](https://x.com/FORUNE_COLX?s=20)
-制作補：[ふぉるね](https://x.com/FORUNE_COLX) / [なっつ](https://x.com/m_nattsu628878?s=20)
+制作補：[ふぉるね](https://x.com/FORUNE_COLX) / [なっつ](https://x.com/nattsu_628878)
 演出・制作：[ウィンダル](https://x.com/Pibeerius)

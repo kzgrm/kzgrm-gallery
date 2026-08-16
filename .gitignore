@@ -1,7 +1,9 @@
-# build output
-dist/
+# SvelteKit build output and generated types
+build/
+.svelte-kit/
 
-# generated types
+# legacy Astro output (remove after all clones have migrated)
+dist/
 .astro/
 
 # dependencies

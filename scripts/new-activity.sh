@@ -42,7 +42,7 @@ cat > "$DIR/index.md" << EOF
 title: "${NAME}"
 date: ${FULL_DATE}
 tags: []
-thumnail: ./thumbnail.jpeg
+thumbnail: ./thumbnail.jpeg
 ---
 
 EOF

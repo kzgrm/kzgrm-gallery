@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 
 const { activity } = Astro.props;
 const { Content } = await render(activity);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout
@@ -19,7 +20,7 @@ const { Content } = await render(activity);
     description={activity.data.title}
 >
     <article>
-        <p><a href="/activities">もどる</a></p>
+        <p><a href={`${base}/activities/`}>もどる</a></p>
         <h1>{activity.data.title}</h1>
         <p>{activity.data.date.toLocaleDateString("ja-JP")}</p>
         <p>tags: {activity.data.tags.join(" / ")}</p>

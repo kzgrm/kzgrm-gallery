@@ -7,13 +7,14 @@ import ActivityFilter from '../../components/ActivityFilter.svelte';
 const activities = (await getCollection('activities')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
 );
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const activityItems = await Promise.all(
   activities.map(async (activity) => {
     const thumbnail = await getImage({ src: activity.data.thumnail });
     return {
       title: activity.data.title,
-      url: `/activities/${activity.id}/`,
+      url: `${base}/activities/${activity.id}/`,
       date: activity.data.date.toLocaleDateString('ja-JP'),
       thumnail: thumbnail.src,
       tags: activity.data.tags

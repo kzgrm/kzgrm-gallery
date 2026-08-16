@@ -5,6 +5,9 @@ import { getCollection } from 'astro:content';
 const latestActivities = (await getCollection('activities'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const route = (path = '') => `${base}${path || '/'}`;
 ---
 
 <Layout title="kzgrm" description="kzgrm">
@@ -14,9 +17,9 @@ const latestActivities = (await getCollection('activities'))
       kzgrm
     </p>
     <p>
-      <a href="/about">about</a>
+      <a href={route('/about/')}>about</a>
       ・
-      <a href="/activities">activities</a>
+      <a href={route('/activities/')}>activities</a>
     </p>
   </section>
 
@@ -25,7 +28,7 @@ const latestActivities = (await getCollection('activities'))
     <ul>
       {latestActivities.map((activity) => (
         <li>
-          <a href={`/activities/${activity.id}/`}>{activity.data.title}</a>
+          <a href={route(`/activities/${activity.id}/`)}>{activity.data.title}</a>
           {' - '}
           {activity.data.date.toLocaleDateString('ja-JP')}
         </li>

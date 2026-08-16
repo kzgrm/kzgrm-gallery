@@ -10,6 +10,9 @@ const {
   description = 'kzgrm',
   wide = false
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const route = (path = '') => `${base}${path || '/'}`;
 ---
 
 <!doctype html>
@@ -17,9 +20,9 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preload" href="/header.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+    <link rel="icon" type="image/svg+xml" href={route('/favicon.svg')} />
+    <link rel="preload" href={route('/header.webp')} as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href={route('/favicon.svg')} as="image" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -30,10 +33,10 @@ const {
   </head>
   <body>
     <header class="site-header">
-      <a class="site-title" href="/">
+      <a class="site-title" href={route()}>
         <img
           class="site-icon"
-          src="/favicon.svg"
+          src={route('/favicon.svg')}
           alt=""
           aria-hidden="true"
           width="40"
@@ -43,7 +46,7 @@ const {
         />
         <img
           class="site-header-logo"
-          src="/header.webp"
+          src={route('/header.webp')}
           alt="kzgrm"
           width="201"
           height="40"
@@ -53,10 +56,10 @@ const {
       </a>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/activities">Activities</a></li>
-          <li><a href="/gallery">Gallery</a></li>
+          <li><a href={route()}>Home</a></li>
+          <li><a href={route('/about/')}>About Us</a></li>
+          <li><a href={route('/activities/')}>Activities</a></li>
+          <li><a href={route('/gallery/')}>Gallery</a></li>
         </ul>
       </nav>
     </header>

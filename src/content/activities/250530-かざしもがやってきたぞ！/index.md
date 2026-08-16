@@ -10,7 +10,7 @@ thumnail: ./thumbnail.png
 ’’At the very beginning''
 Kazashimo Greeting Reel
 
-<video src="/videos/250530-かざしもがやってきたぞ!/001.webm" autoplay loop muted playsinline></video>
+<video src="../../videos/250530-かざしもがやってきたぞ!/001.webm" autoplay loop muted playsinline></video>
 
 出演：風下
 音楽：[ああああ](https://x.com/q07a_?s=20)

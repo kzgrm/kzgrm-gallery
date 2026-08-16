@@ -18,7 +18,8 @@
 <header class="page-heading">
 	<p class="eyebrow">Gallery</p>
 	<h1>写真</h1>
-	<p>活動の途中で残った景色。</p>
+	<!-- TODO: 公開前にKZGRMメンバーで紹介文を決める -->
+	<p>ギャラリー紹介文（仮）</p>
 </header>
 
 <div class="masonry">

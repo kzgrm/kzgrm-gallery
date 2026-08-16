@@ -13,7 +13,8 @@
 <header class="page-heading">
 	<p class="eyebrow">Activities</p>
 	<h1>活動</h1>
-	<p>これまでにつくったもの、踊ったもの、出会った場所。</p>
+	<!-- TODO: 公開前にKZGRMメンバーで紹介文を決める -->
+	<p>活動紹介文（仮）</p>
 </header>
 
 <ActivityFilter activities={data.activities} />

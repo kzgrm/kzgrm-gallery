@@ -3,14 +3,17 @@
 	import { fly } from 'svelte/transition';
 	import type { ActivitySummary } from '$lib/types/activity';
 
-	let { activities = [] }: { activities?: ActivitySummary[] } = $props();
+	let { activities = [], query = '' }: { activities?: ActivitySummary[]; query?: string } = $props();
 	let selectedTags = $state<string[]>([]);
 
 	const tags = $derived([...new Set(activities.flatMap((item) => item.tags))]);
+	const normalizedQuery = $derived(query.toLocaleLowerCase('ja-JP'));
 	const filteredActivities = $derived(
-		selectedTags.length === 0
-			? activities
-			: activities.filter((item) => selectedTags.every((tag) => item.tags.includes(tag)))
+		activities.filter((item) => {
+			const matchesTags = selectedTags.length === 0 || selectedTags.every((tag) => item.tags.includes(tag));
+			const searchable = `${item.title} ${item.tags.join(' ')} ${item.date}`.toLocaleLowerCase('ja-JP');
+			return matchesTags && (!normalizedQuery || searchable.includes(normalizedQuery));
+		})
 	);
 
 	function toggleTag(tag: string) {

@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { page } from '$app/state';
 	import ActivityFilter from '$lib/components/ActivityFilter.svelte';
 	import type { ActivitySummary } from '$lib/types/activity';
 
 	let { data }: { data: { activities: ActivitySummary[] } } = $props();
+	const query = $derived(browser ? (page.url.searchParams.get('q')?.trim() ?? '') : '');
 </script>
 
 <svelte:head>
@@ -17,4 +20,4 @@
 	<p>活動紹介文（仮）</p>
 </header>
 
-<ActivityFilter activities={data.activities} />
+<ActivityFilter activities={data.activities} {query} />

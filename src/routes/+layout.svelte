@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
-	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import '@fontsource/zen-maru-gothic/700.css';
@@ -12,16 +12,16 @@
 	let navigating = $state(false);
 	let menuOpen = $state(false);
 	let menuShell: HTMLElement;
-
-	const links = [
-		{ href: '/', label: 'ホーム', description: '最新の活動を見る', section: 'home', color: '#a66fe4' },
-		{ href: '/about/', label: '私たちについて', description: 'メンバーと風下について', section: 'about', color: '#5a65b1' },
-		{ href: '/activities/', label: '活動', description: 'これまでの活動を見る', section: 'activities', color: '#ffda52' },
-		{ href: '/gallery/', label: '写真', description: '写真を一覧する', section: 'gallery', color: '#d2d1d6' }
-	];
-
 	const path = (value: string) => `${base}${value}`;
 	const currentSection = $derived(page.url.pathname.replace(base, '').split('/')[1] || 'home');
+	let searchQuery = $state('');
+
+	function submitSearch(event: SubmitEvent) {
+		event.preventDefault();
+		const value = searchQuery.trim();
+		if (!value) return;
+		goto(`${path('/activities/')}?q=${encodeURIComponent(value)}`);
+	}
 
 	beforeNavigate(() => {
 		navigating = true;
@@ -161,10 +161,33 @@
 
 <svelte:head>
 	<link rel="icon" type="image/svg+xml" href={path('/favicon.svg')} />
+	<link rel="apple-touch-icon" href={path('/apple-touch-icon.png')} />
 	<link rel="preload" href={path('/header.webp')} as="image" type="image/webp" />
-	<meta property="og:site_name" content="かざぐるま" />
 	<meta name="theme-color" content="#ffffff" />
+	<meta name="apple-mobile-web-app-title" content="kzgrm gallery" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta property="og:site_name" content="かざぐるま" />
 </svelte:head>
+
+{#snippet searchIcon()}
+	<svg class="search-icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" /><line x1="21" y1="21" x2="16.65" y2="16.65" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+{/snippet}
+
+{#snippet menuIconHome()}
+	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><g transform="translate(0 0) rotate(0 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#5A65B1"></path></g><g transform="translate(0 0) rotate(90 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#FFDA52"></path></g><g transform="translate(0 0) rotate(180 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#D2D1D6"></path></g><g transform="translate(0 0) rotate(270 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#A66FE4"></path></g></svg>
+{/snippet}
+
+{#snippet menuIconAbout()}
+	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><g transform="translate(0 -20) rotate(90 50 50)"><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#212121" stroke-width="19"></line><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#5A65B1" stroke-width="10"></line></g><g transform="translate(20 0) rotate(0 50 50)"><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#212121" stroke-width="19"></line><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#FFDA52" stroke-width="10"></line></g><g transform="translate(0 20) rotate(90 50 50)"><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#212121" stroke-width="19"></line><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#D2D1D6" stroke-width="10"></line></g><g transform="translate(-20 0) rotate(0 50 50)"><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#212121" stroke-width="19"></line><line stroke-linecap="round" x1="45" y1="50" x2="55" y2="50" stroke="#A66FE4" stroke-width="10"></line></g></svg>
+{/snippet}
+
+{#snippet menuIconActivities()}
+	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><defs><clipPath id="clip-n-menu-activities"><rect x="0" y="0" width="100" height="50"></rect></clipPath><clipPath id="clip-s-menu-activities"><rect x="0" y="50" width="100" height="50"></rect></clipPath></defs><g transform="translate(0 -6) rotate(90 50 50)" clip-path="url(#clip-s-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#5A65B1" stroke-width="6"></line></g><g transform="translate(6 0) rotate(0 50 50)" clip-path="url(#clip-n-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#FFDA52" stroke-width="6"></line></g><g transform="translate(0 6) rotate(90 50 50)" clip-path="url(#clip-n-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#D2D1D6" stroke-width="6"></line></g><g transform="translate(-6 0) rotate(0 50 50)" clip-path="url(#clip-s-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#A66FE4" stroke-width="6"></line></g><g transform="translate(0 -6) rotate(90 50 50)" clip-path="url(#clip-n-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#5A65B1" stroke-width="6"></line></g><g transform="translate(6 0) rotate(0 50 50)" clip-path="url(#clip-s-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#FFDA52" stroke-width="6"></line></g><g transform="translate(0 6) rotate(90 50 50)" clip-path="url(#clip-s-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#D2D1D6" stroke-width="6"></line></g><g transform="translate(-6 0) rotate(0 50 50)" clip-path="url(#clip-n-menu-activities)"><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#212121" stroke-width="15"></line><line stroke-linecap="round" x1="50" y1="25" x2="50" y2="75" stroke="#A66FE4" stroke-width="6"></line></g></svg>
+{/snippet}
+
+{#snippet menuIconGallery()}
+	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><g transform="translate(-15 -15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#5A65B1"></rect></g><g transform="translate(15 -15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#FFDA52"></rect></g><g transform="translate(-15 15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#D2D1D6"></rect></g><g transform="translate(15 15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#A66FE4"></rect></g></svg>
+{/snippet}
 
 <div class:visible={navigating} class="page-progress" aria-hidden="true"><span></span></div>
 
@@ -175,27 +198,18 @@
 		<span class="product-name">gallery</span>
 	</a>
 	<div class="header-actions">
+		<form class="header-search desktop-only-search" onsubmit={submitSearch}>
+			{@render searchIcon()}
+			<input bind:value={searchQuery} type="search" placeholder="検索" aria-label="活動記事を検索" />
+		</form>
 		<nav class="desktop-nav" aria-label="メインナビゲーション">
-			{#each links as link}
-				<a
-					href={path(link.href)}
-					class:active={currentSection === link.section}
-					style={`--section-color: ${link.color}`}
-					aria-current={currentSection === link.section ? 'page' : undefined}
-				>
-					{link.label}
-				</a>
-			{/each}
+			<a class="nav-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}>ホーム</a>
+			<a class="nav-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>私たちについて</a>
+			<a class="nav-activities" class:active={currentSection === 'activities'} aria-current={currentSection === 'activities' ? 'page' : undefined} href={path('/activities/')}>活動</a>
+			<a class="nav-gallery" class:active={currentSection === 'gallery'} aria-current={currentSection === 'gallery' ? 'page' : undefined} href={path('/gallery/')}>写真</a>
 		</nav>
 		<div class="menu-shell" bind:this={menuShell}>
-			<button
-				class="menu-button"
-				type="button"
-				aria-label="すべての機能を開く"
-				aria-expanded={menuOpen}
-				aria-controls="site-menu"
-				onclick={() => menuOpen = !menuOpen}
-			>
+			<button class="menu-button" type="button" aria-label="すべての機能を開く" aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
 				<svg class="menu-icon" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false">
 					{#each menuBars as bar, i}
 						<g transform={barStates[i].transform} opacity={barStates[i].opacity}>
@@ -203,7 +217,7 @@
 							<line x1={-barStates[i].halfLen} y1="0" x2={barStates[i].halfLen} y2="0" stroke={bar.color} stroke-width={barStates[i].fillW} stroke-linecap="round" />
 						</g>
 					{/each}
-					<g opacity={xShapeOpacity}>
+					<g class="x-shape-group" opacity={xShapeOpacity}>
 						{#each xStubs as stub}
 							<g transform={`translate(${stub.dx} ${stub.dy}) rotate(${stub.rotate} 0 0)`}>
 								<line x1={-STUB_HALF} y1="0" x2={STUB_HALF} y2="0" stroke={brandOutline} stroke-width={STUB_OUTLINE_W} stroke-linecap="round" />
@@ -215,18 +229,14 @@
 			</button>
 			{#if menuOpen}
 				<nav id="site-menu" class="site-menu" aria-label="すべての機能">
-					{#each links as link}
-						<a
-							href={path(link.href)}
-							class:active={currentSection === link.section}
-							style={`--menu-color: ${link.color}`}
-							aria-current={currentSection === link.section ? 'page' : undefined}
-						>
-							<span><i></i></span>
-							<strong>{link.label}</strong>
-							<small>{link.description}</small>
-						</a>
-					{/each}
+					<form class="header-search menu-search" onsubmit={submitSearch}>
+						{@render searchIcon()}
+						<input bind:value={searchQuery} type="search" placeholder="検索" aria-label="活動記事を検索" />
+					</form>
+					<a class="menu-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}><span>{@render menuIconHome()}</span><strong>ホーム</strong><small>全体を見渡す</small></a>
+					<a class="menu-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}><span>{@render menuIconAbout()}</span><strong>私たちについて</strong><small>メンバーと風下について</small></a>
+					<a class="menu-activities" class:active={currentSection === 'activities'} aria-current={currentSection === 'activities' ? 'page' : undefined} href={path('/activities/')}><span>{@render menuIconActivities()}</span><strong>活動</strong><small>これまでの活動を見る</small></a>
+					<a class="menu-gallery" class:active={currentSection === 'gallery'} aria-current={currentSection === 'gallery' ? 'page' : undefined} href={path('/gallery/')}><span>{@render menuIconGallery()}</span><strong>写真</strong><small>写真を一覧する</small></a>
 				</nav>
 			{/if}
 		</div>
@@ -247,6 +257,8 @@
 		--radius: 12px; --radius-lg: 16px;
 		--shadow-sm: 0 1px 2px rgba(15,23,42,.05), 0 1px 3px rgba(15,23,42,.04);
 		--shadow-md: 0 8px 24px rgba(15,23,42,.06);
+		--ring-idle: conic-gradient(from -45deg, #a66fe473, #5a65b173, #ffda5273, #d2d1d673, #a66fe473);
+		--ring-focus: conic-gradient(from -45deg, #a66fe4, #5a65b1, #ffda52, #d2d1d6, #a66fe4);
 	}
 	:global(*) { box-sizing: border-box; }
 	:global(html) { min-width: 320px; min-height: 100%; scrollbar-gutter: stable; }
@@ -268,22 +280,43 @@
 	.header-actions { display: flex; align-items: center; gap: 1rem; }
 	.desktop-nav { display: flex; gap: 1.15rem; }
 	.desktop-nav a { position: relative; padding-bottom: .3rem; color: var(--muted); text-decoration: none; }
-	.desktop-nav a::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 999px; background: var(--section-color); content: ''; transform: scaleX(0); transition: transform .15s ease; }
+	.desktop-nav a::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 999px; background: currentColor; content: ''; transform: scaleX(0); transition: transform .15s ease; }
 	.desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); }
 	.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); font-weight: 700; }
+	.desktop-nav .nav-home::after { background: #a66fe4; }
+	.desktop-nav .nav-about::after { background: #5a65b1; }
+	.desktop-nav .nav-activities::after { background: #ffda52; }
+	.desktop-nav .nav-gallery::after { background: #d2d1d6; }
+	.header-search { position: relative; display: flex; align-items: center; flex: none; }
+	.header-search .search-icon { position: absolute; top: 50%; left: .8rem; z-index: 1; color: var(--muted); pointer-events: none; transform: translateY(-50%); }
+	.header-search input { width: 100%; padding: .45rem .8rem .45rem 2rem; border: 1.5px solid transparent; border-radius: 999px; color: var(--text); background: linear-gradient(var(--card), var(--card)) padding-box, var(--ring-idle) border-box; font-size: .82rem; transition: background .18s ease; }
+	.header-search input:focus { outline: none; background: linear-gradient(var(--card), var(--card)) padding-box, var(--ring-focus) border-box; }
+	.header-search input::placeholder { color: var(--faint); }
+	.desktop-only-search { width: 10.5rem; }
+	.menu-search { width: 100%; margin-bottom: .5rem; }
 	.menu-shell { position: relative; display: none; }
 	.menu-button { display: grid; width: 48px; height: 48px; place-content: center; padding: 0; border: none; border-radius: 12px; color: var(--text); background: transparent; cursor: pointer; }
 	.menu-button:hover { background: #f8fafc; }
 	.menu-icon { width: 28px; height: 28px; }
 	.site-menu { position: absolute; top: calc(100% + .65rem); right: 0; display: grid; width: min(21rem, calc(100vw - 1.5rem)); padding: .55rem; border: 1px solid var(--border); border-radius: 16px; background: #fff; box-shadow: 0 18px 50px #0f172a24; }
-	.site-menu a { position: relative; display: grid; grid-template-columns: 2rem 1fr; column-gap: .55rem; padding: .65rem .7rem; border-radius: 10px; color: var(--text); text-decoration: none; }
-	.site-menu a:hover, .site-menu a.active { background: #f8fafc; }
-	.site-menu a > span { display: grid; grid-row: 1 / 3; align-self: center; place-items: center; }
-	.site-menu a > span i { width: .85rem; height: .85rem; border: 3px solid #212121; border-radius: 50%; background: var(--menu-color); }
+	.site-menu a { display: grid; grid-template-columns: 2rem 1fr; column-gap: .55rem; padding: .65rem .7rem; border-radius: 10px; color: var(--text); text-decoration: none; }
+	.site-menu a:hover { background: #f1f5f9; }
+	.site-menu a > span { display: grid; grid-row: 1 / 3; align-self: center; justify-items: center; color: var(--accent); font-size: 1.2rem; text-align: center; }
+	.menu-icon-svg { width: 1.4rem; height: 1.4rem; }
 	.site-menu strong { font-size: .88rem; line-height: 1.35; }
 	.site-menu small { color: var(--muted); font-size: .72rem; line-height: 1.35; }
+	.site-menu a.active { background: #f8fafc; }
 	.site-menu a.active strong { font-weight: 800; }
-	.site-menu a.active::before { position: absolute; top: .35rem; bottom: .35rem; left: 0; width: 3px; border-radius: 0 999px 999px 0; background: var(--menu-color); content: ''; }
+	.menu-home.active > span { color: #a66fe4; }
+	.menu-about.active > span { color: #5a65b1; }
+	.menu-activities.active > span { color: #ffda52; }
+	.menu-gallery.active > span { color: #d2d1d6; }
+	.menu-home.active, .menu-about.active, .menu-activities.active, .menu-gallery.active { position: relative; }
+	.menu-home.active::before, .menu-about.active::before, .menu-activities.active::before, .menu-gallery.active::before { position: absolute; top: .35rem; bottom: .35rem; left: 0; width: 3px; border-radius: 0 999px 999px 0; content: ''; }
+	.menu-home.active::before { background: #a66fe4; }
+	.menu-about.active::before { background: #5a65b1; }
+	.menu-activities.active::before { background: #ffda52; }
+	.menu-gallery.active::before { background: #d2d1d6; }
 	main { width: min(100% - 2rem, 1120px); flex: 1; margin: 0 auto; padding: clamp(2rem, 5vw, 4.5rem) 0; }
 	footer { padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }
 	footer small { font-size: .74rem; letter-spacing: .04em; }
@@ -305,6 +338,7 @@
 		.site-logo { height: 30px; }
 		.product-name { padding-left: .5rem; font-size: .78rem; }
 		.desktop-nav { display: none; }
+		.desktop-only-search { display: none; }
 		.menu-shell { display: block; }
 		.menu-button { width: 44px; height: 44px; }
 		main { width: min(100% - 1.25rem, 1120px); padding-top: 1rem; padding-bottom: 4rem; }

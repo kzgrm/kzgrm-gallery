@@ -15,13 +15,6 @@
 	<meta name="description" content="かざぐるまの写真ギャラリーです。" />
 </svelte:head>
 
-<header class="page-heading">
-	<p class="eyebrow">Gallery</p>
-	<h1>写真</h1>
-	<!-- TODO: 公開前にKZGRMメンバーで紹介文を決める -->
-	<p>ギャラリー紹介文（仮）</p>
-</header>
-
 <div class="masonry">
 	{#each photos as photo}
 		<figure><img src={photo.src} alt={photo.alt} loading="lazy" /></figure>

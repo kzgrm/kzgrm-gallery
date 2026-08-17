@@ -7,12 +7,6 @@
 	<meta name="description" content="サークル、かざぐるまについて。" />
 </svelte:head>
 
-<header class="page-heading">
-	<p class="eyebrow">About us</p>
-	<h1>私たちについて</h1>
-	<p>かざぐるまというサークルのホームページです。</p>
-</header>
-
 <section class="character" style={`--portrait: url('${portrait}')`}>
 	<div>
 		<p class="eyebrow">Character</p>

@@ -321,9 +321,6 @@
 	footer { padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }
 	footer small { font-size: .74rem; letter-spacing: .04em; }
 	:global(.eyebrow) { margin: 0 0 .55rem; color: var(--accent); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-	:global(.page-heading) { max-width: 720px; margin-bottom: 2rem; }
-	:global(.page-heading h1) { margin: 0; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.2; }
-	:global(.page-heading p:last-child) { margin: .65rem 0 0; color: var(--muted); }
 	:global(.prose) { max-width: 760px; }
 	:global(.prose img), :global(.prose video) { display: block; max-width: 100%; height: auto; margin: 1.5rem auto; border-radius: var(--radius); }
 	:global(.prose a) { color: var(--accent-strong); }

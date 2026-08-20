@@ -195,7 +195,6 @@
 	<a class="site-title" href={path('/')} aria-label="かざぐるま ホーム">
 		<img class:spinning={navigating} class="site-icon" src={path('/favicon.svg')} alt="" width="44" height="44" />
 		<img class="site-logo" src={path('/header.webp')} alt="かざぐるま" width="201" height="40" />
-		<span class="product-name">gallery</span>
 	</a>
 	<div class="header-actions">
 		<form class="header-search desktop-only-search" onsubmit={submitSearch}>
@@ -264,7 +263,7 @@
 	:global(html) { min-width: 320px; min-height: 100%; scrollbar-gutter: stable; }
 	:global(body) { display: flex; min-height: 100vh; flex-direction: column; margin: 0; color: var(--text); background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; }
 	:global(body > div) { display: flex !important; min-height: 100vh; flex-direction: column; }
-	:global(h1), :global(h2), :global(h3), :global(.product-name) { font-family: var(--font-display); }
+	:global(h1), :global(h2), :global(h3) { font-family: var(--font-display); }
 	:global(h1), :global(h2), :global(h3) { text-wrap: balance; }
 	:global(a) { text-underline-offset: .16em; }
 	:global(button), :global(input) { font: inherit; }
@@ -276,7 +275,6 @@
 	.site-icon { width: 44px; height: 44px; flex: none; animation: settle 1.45s cubic-bezier(.28,.9,.32,1); }
 	.site-icon.spinning { animation: spin .8s linear infinite; }
 	.site-logo { display: block; width: auto; height: 40px; }
-	.product-name { padding-left: .65rem; border-left: 1px solid var(--border); color: var(--muted); font-size: .95rem; font-weight: 600; letter-spacing: .08em; }
 	.header-actions { display: flex; align-items: center; gap: 1rem; }
 	.desktop-nav { display: flex; gap: 1.15rem; }
 	.desktop-nav a { position: relative; padding-bottom: .3rem; color: var(--muted); text-decoration: none; }
@@ -333,7 +331,6 @@
 		.site-header { padding: .7rem .85rem; }
 		.site-icon { width: 36px; height: 36px; }
 		.site-logo { height: 30px; }
-		.product-name { padding-left: .5rem; font-size: .78rem; }
 		.desktop-nav { display: none; }
 		.desktop-only-search { display: none; }
 		.menu-shell { display: block; }

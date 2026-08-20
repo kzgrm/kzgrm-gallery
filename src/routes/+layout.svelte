@@ -213,9 +213,9 @@
 			<input bind:value={searchQuery} type="search" placeholder="作品を検索" aria-label="作品を検索" />
 		</form>
 		<nav class="desktop-nav" aria-label="メインナビゲーション">
-			<a class="nav-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}>作品</a>
-			<a class="nav-records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>記録</a>
-			<a class="nav-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>KZGRMについて</a>
+			<a class="nav-works" data-en="works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}>作品</a>
+			<a class="nav-records" data-en="records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>記録</a>
+			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>KZGRMについて</a>
 		</nav>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label="すべての機能を開く" aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
@@ -291,6 +291,7 @@
 	.header-actions { display: flex; align-items: center; gap: 1rem; }
 	.desktop-nav { display: flex; gap: 1.15rem; }
 	.desktop-nav a { position: relative; padding-bottom: .3rem; color: var(--muted); text-decoration: none; }
+	.desktop-nav a::before { position: absolute; top: -.72rem; right: 0; left: 0; color: var(--faint); content: attr(data-en); font: 600 .48rem/1 monospace; letter-spacing: .08em; text-align: center; }
 	.desktop-nav a::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 999px; background: currentColor; content: ''; transform: scaleX(0); transition: transform .15s ease; }
 	.desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); }
 	.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); font-weight: 700; }

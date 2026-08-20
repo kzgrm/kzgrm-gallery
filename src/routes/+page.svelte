@@ -17,7 +17,5 @@
 <style>
 	:global(.site-header){border-bottom:3px double #5362a4;background:#fffdf7;backdrop-filter:none}
 	:global(.announcement){border-bottom:1px dashed #9ca6bd;background:#fff9d9}
-	:global(body>div>main){width:min(100% - 1.25rem,1120px);padding-top:.5rem}
 	:global(footer){border-top:3px double #5362a4;background:#fffdf7}
-	@media(max-width:620px){:global(body>div>main){width:100%;padding-top:.5rem}}
 </style>

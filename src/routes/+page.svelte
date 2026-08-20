@@ -3,7 +3,9 @@
 	import { replaceState } from '$app/navigation';
 	import NostalgicEdition from '$lib/components/editions/NostalgicEdition.svelte';
 	import ZineEdition from '$lib/components/editions/ZineEdition.svelte';
-	import PlayroomEdition from '$lib/components/editions/PlayroomEdition.svelte';
+	import DesktopEdition from '$lib/components/editions/DesktopEdition.svelte';
+	import BroadcastEdition from '$lib/components/editions/BroadcastEdition.svelte';
+	import MangaEdition from '$lib/components/editions/MangaEdition.svelte';
 	import SiteEditionSwitcher from '$lib/components/SiteEditionSwitcher.svelte';
 	import { isSiteEdition, siteEditions, type SiteEditionId } from '$lib/types/site-edition';
 	import type { ContentSummary } from '$lib/types/content';
@@ -40,8 +42,12 @@
 	<NostalgicEdition works={randomWorks.slice(0, 4)} records={data.latestRecords} onShuffle={() => randomWorks = shuffledWorks()} />
 {:else if active === 'zine'}
 	<ZineEdition works={randomWorks} records={data.latestRecords} />
+{:else if active === 'desktop'}
+	<DesktopEdition works={randomWorks} records={data.latestRecords} />
+{:else if active === 'broadcast'}
+	<BroadcastEdition works={randomWorks} records={data.latestRecords} />
 {:else}
-	<PlayroomEdition works={randomWorks} records={data.latestRecords} />
+	<MangaEdition works={randomWorks} records={data.latestRecords} />
 {/if}
 
 <SiteEditionSwitcher {active} onSelect={selectEdition} onRandom={randomEdition} />
@@ -55,15 +61,18 @@
 	:global(html[data-site-edition='zine'] body){background:#c9c0aa}
 	:global(html[data-site-edition='zine'] .site-header){border-bottom:6px solid #171717;background:#efe5c9;backdrop-filter:none}
 	:global(html[data-site-edition='zine'] .announcement){color:#fff;background:#283260}
-	:global(html[data-site-edition='zine'] .announcement a){color:#eef0ff}
 	:global(html[data-site-edition='zine'] body>div>main){width:min(100% - 1rem,1120px);padding:1rem 0 2rem}
-	:global(html[data-site-edition='zine'] footer){color:#171717;border-top:2px solid #171717;background:#efe5c9}
-	:global(html[data-site-edition='playroom'] body){color:#eef0ff;background:#090a12}
-	:global(html[data-site-edition='playroom'] .site-header){border-bottom:2px solid #5a65b1;background:#111321;backdrop-filter:none}
-	:global(html[data-site-edition='playroom'] .site-header .desktop-nav a),:global(html[data-site-edition='playroom'] .site-header .site-logo){filter:invert(1)}
-	:global(html[data-site-edition='playroom'] .announcement){color:#eef0ff;border-bottom:2px solid #5a65b1;background:#191c31}
-	:global(html[data-site-edition='playroom'] .announcement a){color:#eef0ff}
-	:global(html[data-site-edition='playroom'] body>div>main){width:min(100% - 1rem,1040px);padding:1rem 0 2rem}
-	:global(html[data-site-edition='playroom'] footer){color:#a6addb;border-top:2px solid #5a65b1;background:#111321}
+	:global(html[data-site-edition='desktop'] body){background:#278d89}
+	:global(html[data-site-edition='desktop'] .site-header){border-bottom:3px outset #eee;background:#c0c0c0;backdrop-filter:none}
+	:global(html[data-site-edition='desktop'] .announcement){border-bottom:2px outset #fff;background:#c0c0c0}
+	:global(html[data-site-edition='desktop'] body>div>main){width:min(100% - 1rem,1120px);padding:1rem 0}
+	:global(html[data-site-edition='broadcast'] body){color:#fff;background:#111}
+	:global(html[data-site-edition='broadcast'] .site-header){border-bottom:5px solid #f1d233;background:#111;backdrop-filter:none}
+	:global(html[data-site-edition='broadcast'] .announcement){color:#111;background:#f1d233}
+	:global(html[data-site-edition='broadcast'] body>div>main){width:min(100% - 1rem,1120px);padding:1rem 0}
+	:global(html[data-site-edition='manga'] body){color:#000;background:#eee}
+	:global(html[data-site-edition='manga'] .site-header){border-bottom:5px solid #000;background:#fff;backdrop-filter:none}
+	:global(html[data-site-edition='manga'] .announcement){border-bottom:3px solid #000;background:#fff}
+	:global(html[data-site-edition='manga'] body>div>main){width:min(100% - 1rem,1040px);padding:1rem 0}
 	@media(max-width:620px){:global(html[data-site-edition] body>div>main){width:100%;padding-top:.5rem}}
 </style>

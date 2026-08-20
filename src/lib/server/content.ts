@@ -99,6 +99,11 @@ function normalizeKind(value: unknown, path: string): ContentKind {
 	throw new Error(`Invalid content kind in ${path}`);
 }
 
+function formatDateLabel(date: string): string {
+	const [year, month, day] = date.split('-').map(Number);
+	return `${year}/${month}/${day}`;
+}
+
 function routeFor(kind: ContentKind, slug: string): string {
 	const collection = kind === 'work' ? 'works' : kind === 'record' ? 'records' : 'news';
 	return `${base}/${collection}/${encodeURIComponent(slug)}/`;
@@ -127,7 +132,7 @@ function readContent(path: string, source: string): SiteContent {
 		slug,
 		title,
 		date,
-		dateLabel: new Intl.DateTimeFormat('ja-JP').format(new Date(`${date}T00:00:00+09:00`)),
+		dateLabel: formatDateLabel(date),
 		kind,
 		tags,
 		thumbnail,

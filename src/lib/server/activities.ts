@@ -91,6 +91,11 @@ function normalizeDate(value: unknown, path: string): string {
 	throw new Error(`Invalid activity date in ${path}`);
 }
 
+function formatDateLabel(date: string): string {
+	const [year, month, day] = date.split('-').map(Number);
+	return `${year}/${month}/${day}`;
+}
+
 function readActivity(path: string, source: string): Activity {
 	const slug = activitySlug(path);
 	const { attributes, body } = splitDocument(source);
@@ -106,7 +111,7 @@ function readActivity(path: string, source: string): Activity {
 		slug,
 		title,
 		date,
-		dateLabel: new Intl.DateTimeFormat('ja-JP').format(new Date(`${date}T00:00:00+09:00`)),
+		dateLabel: formatDateLabel(date),
 		tags,
 		thumbnail: activityAsset(slug, thumbnailPath),
 		html: safeHtml(body, slug),

@@ -6,9 +6,11 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import '@fontsource/zen-maru-gothic/700.css';
+	import AnnouncementRail from '$lib/components/AnnouncementRail.svelte';
+	import type { ContentSummary } from '$lib/types/content';
 	import type { Snippet } from 'svelte';
 
-	let { children }: { children: Snippet } = $props();
+	let { data, children }: { data: { railNews: ContentSummary[] }; children: Snippet } = $props();
 	let navigating = $state(false);
 	let menuOpen = $state(false);
 	let menuShell: HTMLElement;
@@ -20,7 +22,7 @@
 		event.preventDefault();
 		const value = searchQuery.trim();
 		if (!value) return;
-		goto(`${path('/activities/')}?q=${encodeURIComponent(value)}`);
+		goto(`${path('/works/')}?q=${encodeURIComponent(value)}`);
 	}
 
 	beforeNavigate(() => {
@@ -164,7 +166,7 @@
 	<link rel="apple-touch-icon" href={path('/apple-touch-icon.png')} />
 	<link rel="preload" href={path('/header.webp')} as="image" type="image/webp" />
 	<meta name="theme-color" content="#ffffff" />
-	<meta name="apple-mobile-web-app-title" content="kzgrm gallery" />
+	<meta name="apple-mobile-web-app-title" content="かざぐるま" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta property="og:site_name" content="かざぐるま" />
 </svelte:head>
@@ -189,6 +191,15 @@
 	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><g transform="translate(-15 -15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#5A65B1"></rect></g><g transform="translate(15 -15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#FFDA52"></rect></g><g transform="translate(-15 15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#D2D1D6"></rect></g><g transform="translate(15 15) rotate(0 50 50)"><rect x="34.5" y="34.5" width="31" height="31" fill="#212121"></rect><rect x="39" y="39" width="22" height="22" fill="#A66FE4"></rect></g></svg>
 {/snippet}
 
+{#snippet menuIconNews()}
+	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true">
+		<line x1="24" y1="28" x2="76" y2="28" stroke="#212121" stroke-width="13" stroke-linecap="round" /><line x1="24" y1="28" x2="76" y2="28" stroke="#5A65B1" stroke-width="5" stroke-linecap="round" />
+		<line x1="24" y1="44" x2="66" y2="44" stroke="#212121" stroke-width="13" stroke-linecap="round" /><line x1="24" y1="44" x2="66" y2="44" stroke="#FFDA52" stroke-width="5" stroke-linecap="round" />
+		<line x1="24" y1="60" x2="72" y2="60" stroke="#212121" stroke-width="13" stroke-linecap="round" /><line x1="24" y1="60" x2="72" y2="60" stroke="#D2D1D6" stroke-width="5" stroke-linecap="round" />
+		<line x1="24" y1="76" x2="58" y2="76" stroke="#212121" stroke-width="13" stroke-linecap="round" /><line x1="24" y1="76" x2="58" y2="76" stroke="#A66FE4" stroke-width="5" stroke-linecap="round" />
+	</svg>
+{/snippet}
+
 <div class:visible={navigating} class="page-progress" aria-hidden="true"><span></span></div>
 
 <header class="site-header">
@@ -199,13 +210,12 @@
 	<div class="header-actions">
 		<form class="header-search desktop-only-search" onsubmit={submitSearch}>
 			{@render searchIcon()}
-			<input bind:value={searchQuery} type="search" placeholder="検索" aria-label="活動記事を検索" />
+			<input bind:value={searchQuery} type="search" placeholder="作品を検索" aria-label="作品を検索" />
 		</form>
 		<nav class="desktop-nav" aria-label="メインナビゲーション">
-			<a class="nav-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}>ホーム</a>
-			<a class="nav-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>私たちについて</a>
-			<a class="nav-activities" class:active={currentSection === 'activities'} aria-current={currentSection === 'activities' ? 'page' : undefined} href={path('/activities/')}>活動</a>
-			<a class="nav-gallery" class:active={currentSection === 'gallery'} aria-current={currentSection === 'gallery' ? 'page' : undefined} href={path('/gallery/')}>写真</a>
+			<a class="nav-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}>作品</a>
+			<a class="nav-records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>記録</a>
+			<a class="nav-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>KZGRMについて</a>
 		</nav>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label="すべての機能を開く" aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
@@ -230,21 +240,24 @@
 				<nav id="site-menu" class="site-menu" aria-label="すべての機能">
 					<form class="header-search menu-search" onsubmit={submitSearch}>
 						{@render searchIcon()}
-						<input bind:value={searchQuery} type="search" placeholder="検索" aria-label="活動記事を検索" />
+						<input bind:value={searchQuery} type="search" placeholder="作品を検索" aria-label="作品を検索" />
 					</form>
 					<a class="menu-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}><span>{@render menuIconHome()}</span><strong>ホーム</strong><small>全体を見渡す</small></a>
-					<a class="menu-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}><span>{@render menuIconAbout()}</span><strong>私たちについて</strong><small>メンバーと風下について</small></a>
-					<a class="menu-activities" class:active={currentSection === 'activities'} aria-current={currentSection === 'activities' ? 'page' : undefined} href={path('/activities/')}><span>{@render menuIconActivities()}</span><strong>活動</strong><small>これまでの活動を見る</small></a>
-					<a class="menu-gallery" class:active={currentSection === 'gallery'} aria-current={currentSection === 'gallery' ? 'page' : undefined} href={path('/gallery/')}><span>{@render menuIconGallery()}</span><strong>写真</strong><small>写真を一覧する</small></a>
+					<a class="menu-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}><span>{@render menuIconActivities()}</span><strong>作品</strong><small>作品を一覧する</small></a>
+					<a class="menu-records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}><span>{@render menuIconGallery()}</span><strong>記録</strong><small>制作や出来事を読む</small></a>
+					<a class="menu-news" class:active={currentSection === 'news'} aria-current={currentSection === 'news' ? 'page' : undefined} href={path('/news/')}><span>{@render menuIconNews()}</span><strong>お知らせ</strong><small>過去のお知らせも見る</small></a>
+					<a class="menu-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}><span>{@render menuIconAbout()}</span><strong>KZGRMについて</strong><small>メンバーと風下について</small></a>
 				</nav>
 			{/if}
 		</div>
 	</div>
 </header>
 
+<AnnouncementRail items={data.railNews} newsUrl={path('/news/')} />
+
 <main>{@render children()}</main>
 
-<footer><small>{new Date().getFullYear()} kazaguruma · gallery</small></footer>
+<footer><small>© {new Date().getFullYear()} KZGRM</small><nav aria-label="外部リンク"><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube</a><a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">X</a><span>お問い合わせ準備中</span></nav></footer>
 
 <style>
 	:global(:root) {
@@ -281,10 +294,9 @@
 	.desktop-nav a::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 999px; background: currentColor; content: ''; transform: scaleX(0); transition: transform .15s ease; }
 	.desktop-nav a:hover::after, .desktop-nav a.active::after { transform: scaleX(1); }
 	.desktop-nav a:hover, .desktop-nav a.active { color: var(--text); font-weight: 700; }
-	.desktop-nav .nav-home::after { background: #a66fe4; }
+	.desktop-nav .nav-works::after { background: #ffda52; }
+	.desktop-nav .nav-records::after { background: #d2d1d6; }
 	.desktop-nav .nav-about::after { background: #5a65b1; }
-	.desktop-nav .nav-activities::after { background: #ffda52; }
-	.desktop-nav .nav-gallery::after { background: #d2d1d6; }
 	.header-search { position: relative; display: flex; align-items: center; flex: none; }
 	.header-search .search-icon { position: absolute; top: 50%; left: .8rem; z-index: 1; color: var(--muted); pointer-events: none; transform: translateY(-50%); }
 	.header-search input { width: 100%; padding: .45rem .8rem .45rem 2rem; border: 1.5px solid transparent; border-radius: 999px; color: var(--text); background: linear-gradient(var(--card), var(--card)) padding-box, var(--ring-idle) border-box; font-size: .82rem; transition: background .18s ease; }
@@ -306,18 +318,22 @@
 	.site-menu a.active { background: #f8fafc; }
 	.site-menu a.active strong { font-weight: 800; }
 	.menu-home.active > span { color: #a66fe4; }
+	.menu-works.active > span { color: #ffda52; }
+	.menu-records.active > span { color: #d2d1d6; }
+	.menu-news.active > span { color: #a66fe4; }
 	.menu-about.active > span { color: #5a65b1; }
-	.menu-activities.active > span { color: #ffda52; }
-	.menu-gallery.active > span { color: #d2d1d6; }
-	.menu-home.active, .menu-about.active, .menu-activities.active, .menu-gallery.active { position: relative; }
-	.menu-home.active::before, .menu-about.active::before, .menu-activities.active::before, .menu-gallery.active::before { position: absolute; top: .35rem; bottom: .35rem; left: 0; width: 3px; border-radius: 0 999px 999px 0; content: ''; }
+	.menu-home.active, .menu-works.active, .menu-records.active, .menu-news.active, .menu-about.active { position: relative; }
+	.menu-home.active::before, .menu-works.active::before, .menu-records.active::before, .menu-news.active::before, .menu-about.active::before { position: absolute; top: .35rem; bottom: .35rem; left: 0; width: 3px; border-radius: 0 999px 999px 0; content: ''; }
 	.menu-home.active::before { background: #a66fe4; }
+	.menu-works.active::before { background: #ffda52; }
+	.menu-records.active::before { background: #d2d1d6; }
+	.menu-news.active::before { background: #a66fe4; }
 	.menu-about.active::before { background: #5a65b1; }
-	.menu-activities.active::before { background: #ffda52; }
-	.menu-gallery.active::before { background: #d2d1d6; }
 	main { width: min(100% - 2rem, 1120px); flex: 1; margin: 0 auto; padding: clamp(2rem, 5vw, 4.5rem) 0; }
-	footer { padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }
+	footer { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem 1.25rem; padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }
 	footer small { font-size: .74rem; letter-spacing: .04em; }
+	footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem .8rem; font-size: .72rem; }
+	footer a { color: var(--muted); }
 	:global(.eyebrow) { margin: 0 0 .55rem; color: var(--accent); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 	:global(.prose) { max-width: 760px; }
 	:global(.prose img), :global(.prose video) { display: block; max-width: 100%; height: auto; margin: 1.5rem auto; border-radius: var(--radius); }

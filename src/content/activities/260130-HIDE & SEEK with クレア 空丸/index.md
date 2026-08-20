@@ -1,9 +1,11 @@
 ---
 title: "HIDE & SEEK with クレア 空丸"
 date: 2026-01-30
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./thumbnail.png
+thumbnail: ./thumbnail.png
+caption: with クレア・空丸
 ---
 
 ![](./thumbnail.png)

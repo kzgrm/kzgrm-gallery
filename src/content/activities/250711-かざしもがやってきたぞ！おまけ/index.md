@@ -1,9 +1,11 @@
 ---
 title: "かざしもがやってきたぞ！おまけ"
 date: 2025-07-11
+kind: work
 tags:
-  - pv
-thumnail: ./thumbnail.jpeg
+  - PV
+thumbnail: ./thumbnail.jpeg
+caption: おまけ
 ---
 
 かざしもがやってきたぞ！

@@ -1,5 +1,5 @@
-import { activitySummaries } from '$lib/server/activities';
+import { contentSummaries, records } from '$lib/server/content';
 
 export function load() {
-	return { latest: activitySummaries.slice(0, 3) };
+	return { latestRecords: contentSummaries(records.slice(0, 3)) };
 }

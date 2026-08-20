@@ -1,9 +1,12 @@
 ---
 title: "FirstPV予告"
 date: 2025-05-29
+kind: news
 tags:
-  - pv
-thumnail: ./thumbnail.jpg
+  - PV
+thumbnail: ./thumbnail.jpg
+summary: 風下のFirst PV公開予告です。
+rail: true
 ---
 
 ![](./thumbnail.jpg)

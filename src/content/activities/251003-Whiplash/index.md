@@ -1,9 +1,10 @@
 ---
 title: "Whiplash"
 date: 2025-10-03
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.jpg
 ---
 
 ![](./thumbnail.jpg)

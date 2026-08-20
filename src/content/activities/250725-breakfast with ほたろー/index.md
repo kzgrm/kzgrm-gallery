@@ -1,9 +1,11 @@
 ---
 title: "breakfast with ほたろー"
 date: 2025-07-25
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./001.png
+thumbnail: ./001.png
+caption: with ほたろー
 ---
 
 ![](./001.png)

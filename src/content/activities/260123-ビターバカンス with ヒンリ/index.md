@@ -1,9 +1,11 @@
 ---
 title: "ビターバカンス with ヒンリ"
 date: 2026-01-23
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./thumbnail-clip.png
+thumbnail: ./thumbnail-clip.png
+caption: with ヒンリ
 ---
 
 ![](./thumbnail.png)

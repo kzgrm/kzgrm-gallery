@@ -1,9 +1,11 @@
 ---
 title: "familie with ヴェルヌイ"
 date: 2025-10-31
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.jpg
+caption: with ヴェルヌイ
 ---
 
 ![](./thumbnail.jpg)

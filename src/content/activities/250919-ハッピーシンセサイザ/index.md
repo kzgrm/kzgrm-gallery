@@ -1,9 +1,10 @@
 ---
 title: "ハッピーシンセサイザ"
 date: 2025-09-19
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.jpg
 ---
 
 ![](./thumbnail.jpg)

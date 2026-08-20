@@ -1,9 +1,11 @@
 ---
 title: "かざしもがやってきたぞ！"
 date: 2025-05-30
+kind: work
 tags:
-  - pv
-thumnail: ./thumbnail.png
+  - PV
+thumbnail: ./thumbnail.png
+externalUrl: https://www.youtube.com/watch?v=i8d0nt1eM7Y
 ---
 
 かざしもがやってきたぞ！

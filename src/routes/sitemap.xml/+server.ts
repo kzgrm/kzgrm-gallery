@@ -1,4 +1,4 @@
-import { activities } from '$lib/server/activities';
+import { contents, news, records, works } from '$lib/server/content';
 
 export const prerender = true;
 
@@ -6,19 +6,19 @@ const origin = 'https://kzgrm.github.io/kzgrm-gallery';
 
 export function GET() {
 	const pages = [
-		{ path: '/', lastmod: undefined },
+		{ path: '/', lastmod: contents[0]?.date },
 		{ path: '/about/', lastmod: undefined },
-		{ path: '/activities/', lastmod: activities[0]?.date },
-		{ path: '/gallery/', lastmod: undefined },
-		...activities.map((activity) => ({ path: `/activities/${activity.slug}/`, lastmod: activity.date }))
+		{ path: '/works/', lastmod: works[0]?.date },
+		{ path: '/records/', lastmod: records[0]?.date },
+		{ path: '/news/', lastmod: news[0]?.date },
+		...works.map((item) => ({ path: `/works/${item.slug}/`, lastmod: item.date })),
+		...records.map((item) => ({ path: `/records/${item.slug}/`, lastmod: item.date })),
+		...news.map((item) => ({ path: `/news/${item.slug}/`, lastmod: item.date }))
 	];
 
 	const urls = pages
 		.map(({ path, lastmod }) => {
-			const encodedPath = path
-				.split('/')
-				.map((segment) => encodeURIComponent(segment))
-				.join('/');
+			const encodedPath = path.split('/').map((segment) => encodeURIComponent(segment)).join('/');
 			return `  <url><loc>${origin}${encodedPath}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
 		})
 		.join('\n');

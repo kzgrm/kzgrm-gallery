@@ -1,12 +1,12 @@
-import { error } from '@sveltejs/kit';
-import { activities, findActivity } from '$lib/server/activities';
+import { error, redirect } from '@sveltejs/kit';
+import { contents, findAnyContent } from '$lib/server/content';
 
 export function entries() {
-	return activities.map(({ slug }) => ({ slug }));
+	return contents.filter((item) => item.legacyUrl).map(({ slug }) => ({ slug }));
 }
 
 export function load({ params }) {
-	const activity = findActivity(params.slug);
-	if (!activity) error(404, 'Activity not found');
-	return { activity };
+	const content = findAnyContent(params.slug);
+	if (!content) error(404, 'Content not found');
+	redirect(308, content.url);
 }

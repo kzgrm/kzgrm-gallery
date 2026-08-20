@@ -1,9 +1,11 @@
 ---
 title: "EVERYBODY DO THE FLOP! with ほたろー"
 date: 2025-07-28
+kind: work
 tags:
   - 踊ってみた
-thumnail: ./001-clip.png
+thumbnail: ./001-clip.png
+caption: with ほたろー
 ---
 
 ![](./001.png)

@@ -30,7 +30,7 @@
 		<li><strong>はる</strong><span>企画・演出・アート</span></li>
 		<li><strong>ふぉるね</strong><span>映像制作・ゲーム開発・撮影</span></li>
 		<li><strong>ウィンダル</strong><span>演出・撮影・編集</span></li>
-		<li><strong>なっつ</strong><span>音響・web開発・編集</span></li>
+		<li><strong>なっつ</strong><span>サウンド・web開発・編集</span></li>
 	</ul>
 </section>
 

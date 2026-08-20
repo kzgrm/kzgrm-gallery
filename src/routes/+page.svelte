@@ -15,8 +15,6 @@
 <NostalgicHome works={data.works} records={data.latestRecords} />
 
 <style>
-	:global(html){background-color:#fbfaf4;background-image:linear-gradient(#dfe5ec 1px,transparent 1px),linear-gradient(90deg,#dfe5ec 1px,transparent 1px);background-size:22px 22px}
-	:global(body){background-color:transparent!important;background-image:none!important}
 	:global(.site-header){border-bottom:3px double #5362a4;background:#fffdf7;backdrop-filter:none}
 	:global(.announcement){border-bottom:1px dashed #9ca6bd;background:#fff9d9}
 	:global(body>div>main){width:min(100% - 1.25rem,1120px);padding-top:.5rem}

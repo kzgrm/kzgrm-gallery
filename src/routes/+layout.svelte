@@ -273,8 +273,8 @@
 		--ring-focus: conic-gradient(from -45deg, #a66fe4, #5a65b1, #ffda52, #d2d1d6, #a66fe4);
 	}
 	:global(*) { box-sizing: border-box; }
-	:global(html) { min-width: 320px; min-height: 100%; scrollbar-gutter: stable; }
-	:global(body) { display: flex; min-height: 100vh; flex-direction: column; margin: 0; color: var(--text); background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; }
+	:global(html) { min-width: 320px; min-height: 100%; background-color: #fbfaf4; background-image: linear-gradient(#dfe5ec 1px, transparent 1px), linear-gradient(90deg, #dfe5ec 1px, transparent 1px); background-size: 22px 22px; scrollbar-gutter: stable; }
+	:global(body) { display: flex; min-height: 100vh; flex-direction: column; margin: 0; color: var(--text); background: transparent; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; }
 	:global(body > div) { display: flex !important; min-height: 100vh; flex-direction: column; }
 	:global(h1), :global(h2), :global(h3) { font-family: var(--font-display); }
 	:global(h1), :global(h2), :global(h3) { text-wrap: balance; }

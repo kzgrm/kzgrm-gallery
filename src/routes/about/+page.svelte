@@ -13,7 +13,6 @@
 
 <section class="character" style={`--portrait: url('${portrait}')`}>
 	<div>
-		<p class="eyebrow">Kazashimo</p>
 		<h2>風下 <small>kazashimo</small></h2>
 		<ul>
 			<li><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube <span>@Kazashimo_Ch</span></a></li>
@@ -50,10 +49,16 @@
 	.character > div { width: min(52%, 520px); padding: clamp(1.5rem, 5vw, 3.5rem); }
 	.character h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.3rem); }
 	.character h2 small { display: block; color: var(--muted); font-size: .8rem; font-weight: 500; letter-spacing: .14em; }
-	.character ul { display: grid; gap: .5rem; margin: 2rem 0 0; padding: 0; list-style: none; }
-	.character a { display: flex; justify-content: space-between; gap: .75rem; padding: .55rem .7rem; border: 1px solid rgba(219,225,234,.8); border-radius: 9px; color: var(--text); background: rgba(255,255,255,.76); text-decoration: none; }
-	.character a:hover { border-color: var(--accent); }
-	.character a span { color: var(--muted); font-size: .85rem; }
+	.character ul { display: grid; gap: .7rem; margin: 2rem 0 0; padding: 0; list-style: none; }
+	.character li { --link-color: #5a65b1; }
+	.character li:nth-child(2) { --link-color: #a66fe4; }
+	.character li:nth-child(3) { --link-color: #d0a900; }
+	.character li:nth-child(4) { --link-color: #858994; }
+	.character a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .75rem; min-height: 46px; padding: .55rem .7rem; border: 1px solid #4e5a80; border-left: 6px solid var(--link-color); color: #303b78; background: rgba(255,253,247,.94); box-shadow: 3px 3px 0 color-mix(in srgb, var(--link-color) 28%, transparent); font-family: Verdana, 'Yu Gothic', sans-serif; font-size: .86rem; font-weight: 700; text-decoration: underline; text-decoration-style: dotted; transition: box-shadow .12s ease, transform .12s ease; }
+	.character a::after { color: var(--link-color); content: '↗'; font: 700 .8rem monospace; text-decoration: none; }
+	.character a:hover { box-shadow: 5px 5px 0 color-mix(in srgb, var(--link-color) 36%, transparent); transform: translate(-1px,-1px); }
+	.character a:focus-visible { outline: 2px dashed var(--link-color); outline-offset: 3px; }
+	.character a span { justify-self: end; color: #596483; font: .72rem monospace; text-decoration: none; }
 	.members-section, .contact { margin-top: 1rem; padding: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); }
 	.members-section h2, .contact h2 { margin: 0; }
 	.members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0 0; padding: 0; list-style: none; }
@@ -64,6 +69,10 @@
 		.character::before { background-position: 60% center; }
 		.character::after { background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 55%, rgba(255,255,255,.15) 85%); }
 		.character > div { width: 100%; }
+		.character a { grid-template-columns: 1fr auto; }
+		.character a span { grid-column: 1; grid-row: 2; justify-self: start; }
+		.character a::after { grid-column: 2; grid-row: 1 / 3; }
 		.members { grid-template-columns: 1fr; }
 	}
+	@media (prefers-reduced-motion: reduce) { .character a { transition: none; } }
 </style>

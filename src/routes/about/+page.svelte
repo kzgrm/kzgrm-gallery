@@ -9,7 +9,6 @@
 
 <header class="intro">
 	<h1>KZGRMについて</h1>
-	<p>異なる得意分野を持つメンバーが、風下を軸に作品をつくっていくサークル。</p>
 </header>
 
 <section class="character" style={`--portrait: url('${portrait}')`}>
@@ -45,7 +44,6 @@
 <style>
 	.intro { max-width: 820px; margin-bottom: clamp(2rem, 5vw, 4rem); }
 	.intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
-	.intro p { margin: 1rem 0 0; color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.25rem); line-height: 1.9; }
 	.character { position: relative; min-height: 420px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-sm); isolation: isolate; }
 	.character::before { position: absolute; inset: 0; z-index: -2; background: var(--portrait) center 30% / cover no-repeat; content: ''; }
 	.character::after { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 43%, rgba(255,255,255,.08) 78%); content: ''; }

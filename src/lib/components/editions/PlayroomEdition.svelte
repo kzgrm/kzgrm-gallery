@@ -1,0 +1,21 @@
+<script lang="ts">
+	import { base } from '$app/paths';
+	import type { ContentSummary } from '$lib/types/content';
+	let { works, records }: { works: ContentSummary[]; records: ContentSummary[] } = $props();
+	let selected = $state(0);
+</script>
+
+<div class="playroom-edition edition-home"><div class="screen">
+	<header><img src={`${base}/favicon.svg`} alt="" /><div><small>KZGRM SOFTWARE</small><h1>KAZASHIMO PLAYROOM</h1></div><span>ONLINE ●</span></header>
+	<section class="stage">{#if works[selected]?.thumbnail}<img src={works[selected].thumbnail} alt="" />{/if}<div class="scan"></div><div class="stage-copy"><span>NOW SELECTED / {String(selected+1).padStart(2,'0')}</span><h2>{works[selected]?.title}</h2><a href={works[selected]?.externalUrl??works[selected]?.url}>PLAY / WATCH →</a></div></section>
+	<section class="selector"><h3>SELECT A WORK</h3><div>{#each works.slice(0,6) as work,index}<button class:active={selected===index} type="button" onclick={() => selected=index}><b>{String(index+1).padStart(2,'0')}</b><span>{work.title}</span></button>{/each}</div></section>
+	<section class="log"><h3>UPDATE LOG</h3>{#each records as record}<a href={record.url}><time>{record.dateLabel}</time><span>{record.title}</span><b>NEW!</b></a>{/each}</section>
+</div></div>
+
+<style>
+	.playroom-edition{width:min(960px,100%);margin:0 auto;padding:clamp(.5rem,2vw,1.5rem);color:#eef0ff;background:#111321;font-family:'Courier New',monospace;box-shadow:inset 0 0 50px #090a12}.screen{border:3px solid #5a65b1;background-color:#191c31;background-image:linear-gradient(#222640 1px,transparent 1px),linear-gradient(90deg,#222640 1px,transparent 1px);background-size:24px 24px;box-shadow:0 0 0 5px #0b0c15,0 0 0 7px #ffda52}
+	.playroom-edition header{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;border-bottom:2px solid #5a65b1;background:#111321}.playroom-edition header img{width:42px;height:42px}.playroom-edition header small{color:#a6addb;font-size:.55rem}.playroom-edition header h1{margin:.1rem 0 0;color:#ffda52!important;font-size:clamp(.9rem,2.4vw,1.4rem);letter-spacing:.08em}.playroom-edition header>span{margin-left:auto;color:#8ed49b;font-size:.65rem}
+	.stage{position:relative;min-height:360px;overflow:hidden;border-bottom:2px solid #5a65b1;background:#090a12}.stage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.72;filter:contrast(1.08) saturate(1.12)}.scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.18) 4px);pointer-events:none}.stage-copy{position:absolute;right:1rem;bottom:1rem;left:1rem;padding:1rem;border-left:6px solid #ffda52;background:rgba(10,11,22,.86)}.stage-copy span{color:#a6addb;font-size:.62rem}.stage-copy h2{margin:.25rem 0 .6rem;color:#fff!important;font-size:clamp(1.1rem,4vw,2.1rem)}.stage-copy a{color:#ffda52;font-weight:800}
+	.selector,.log{padding:1rem}.selector h3,.log h3{margin:0 0 .7rem;color:#a6addb;font-size:.7rem;letter-spacing:.12em}.selector>div{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}.selector button{display:grid;grid-template-columns:2rem 1fr;align-items:center;min-height:50px;padding:.35rem;border:1px solid #565c88;border-radius:0;color:#dfe2ff;background:#20243d;text-align:left;cursor:pointer}.selector button:hover,.selector button.active{border-color:#ffda52;color:#fff;background:#30365b;box-shadow:inset 4px 0 #ffda52}.selector button b{color:#a66fe4}.selector button span{overflow:hidden;font-size:.65rem;text-overflow:ellipsis;white-space:nowrap}.log{border-top:1px solid #565c88}.log a{display:grid;grid-template-columns:7rem 1fr auto;gap:.7rem;padding:.5rem 0;border-bottom:1px dashed #565c88;color:#eef0ff;font-size:.7rem}.log time{color:#a6addb}.log b{color:#ffda52}
+	@media(max-width:620px){.playroom-edition{padding:.35rem}.screen{border-width:2px;box-shadow:0 0 0 3px #0b0c15,0 0 0 5px #ffda52}.playroom-edition header{padding:.6rem}.playroom-edition header img{width:34px;height:34px}.playroom-edition header>span{display:none}.stage{min-height:300px}.stage-copy{right:.6rem;bottom:.6rem;left:.6rem;padding:.7rem}.selector>div{grid-template-columns:1fr 1fr}.log a{grid-template-columns:5.5rem 1fr}.log b{display:none}}
+</style>

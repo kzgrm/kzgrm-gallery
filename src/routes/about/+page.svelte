@@ -3,12 +3,12 @@
 </script>
 
 <svelte:head>
-	<title>KZGRMについて | かざぐるま</title>
+	<title>かざぐるまについて | かざぐるま</title>
 	<meta name="description" content="サークルKZGRM・かざぐるまについて。" />
 </svelte:head>
 
 <header class="intro">
-	<h1>KZGRMについて</h1>
+	<h1>かざぐるまについて</h1>
 </header>
 
 <section class="character" style={`--portrait: url('${portrait}')`}>

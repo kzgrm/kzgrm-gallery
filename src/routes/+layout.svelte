@@ -215,7 +215,7 @@
 		<nav class="desktop-nav" aria-label="メインナビゲーション">
 			<a class="nav-works" data-en="works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}>作品</a>
 			<a class="nav-records" data-en="records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>記録</a>
-			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>KZGRMについて</a>
+			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>かざぐるまについて</a>
 		</nav>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label="すべての機能を開く" aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
@@ -246,7 +246,7 @@
 					<a class="menu-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}><span>{@render menuIconActivities()}</span><strong>作品</strong><small>作品を一覧する</small></a>
 					<a class="menu-records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}><span>{@render menuIconGallery()}</span><strong>記録</strong><small>制作や出来事を読む</small></a>
 					<a class="menu-news" class:active={currentSection === 'news'} aria-current={currentSection === 'news' ? 'page' : undefined} href={path('/news/')}><span>{@render menuIconNews()}</span><strong>お知らせ</strong><small>過去のお知らせも見る</small></a>
-					<a class="menu-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}><span>{@render menuIconAbout()}</span><strong>KZGRMについて</strong><small>メンバーと風下について</small></a>
+					<a class="menu-about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}><span>{@render menuIconAbout()}</span><strong>かざぐるまについて</strong><small>メンバーと風下について</small></a>
 				</nav>
 			{/if}
 		</div>

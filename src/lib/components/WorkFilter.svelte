@@ -3,27 +3,51 @@
 	import { fly } from 'svelte/transition';
 	import type { ContentSummary } from '$lib/types/content';
 
+	type WorkPlatform = 'youtube' | 'x';
+
 	let { works = [], query = '' }: { works?: ContentSummary[]; query?: string } = $props();
 	let selectedTags = $state<string[]>([]);
+	let selectedPlatform = $state<WorkPlatform | null>(null);
 	const tags = $derived([...new Set(works.flatMap((item) => item.tags))]);
 	const normalizedQuery = $derived(query.toLocaleLowerCase('ja-JP'));
 	const filteredWorks = $derived(
 		works.filter((item) => {
 			const matchesTags = selectedTags.length === 0 || selectedTags.every((tag) => item.tags.includes(tag));
+			const matchesPlatform = selectedPlatform === null || platformFor(item) === selectedPlatform;
 			const searchable = `${item.title} ${item.tags.join(' ')} ${item.caption ?? ''} ${item.date}`.toLocaleLowerCase('ja-JP');
-			return matchesTags && (!normalizedQuery || searchable.includes(normalizedQuery));
+			return matchesTags && matchesPlatform && (!normalizedQuery || searchable.includes(normalizedQuery));
 		})
 	);
+
+	function platformFor(work: ContentSummary): WorkPlatform {
+		if (!work.externalUrl) return 'x';
+
+		try {
+			const hostname = new URL(work.externalUrl).hostname.toLocaleLowerCase('en-US');
+			return hostname === 'youtu.be' || hostname === 'youtube.com' || hostname.endsWith('.youtube.com')
+				? 'youtube'
+				: 'x';
+		} catch {
+			return 'x';
+		}
+	}
 
 	function toggleTag(tag: string) {
 		selectedTags = selectedTags.includes(tag)
 			? selectedTags.filter((item) => item !== tag)
 			: [...selectedTags, tag];
 	}
+
+	function clearFilters() {
+		selectedPlatform = null;
+		selectedTags = [];
+	}
 </script>
 
-<div class="filter" aria-label="作品をタグで絞り込む">
-	<button class:active={selectedTags.length === 0} onclick={() => (selectedTags = [])} type="button">すべて</button>
+<div class="filter" aria-label="作品を公開先とタグで絞り込む">
+	<button class:active={selectedPlatform === null && selectedTags.length === 0} aria-pressed={selectedPlatform === null && selectedTags.length === 0} onclick={clearFilters} type="button">すべて</button>
+	<button class:active={selectedPlatform === 'youtube'} aria-pressed={selectedPlatform === 'youtube'} onclick={() => (selectedPlatform = 'youtube')} type="button">YouTube</button>
+	<button class:active={selectedPlatform === 'x'} aria-pressed={selectedPlatform === 'x'} onclick={() => (selectedPlatform = 'x')} type="button">X</button>
 	{#each tags as tag}
 		<button class:active={selectedTags.includes(tag)} aria-pressed={selectedTags.includes(tag)} onclick={() => toggleTag(tag)} type="button">{tag}</button>
 	{/each}

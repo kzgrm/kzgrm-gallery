@@ -1,4 +1,5 @@
 export type ContentKind = 'work' | 'record' | 'news';
+export type PublicationState = 'draft' | 'published' | 'unpublished';
 
 export type ContentSummary = {
 	slug: string;
@@ -14,6 +15,7 @@ export type ContentSummary = {
 	externalUrl?: string;
 	rail: boolean;
 	listed: boolean;
+	publicationState: PublicationState;
 	url: string;
 	legacyUrl?: string;
 };

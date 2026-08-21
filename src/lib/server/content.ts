@@ -2,7 +2,7 @@ import { base } from '$app/paths';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import { parse as parseYaml } from 'yaml';
-import type { ContentKind, ContentSummary, SiteContent } from '$lib/types/content';
+import type { ContentKind, ContentSummary, PublicationState, SiteContent } from '$lib/types/content';
 
 type ContentFrontmatter = {
 	title?: unknown;
@@ -18,6 +18,7 @@ type ContentFrontmatter = {
 	externalUrl?: unknown;
 	rail?: unknown;
 	listed?: unknown;
+	publicationState?: unknown;
 };
 
 const markdownModules = import.meta.glob('/src/content/**/index.md', {
@@ -127,6 +128,9 @@ function readContent(path: string, source: string): SiteContent {
 	const thumbnail = typeof localThumbnail === 'string'
 		? localAsset(directory, localThumbnail)
 		: remoteThumbnail;
+	const publicationState: PublicationState = attributes.publicationState === 'draft' || attributes.publicationState === 'unpublished' || attributes.publicationState === 'published'
+		? attributes.publicationState
+		: attributes.listed === false ? 'draft' : 'published';
 
 	return {
 		slug,
@@ -141,7 +145,8 @@ function readContent(path: string, source: string): SiteContent {
 		author: optionalString(attributes.author),
 		externalUrl: optionalString(attributes.externalUrl),
 		rail: attributes.rail === true,
-		listed: attributes.listed !== false,
+		listed: publicationState === 'published' && attributes.listed !== false,
+		publicationState,
 		url: routeFor(kind, slug),
 		legacyUrl: legacy ? `${base}/activities/${encodeURIComponent(slug)}/` : undefined,
 		html: safeHtml(body, directory)
@@ -161,9 +166,9 @@ export const contentSummaries = (items: SiteContent[]): ContentSummary[] =>
 	items.map(({ html: _html, ...item }) => item);
 
 export function findContent(kind: ContentKind, slug: string): SiteContent | undefined {
-	return contents.find((item) => item.kind === kind && item.slug === slug);
+	return contents.find((item) => item.kind === kind && item.slug === slug && item.listed);
 }
 
 export function findAnyContent(slug: string): SiteContent | undefined {
-	return contents.find((item) => item.slug === slug);
+	return contents.find((item) => item.slug === slug && item.listed);
 }

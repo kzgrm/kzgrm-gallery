@@ -7,6 +7,7 @@
 	import { page } from '$app/state';
 	import '@fontsource/zen-maru-gothic/700.css';
 	import AnnouncementRail from '$lib/components/AnnouncementRail.svelte';
+	import { homepagePreviewState } from '$lib/preview-state.svelte';
 	import type { ContentSummary } from '$lib/types/content';
 	import type { Snippet } from 'svelte';
 
@@ -16,6 +17,9 @@
 	let menuShell: HTMLElement;
 	const path = (value: string) => `${base}${value}`;
 	const currentSection = $derived(page.url.pathname.replace(base, '').split('/')[1] || 'home');
+	const displayedRailNews = $derived(currentSection === 'preview' && homepagePreviewState.railItem?.rail
+		? [homepagePreviewState.railItem, ...data.railNews.filter((item) => item.slug !== homepagePreviewState.railItem?.slug)].slice(0, 3)
+		: data.railNews);
 	let searchQuery = $state('');
 
 	function submitSearch(event: SubmitEvent) {
@@ -253,7 +257,7 @@
 	</div>
 </header>
 
-<AnnouncementRail items={data.railNews} newsUrl={path('/news/')} />
+<AnnouncementRail items={displayedRailNews} newsUrl={path('/news/')} />
 
 <main class:home-page={currentSection === 'home'}>{@render children()}</main>
 

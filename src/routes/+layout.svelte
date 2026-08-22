@@ -17,7 +17,7 @@
 	let menuShell: HTMLElement;
 	const path = (value: string) => `${base}${value}`;
 	const currentSection = $derived(page.url.pathname.replace(base, '').split('/')[1] || 'home');
-	const displayedRailNews = $derived(currentSection === 'preview' && homepagePreviewState.railItem?.rail
+	const displayedRailNews = $derived(currentSection === 'preview' && homepagePreviewState.railItem?.kind === 'news' && homepagePreviewState.railItem.rail
 		? [homepagePreviewState.railItem, ...data.railNews.filter((item) => item.slug !== homepagePreviewState.railItem?.slug)].slice(0, 3)
 		: data.railNews);
 	let searchQuery = $state('');

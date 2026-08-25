@@ -11,8 +11,9 @@
 	<h1>かざぐるまについて</h1>
 </header>
 
-<section class="character" style={`--portrait: url('${portrait}')`}>
-	<div>
+<section class="character">
+	<img class="character-portrait" src={portrait} alt="片手を上げる風下" />
+	<div class="character-info">
 		<h2>風下 <small>kazashimo</small></h2>
 		<ul>
 			<li><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube <span>@Kazashimo_Ch</span></a></li>
@@ -44,9 +45,9 @@
 	.intro { max-width: 820px; margin-bottom: clamp(2rem, 5vw, 4rem); }
 	.intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
 	.character { position: relative; min-height: 420px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-sm); isolation: isolate; }
-	.character::before { position: absolute; inset: 0; z-index: -2; background: var(--portrait) center 30% / cover no-repeat; content: ''; }
+	.character-portrait { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
 	.character::after { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 43%, rgba(255,255,255,.08) 78%); content: ''; }
-	.character > div { width: min(52%, 520px); padding: clamp(1.5rem, 5vw, 3.5rem); }
+	.character-info { width: min(52%, 520px); padding: clamp(1.5rem, 5vw, 3.5rem); }
 	.character h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.3rem); }
 	.character h2 small { display: block; color: var(--muted); font-size: .8rem; font-weight: 500; letter-spacing: .14em; }
 	.character ul { display: grid; gap: .7rem; margin: 2rem 0 0; padding: 0; list-style: none; }
@@ -65,10 +66,12 @@
 	.members li { display: grid; gap: .25rem; padding: .85rem; border-radius: var(--radius); background: var(--accent-soft); }
 	.members span, .contact p:last-child { color: var(--muted); font-size: .82rem; }
 	@media (max-width: 680px) {
-		.character { min-height: 560px; }
-		.character::before { background-position: 60% center; }
-		.character::after { background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 55%, rgba(255,255,255,.15) 85%); }
-		.character > div { width: 100%; }
+		.character { min-height: 0; }
+		.character-portrait { position: relative; z-index: 0; aspect-ratio: 3 / 2; height: auto; object-position: center; }
+		.character::after { display: none; }
+		.character-info { width: 100%; padding: 1.25rem; border-top: 1px solid var(--border); background: var(--card); }
+		.character h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
+		.character ul { margin-top: 1.25rem; }
 		.character a { grid-template-columns: 1fr auto; }
 		.character a span { grid-column: 1; grid-row: 2; justify-self: start; }
 		.character a::after { grid-column: 2; grid-row: 1 / 3; }

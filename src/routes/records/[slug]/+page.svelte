@@ -6,4 +6,4 @@
 </script>
 
 <svelte:head><title>{data.content.title} | かざぐるま</title><meta name="description" content={data.content.summary ?? data.content.title} /></svelte:head>
-<ContentArticle content={data.content} backUrl={`${base}/records/`} backLabel="記録一覧へ" eyebrow="Record" />
+<ContentArticle content={data.content} backUrl={`${base}/records/`} backLabel="記録一覧へ" eyebrow="Record" showThumbnail />

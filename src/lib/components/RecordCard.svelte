@@ -4,7 +4,7 @@
 </script>
 
 <a class:without-image={!record.thumbnail} class="record-card" href={record.url}>
-	{#if record.thumbnail}<img src={record.thumbnail} alt="" loading="lazy" />{/if}
+	{#if record.thumbnail}<img src={record.thumbnail} alt="" />{/if}
 	<span class="record-copy">
 		<time datetime={record.date}>{record.dateLabel}</time>
 		<strong>{record.title}</strong>

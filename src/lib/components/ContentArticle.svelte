@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SiteContent } from '$lib/types/content';
-	let { content, backUrl, backLabel, eyebrow }: { content: SiteContent; backUrl: string; backLabel: string; eyebrow: string } = $props();
+	let { content, backUrl, backLabel, eyebrow, showThumbnail = false }: { content: SiteContent; backUrl: string; backLabel: string; eyebrow: string; showThumbnail?: boolean } = $props();
 </script>
 
 <article class="article">
@@ -14,6 +14,12 @@
 			{#if content.tags.length}<span>{content.tags.join(' / ')}</span>{/if}
 		</div>
 	</header>
+	{#if showThumbnail && content.thumbnail}
+		<figure class="hero-image">
+			<img src={content.thumbnail} alt={`${content.title}の画像`} />
+			{#if content.caption}<figcaption>{content.caption}</figcaption>{/if}
+		</figure>
+	{/if}
 	<div class="prose content">{@html content.html}</div>
 </article>
 
@@ -24,5 +30,8 @@
 	h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.25; }
 	.meta { display: flex; flex-wrap: wrap; gap: .6rem 1.25rem; margin-top: 1rem; color: var(--faint); font-size: .8rem; }
 	.meta span:last-child { color: var(--accent); }
+	.hero-image { margin: 1.5rem 0 0; }
+	.hero-image img { display: block; width: 100%; max-height: 580px; border: 1px solid var(--border); border-radius: var(--radius-lg); object-fit: contain; background: var(--card); box-shadow: var(--shadow-sm); }
+	.hero-image figcaption { margin-top: .5rem; color: var(--faint); font-size: .75rem; text-align: center; }
 	.content { padding-top: 1.5rem; }
 </style>

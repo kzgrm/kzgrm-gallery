@@ -1,4 +1,5 @@
 ---
+thumbnail: ./thumbnail.jpg
 title: このサイトを作る。
 date: 2026-08-22
 kind: record

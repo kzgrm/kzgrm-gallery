@@ -1,8 +1,9 @@
 <script lang="ts">
 	import NostalgicHome from '$lib/components/NostalgicHome.svelte';
+	import type { HomePinPhoto } from '$lib/home-pins';
 	import type { ContentSummary } from '$lib/types/content';
 
-	let { data }: { data: { latestRecords: ContentSummary[]; works: ContentSummary[] } } = $props();
+	let { data }: { data: { latestRecords: ContentSummary[]; works: ContentSummary[]; homePins: HomePinPhoto[] } } = $props();
 </script>
 
 <svelte:head>
@@ -12,7 +13,7 @@
 	<meta property="og:description" content="KZGRM・かざぐるまの公式サイトです。" />
 </svelte:head>
 
-<NostalgicHome works={data.works} records={data.latestRecords} />
+<NostalgicHome works={data.works} records={data.latestRecords} photos={data.homePins} />
 
 <style>
 	:global(.site-header){border-bottom:3px double #5362a4;background:#fffdf7;backdrop-filter:none}

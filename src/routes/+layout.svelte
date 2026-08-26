@@ -287,7 +287,7 @@
 	.page-progress { position: fixed; z-index: 100; top: 0; right: 0; left: 0; height: 3px; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity .15s; }
 	.page-progress.visible { opacity: 1; }
 	.page-progress span { display: block; width: 38%; height: 100%; border-radius: 999px; background: linear-gradient(90deg,#a66fe4,#5a65b1,#ffda52,#d2d1d6); animation: progress 1.05s ease-in-out infinite; }
-	.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem max(1.25rem, calc((100vw - 1180px) / 2)); border-bottom: 1px solid var(--border); background: #fffffff2; backdrop-filter: blur(14px); }
+	.site-header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem max(1.25rem, calc((100vw - 1180px) / 2)); border-bottom: 1px solid var(--border); background: #fff; }
 	.site-title { display: flex; align-items: center; gap: .55rem; min-width: 0; color: var(--text); text-decoration: none; }
 	.site-icon { width: 44px; height: 44px; flex: none; animation: settle 1.45s cubic-bezier(.28,.9,.32,1); }
 	.site-icon.spinning { animation: spin .8s linear infinite; }

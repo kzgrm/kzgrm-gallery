@@ -29,14 +29,14 @@
 	}
 
 	onMount(() => {
-		if (photos.length !== 10) return;
+		if (photos.length === 0 || photos.length > 10) return;
 		displayed = shuffledHomePins(photos);
 		requestAnimationFrame(startMotion);
 		return () => animations.forEach((animation) => animation.cancel());
 	});
 </script>
 
-{#if displayed.length === 10}
+{#if displayed.length > 0}
 	<section class="photo-board" bind:this={board} aria-label="かざぐるまの活動写真">
 		{#each displayed as photo, index (photo.id)}
 			<figure style={`--start:${initialAngles[index]}deg`} data-index={index}>

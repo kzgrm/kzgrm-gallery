@@ -1,4 +1,11 @@
 {
 	"schemaVersion": 1,
-	"photos": []
+	"photos": [
+		{
+			"id": "b6785c99b77d9bb0e1867a4a30482d0f1cce31503e2ee96bac778613f91e9946",
+			"src": "/home-pins/b6785c99b77d9bb0e1867a4a30482d0f1cce31503e2ee96bac778613f91e9946.jpg",
+			"alt": "雨の中、透明な傘をさす青と白のキャラクター",
+			"caption": ""
+		}
+	]
 }

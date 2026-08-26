@@ -6,7 +6,7 @@
 	let { works, records, photos }: { works: ContentSummary[]; records: ContentSummary[]; photos: HomePinPhoto[] } = $props();
 </script>
 
-<div class:with-photos={photos.length === 10} class="home-stage">
+<div class:with-photos={photos.length > 0} class="home-stage">
 	<PinnedPhotoBoard {photos} />
 	<div class="nostalgic-home">
 	<section class="welcome"><span>WELCOME TO</span><img src={`${base}/header.webp`} alt="かざぐるま" /></section>

@@ -7,10 +7,13 @@ const photos = Array.from({ length: 10 }, (_, index) => {
 	return { id, src: `/home-pins/${id}.jpg`, alt: `写真 ${index}`, caption: '' };
 });
 
-test('home pins stay hidden until exactly ten valid unique photos exist', () => {
-	assert.deepEqual(parseHomePins({ schemaVersion: 1, photos: photos.slice(0, 9) }), []);
+test('home pins accept an incremental pool of up to ten valid unique photos', () => {
+	assert.deepEqual(parseHomePins({ schemaVersion: 1, photos: [] }), []);
+	assert.equal(parseHomePins({ schemaVersion: 1, photos: photos.slice(0, 1) }).length, 1);
+	assert.equal(parseHomePins({ schemaVersion: 1, photos: photos.slice(0, 9) }).length, 9);
 	assert.deepEqual(parseHomePins({ schemaVersion: 1, photos: [...photos.slice(0, 9), photos[0]] }), []);
 	assert.equal(parseHomePins({ schemaVersion: 1, photos }).length, 10);
+	assert.deepEqual(parseHomePins({ schemaVersion: 1, photos: [...photos, { ...photos[0], id: 'a'.repeat(64), src: `/home-pins/${'a'.repeat(64)}.jpg` }] }), []);
 });
 
 test('Fisher-Yates shuffles without losing photos', () => {

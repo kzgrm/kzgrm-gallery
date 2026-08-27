@@ -266,7 +266,7 @@
 
 <main class:home-page={currentSection === 'home'}>{@render children()}</main>
 
-<footer><small>© {new Date().getFullYear()} KZGRM</small><nav aria-label="外部リンク"><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube</a><a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">X</a><span>お問い合わせ準備中</span></nav></footer>
+<footer><small>© {new Date().getFullYear()} かざぐるま</small><nav aria-label="外部リンク"><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube</a><a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">X</a><span>お問い合わせ準備中</span></nav></footer>
 
 <style>
 	:global(:root) {

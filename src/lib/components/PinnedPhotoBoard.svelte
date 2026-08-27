@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { shuffledHomePins, type HomePinPhoto } from '$lib/home-pins';
-	import { addWindImpulse, pendulumIsAtRest, stepPendulum, type PendulumState } from '$lib/photo-motion';
+	import { addWindImpulse, getWindowMotionImpulse, pendulumIsAtRest, stepPendulum, type PendulumState, type WindowPosition } from '$lib/photo-motion';
 
 	let { photos }: { photos: HomePinPhoto[] } = $props();
 	let board = $state<HTMLElement>();
@@ -14,6 +14,8 @@
 	let pendulums: PhotoPendulum[] = [];
 	let frameId = 0;
 	let lastTime = 0;
+	let movementTimer = 0;
+	let lastWindowPosition: WindowPosition | null = null;
 	const initialAngles = [-11, 8, -7, 12, -9, 10, -13, 7, -8, 11];
 	const cardOffsets = [
 		{ x: -4, y: 2 }, { x: 3, y: -3 }, { x: 1, y: 4 }, { x: -3, y: -1 }, { x: 4, y: -4 },
@@ -69,13 +71,36 @@
 		wakePendulums();
 	}
 
+	function sampleWindowMovement() {
+		if (document.visibilityState !== 'visible' || window.innerWidth <= 620 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			lastWindowPosition = null;
+			return;
+		}
+		const current = { x: window.screenX, y: window.screenY };
+		if (!lastWindowPosition) {
+			lastWindowPosition = current;
+			return;
+		}
+		const impulse = getWindowMotionImpulse(lastWindowPosition, current);
+		lastWindowPosition = current;
+		if (!impulse || pendulums.length === 0) return;
+		for (const pendulum of pendulums) {
+			const direction = impulse.direction ?? ((pendulum.index + (impulse.verticalDirection > 0 ? 0 : 1)) % 2 === 0 ? 1 : -1);
+			const next = addWindImpulse(pendulum, direction, impulse.strength);
+			pendulum.velocity = next.velocity;
+		}
+		wakePendulums();
+	}
+
 	onMount(() => {
 		if (photos.length === 0 || photos.length > 10) return;
 		displayed = shuffledHomePins(photos);
 		window.addEventListener('kzgrm:header-wind', catchHeaderWind);
 		const setupFrame = requestAnimationFrame(startMotion);
+		movementTimer = window.setInterval(sampleWindowMovement, 50);
 		return () => {
 			window.removeEventListener('kzgrm:header-wind', catchHeaderWind);
+			window.clearInterval(movementTimer);
 			cancelAnimationFrame(setupFrame);
 			if (frameId) cancelAnimationFrame(frameId);
 		};

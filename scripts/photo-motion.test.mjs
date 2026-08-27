@@ -7,6 +7,11 @@ test('a resting photo receives directional angular velocity from header wind', (
 	assert.deepEqual(addWindImpulse({ angle: 0, velocity: 0 }, 1), { angle: 0, velocity: 80 });
 });
 
+test('right-to-left header wind uses clockwise velocity so a top-pinned photo moves left', () => {
+	const rightToLeftDirection = 1;
+	assert.equal(addWindImpulse({ angle: 0, velocity: 0 }, rightToLeftDirection).velocity, 80);
+});
+
 test('repeated gusts accumulate but stay within the safe velocity limit', () => {
 	assert.equal(addWindImpulse({ angle: 0, velocity: 100 }, 1).velocity, 140);
 	assert.equal(addWindImpulse({ angle: 0, velocity: -100 }, -1).velocity, -140);

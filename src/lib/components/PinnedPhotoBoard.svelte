@@ -7,6 +7,9 @@
 	let { photos }: { photos: HomePinPhoto[] } = $props();
 	let board = $state<HTMLElement>();
 	let displayed = $state<HomePinPhoto[]>([]);
+	// Before hydration, and while a client-side route is mounting, use the complete prop
+	// directly. onMount only changes its order; it no longer controls whether it exists.
+	let visiblePhotos = $derived(displayed.length > 0 ? displayed : photos);
 	type PhotoPendulum = PendulumState & { element: HTMLElement; index: number };
 	let pendulums: PhotoPendulum[] = [];
 	let frameId = 0;
@@ -55,9 +58,8 @@
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 		const strength = event instanceof CustomEvent && typeof event.detail?.strength === 'number' ? event.detail.strength : 1;
 		for (const pendulum of pendulums) {
-			const center = pendulum.element.getBoundingClientRect().left + pendulum.element.offsetWidth / 2;
-			const direction: -1 | 1 = center < window.innerWidth / 2 ? -1 : 1;
-			const next = addWindImpulse(pendulum, direction, strength);
+			// A clockwise rotation moves the body of a top-pinned photo to the left.
+			const next = addWindImpulse(pendulum, 1, strength);
 			pendulum.velocity = next.velocity;
 		}
 		wakePendulums();
@@ -76,10 +78,10 @@
 	});
 </script>
 
-{#if displayed.length > 0}
+{#if visiblePhotos.length > 0}
 	<section class="photo-board" bind:this={board} aria-label="かざぐるまの活動写真">
-		{#each displayed as photo, index (photo.id)}
-			{@const position = gridPosition(index, displayed.length)}
+		{#each visiblePhotos as photo, index (photo.id)}
+			{@const position = gridPosition(index, visiblePhotos.length)}
 			<figure style={`--start:${initialAngles[index]}deg;--column:${position.column};--row:${position.row}`} data-index={index}>
 				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} />
 				{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}

@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
-	import { shuffledHomePins, type HomePinPhoto } from '$lib/home-pins';
+	import { displayedHomePinPhotos, selectedHomePins, type HomePinPhoto } from '$lib/home-pins';
 	import { addWindImpulse, getWindowMotionImpulse, pendulumIsAtRest, stepPendulum, type PendulumState, type WindowPosition } from '$lib/photo-motion';
 
 	let { photos }: { photos: HomePinPhoto[] } = $props();
 	let board = $state<HTMLElement>();
 	let displayed = $state<HomePinPhoto[]>([]);
-	// Before hydration, and while a client-side route is mounting, use the complete prop
-	// directly. onMount only changes its order; it no longer controls whether it exists.
-	let visiblePhotos = $derived(displayed.length > 0 ? displayed : photos);
+	// Keep ten photos in prerendered HTML and during client-side route mounting. Hydration then
+	// replaces this deterministic fallback with a fresh random sample from the complete pool.
+	let visiblePhotos = $derived(displayed.length > 0 ? displayed : photos.slice(0, displayedHomePinPhotos));
 	type PhotoPendulum = PendulumState & { element: HTMLElement; index: number };
 	let pendulums: PhotoPendulum[] = [];
 	let frameId = 0;
@@ -93,8 +93,8 @@
 	}
 
 	onMount(() => {
-		if (photos.length === 0 || photos.length > 10) return;
-		displayed = shuffledHomePins(photos);
+		if (photos.length === 0) return;
+		displayed = selectedHomePins(photos);
 		window.addEventListener('kzgrm:header-wind', catchHeaderWind);
 		const setupFrame = requestAnimationFrame(startMotion);
 		movementTimer = window.setInterval(sampleWindowMovement, 50);

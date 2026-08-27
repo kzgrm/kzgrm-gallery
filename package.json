@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "vite dev",
+    "sync:home-pins": "node scripts/sync-home-pins-from-drive.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",

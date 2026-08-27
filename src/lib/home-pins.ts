@@ -1,12 +1,15 @@
 export type HomePinPhoto = { id: string; src: string; alt: string; caption: string };
 
+export const maxHomePinPhotos = 100;
+export const displayedHomePinPhotos = 10;
+
 const idPattern = /^[0-9a-f]{64}$/;
 const srcPattern = /^\/home-pins\/[0-9a-f]{64}\.jpg$/;
 
 export function parseHomePins(value: unknown): HomePinPhoto[] {
 	if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
 	const document = value as { schemaVersion?: unknown; photos?: unknown };
-	if (document.schemaVersion !== 1 || !Array.isArray(document.photos) || document.photos.length > 10) return [];
+	if (document.schemaVersion !== 1 || !Array.isArray(document.photos) || document.photos.length > maxHomePinPhotos) return [];
 	const photos: HomePinPhoto[] = [];
 	for (const candidate of document.photos) {
 		if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return [];
@@ -25,4 +28,8 @@ export function shuffledHomePins(photos: readonly HomePinPhoto[], random = Math.
 		[result[index], result[swap]] = [result[swap]!, result[index]!];
 	}
 	return result;
+}
+
+export function selectedHomePins(photos: readonly HomePinPhoto[], random = Math.random): HomePinPhoto[] {
+	return shuffledHomePins(photos, random).slice(0, displayedHomePinPhotos);
 }

@@ -51,6 +51,11 @@
 		if (menuOpen && !menuShell?.contains(event.target as Node)) menuOpen = false;
 	}
 
+	function releaseHeaderWind() {
+		if (reducedMotion) return;
+		window.dispatchEvent(new CustomEvent('kzgrm:header-wind', { detail: { strength: 1 } }));
+	}
+
 	// Compassと同じ、4本バーから専用Xへ変形する単一進捗値ベースのアニメーション。
 	const T_S1_END = 320;
 	const T_VANISH_OUTER = 240;
@@ -207,7 +212,7 @@
 <div class:visible={navigating} class="page-progress" aria-hidden="true"><span></span></div>
 
 <header class="site-header">
-	<a class="site-title" href={path('/')} aria-label="かざぐるま ホーム">
+	<a class="site-title" href={path('/')} aria-label="かざぐるま ホーム" onclick={releaseHeaderWind}>
 		<img class:spinning={navigating} class="site-icon" src={path('/favicon.svg')} alt="" width="44" height="44" />
 		<img class="site-logo" src={path('/header.webp')} alt="かざぐるま" width="201" height="40" />
 	</a>

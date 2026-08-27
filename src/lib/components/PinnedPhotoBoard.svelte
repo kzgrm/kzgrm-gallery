@@ -2,37 +2,73 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { shuffledHomePins, type HomePinPhoto } from '$lib/home-pins';
+	import { addWindImpulse, pendulumIsAtRest, stepPendulum, type PendulumState } from '$lib/photo-motion';
 
 	let { photos }: { photos: HomePinPhoto[] } = $props();
 	let board = $state<HTMLElement>();
 	let displayed = $state<HomePinPhoto[]>([]);
-	let animations: Animation[] = [];
+	type PhotoPendulum = PendulumState & { element: HTMLElement; index: number };
+	let pendulums: PhotoPendulum[] = [];
+	let frameId = 0;
+	let lastTime = 0;
 	const initialAngles = [-11, 8, -7, 12, -9, 10, -13, 7, -8, 11];
 
-	function frames(startAngle: number, duration: number): Keyframe[] {
-		const count = 120, frequency = 5.2, damping = .2;
-		const damped = frequency * Math.sqrt(1 - damping ** 2), correction = damping * frequency / damped;
-		return Array.from({ length: count + 1 }, (_, index) => {
-			const progress = index / count, seconds = duration * progress / 1000;
-			const envelope = Math.exp(-damping * frequency * seconds);
-			const angle = index === count ? 0 : startAngle * envelope * (Math.cos(damped * seconds) + correction * Math.sin(damped * seconds));
-			return { offset: progress, transform: `rotate(${angle}deg)` };
-		});
+	function animate(time: number) {
+		const elapsed = lastTime ? (time - lastTime) / 1000 : 1 / 60;
+		lastTime = time;
+		let moving = false;
+		for (const pendulum of pendulums) {
+			const next = stepPendulum(pendulum, elapsed);
+			pendulum.angle = next.angle;
+			pendulum.velocity = next.velocity;
+			if (pendulumIsAtRest(pendulum)) {
+				pendulum.angle = 0;
+				pendulum.velocity = 0;
+			} else {
+				moving = true;
+			}
+			pendulum.element.style.transform = `rotate(${pendulum.angle}deg)`;
+		}
+		frameId = moving ? requestAnimationFrame(animate) : 0;
+	}
+
+	function wakePendulums() {
+		if (frameId) return;
+		lastTime = 0;
+		frameId = requestAnimationFrame(animate);
 	}
 
 	function startMotion() {
 		if (!board || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		animations = Array.from(board.querySelectorAll<HTMLElement>('figure[data-index]'), (figure) => {
-			const index = Number(figure.dataset.index), duration = 3900 + (index % 6) * 140;
-			return figure.animate(frames(initialAngles[index]!, duration), { duration, delay: 40 + (index * 83) % 230, easing: 'linear', fill: 'both' });
+		pendulums = Array.from(board.querySelectorAll<HTMLElement>('figure[data-index]'), (element) => {
+			const index = Number(element.dataset.index);
+			return { element, index, angle: initialAngles[index]!, velocity: 0 };
 		});
+		wakePendulums();
+	}
+
+	function catchHeaderWind(event: Event) {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const strength = event instanceof CustomEvent && typeof event.detail?.strength === 'number' ? event.detail.strength : 1;
+		for (const pendulum of pendulums) {
+			const center = pendulum.element.getBoundingClientRect().left + pendulum.element.offsetWidth / 2;
+			const direction: -1 | 1 = center < window.innerWidth / 2 ? -1 : 1;
+			const next = addWindImpulse(pendulum, direction, strength);
+			pendulum.velocity = next.velocity;
+		}
+		wakePendulums();
 	}
 
 	onMount(() => {
 		if (photos.length === 0 || photos.length > 10) return;
 		displayed = shuffledHomePins(photos);
-		requestAnimationFrame(startMotion);
-		return () => animations.forEach((animation) => animation.cancel());
+		window.addEventListener('kzgrm:header-wind', catchHeaderWind);
+		const setupFrame = requestAnimationFrame(startMotion);
+		return () => {
+			window.removeEventListener('kzgrm:header-wind', catchHeaderWind);
+			cancelAnimationFrame(setupFrame);
+			if (frameId) cancelAnimationFrame(frameId);
+		};
 	});
 </script>
 

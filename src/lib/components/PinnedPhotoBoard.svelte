@@ -15,6 +15,10 @@
 	let frameId = 0;
 	let lastTime = 0;
 	const initialAngles = [-11, 8, -7, 12, -9, 10, -13, 7, -8, 11];
+	const cardOffsets = [
+		{ x: -4, y: 2 }, { x: 3, y: -3 }, { x: 1, y: 4 }, { x: -3, y: -1 }, { x: 4, y: -4 },
+		{ x: -2, y: -3 }, { x: 4, y: 1 }, { x: -4, y: 4 }, { x: 2, y: -2 }, { x: -1, y: 3 }
+	];
 	function gridPosition(index: number, total: number) {
 		const leftCount = Math.ceil(total / 2);
 		return index < leftCount ? { column: 1, row: index + 1 } : { column: 3, row: index - leftCount + 1 };
@@ -82,7 +86,8 @@
 	<section class="photo-board" bind:this={board} aria-label="かざぐるまの活動写真">
 		{#each visiblePhotos as photo, index (photo.id)}
 			{@const position = gridPosition(index, visiblePhotos.length)}
-			<figure style={`--start:${initialAngles[index]}deg;--column:${position.column};--row:${position.row}`} data-index={index}>
+			{@const offset = cardOffsets[index]}
+			<figure style={`--start:${initialAngles[index]}deg;--column:${position.column};--row:${position.row};--offset-x:${offset.x}px;--offset-y:${offset.y}px`} data-index={index}>
 				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} />
 				{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}
 			</figure>
@@ -92,7 +97,7 @@
 
 <style>
 	@media(max-width:620px){.photo-board{order:2}}
-	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;pointer-events:none;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
+	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;pointer-events:none;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
 	@media(max-width:620px){.photo-board{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem .8rem;margin-top:1.25rem;padding:.9rem .35rem}.photo-board figure,.photo-board figure:nth-child(n){grid-column:auto;grid-row:auto;width:92%;margin:0}.photo-board figure:nth-child(even){justify-self:end}.photo-board figcaption{font-size:.55rem}}
 	@media(prefers-reduced-motion:reduce){.photo-board figure{transform:rotate(0deg);will-change:auto}}
 </style>

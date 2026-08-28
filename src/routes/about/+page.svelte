@@ -28,10 +28,10 @@
 	<p class="eyebrow">Members</p>
 	<h2>メンバー</h2>
 	<ul class="members">
-		<li><strong>はる</strong><span>企画・演出・アート</span></li>
-		<li><strong>ふぉるね</strong><span>映像制作・ゲーム開発・撮影</span></li>
-		<li><strong>ウィンダル</strong><span>演出・撮影・編集</span></li>
-		<li><strong>なっつ</strong><span>サウンド・web開発・編集</span></li>
+		<li><strong>はる</strong><span>犬・監督・演出・アート</span></li>
+		<li><strong>ふぉるね</strong><span>企画・撮影・編集・開発</span></li>
+		<li><strong>ウィンダル</strong><span>企画・演出・撮影・編集</span></li>
+		<li><strong>なっつ</strong><span>開発・サウンド・編集・企画</span></li>
 	</ul>
 </section>
 

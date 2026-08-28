@@ -3,55 +3,26 @@
 	import { fly } from 'svelte/transition';
 	import type { ContentSummary } from '$lib/types/content';
 
-	type WorkPlatform = 'youtube' | 'x';
-
 	let { works = [], query = '' }: { works?: ContentSummary[]; query?: string } = $props();
-	let selectedTags = $state<string[]>([]);
-	let selectedPlatform = $state<WorkPlatform | null>(null);
-	const tags = $derived([...new Set(works.flatMap((item) => item.tags))]);
 	const normalizedQuery = $derived(query.toLocaleLowerCase('ja-JP'));
 	const filteredWorks = $derived(
 		works.filter((item) => {
-			const matchesTags = selectedTags.length === 0 || selectedTags.every((tag) => item.tags.includes(tag));
-			const matchesPlatform = selectedPlatform === null || platformFor(item) === selectedPlatform;
 			const searchable = `${item.title} ${item.tags.join(' ')} ${item.caption ?? ''} ${item.date}`.toLocaleLowerCase('ja-JP');
-			return matchesTags && matchesPlatform && (!normalizedQuery || searchable.includes(normalizedQuery));
+			return !normalizedQuery || searchable.includes(normalizedQuery);
 		})
 	);
 
-	function platformFor(work: ContentSummary): WorkPlatform {
-		if (!work.externalUrl) return 'x';
-
-		try {
-			const hostname = new URL(work.externalUrl).hostname.toLocaleLowerCase('en-US');
-			return hostname === 'youtu.be' || hostname === 'youtube.com' || hostname.endsWith('.youtube.com')
-				? 'youtube'
-				: 'x';
-		} catch {
-			return 'x';
-		}
-	}
-
-	function toggleTag(tag: string) {
-		selectedTags = selectedTags.includes(tag)
-			? selectedTags.filter((item) => item !== tag)
-			: [...selectedTags, tag];
-	}
-
-	function clearFilters() {
-		selectedPlatform = null;
-		selectedTags = [];
+	// Same 4 colors used across the kzgrm apps (compass's site-menu icons,
+	// this site's own header ring). Hashing the category name into this
+	// palette means a brand-new category (本, ゲーム, ...) gets a stable
+	// color with no code change needed here.
+	const categoryPalette = ['#a66fe4', '#5a65b1', '#ffda52', '#d2d1d6'];
+	function categoryColor(category: string): string {
+		let hash = 0;
+		for (const char of category) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+		return categoryPalette[hash % categoryPalette.length];
 	}
 </script>
-
-<div class="filter" aria-label="作品を公開先とタグで絞り込む">
-	<button class:active={selectedPlatform === null && selectedTags.length === 0} aria-pressed={selectedPlatform === null && selectedTags.length === 0} onclick={clearFilters} type="button">すべて</button>
-	<button class:active={selectedPlatform === 'youtube'} aria-pressed={selectedPlatform === 'youtube'} onclick={() => (selectedPlatform = 'youtube')} type="button">YouTube</button>
-	<button class:active={selectedPlatform === 'x'} aria-pressed={selectedPlatform === 'x'} onclick={() => (selectedPlatform = 'x')} type="button">X</button>
-	{#each tags as tag}
-		<button class:active={selectedTags.includes(tag)} aria-pressed={selectedTags.includes(tag)} onclick={() => toggleTag(tag)} type="button">{tag}</button>
-	{/each}
-</div>
 
 <p class="result-count" aria-live="polite">{filteredWorks.length}件の作品</p>
 <ul class="cards">
@@ -61,11 +32,13 @@
 				<a class="work-card linked" href={work.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${work.title}を見る`}>
 					{#if work.thumbnail}<img src={work.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} />{/if}
 					<span class="overlay"><small>{work.caption ?? ''}</small><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span>
+					{#if work.tags[0]}<span class="category" style={`background:${categoryColor(work.tags[0])}`}>{work.tags[0]}</span>{/if}
 				</a>
 			{:else}
 				<article class="work-card">
 					{#if work.thumbnail}<img src={work.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} />{/if}
 					<span class="overlay"><small>{work.caption ?? ''}</small><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span>
+					{#if work.tags[0]}<span class="category" style={`background:${categoryColor(work.tags[0])}`}>{work.tags[0]}</span>{/if}
 				</article>
 			{/if}
 		</li>
@@ -73,10 +46,6 @@
 </ul>
 
 <style>
-	.filter { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0 .65rem; }
-	button { min-height: 2.35rem; padding: .4rem .8rem; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); background: var(--card); cursor: pointer; }
-	button:hover, button:focus-visible { border-color: var(--accent); color: var(--accent); }
-	button.active { border-color: var(--accent); color: var(--accent-strong); background: var(--accent-soft); font-weight: 700; }
 	.result-count { margin: 0 0 1rem; color: var(--faint); font-size: .78rem; }
 	.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
 	.cards li { min-width: 0; }
@@ -89,6 +58,7 @@
 	.overlay small { min-height: 1em; margin-bottom: .2rem; font-size: .65rem; line-height: 1.2; opacity: .8; }
 	.overlay strong { overflow: hidden; font-family: var(--font-display); font-size: .92rem; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
 	.overlay time { margin-top: .2rem; font-size: .62rem; opacity: .72; }
+	.category { position: absolute; right: .5rem; bottom: .5rem; z-index: 3; padding: .18rem .5rem; border-radius: 999px; color: #1a1a1a; font-size: .62rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
 	@media (max-width: 860px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 	@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .overlay { padding: .85rem; } }
 	@media (prefers-reduced-motion: reduce) { .work-card img { transition: none; } }

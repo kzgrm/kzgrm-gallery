@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import ContentArticle from '$lib/components/ContentArticle.svelte';
-	import WorkFilter from '$lib/components/WorkFilter.svelte';
+	import WorkGrid from '$lib/components/WorkGrid.svelte';
 	import { decodePreviewMessage, previewMessageType, validPreviewToken } from '$lib/preview-contract.js';
 	import { renderPreviewMarkdown } from '$lib/preview-markdown';
 	import { homepagePreviewState } from '$lib/preview-state.svelte';
@@ -58,7 +58,7 @@
 	{#if content.kind === 'work'}
 		<section class="card-preview" aria-label="作品一覧での表示">
 			<p class="eyebrow">作品一覧での表示</p>
-			<div class="noninteractive"><WorkFilter works={[content]} /></div>
+			<div class="noninteractive"><WorkGrid works={[content]} /></div>
 		</section>
 	{/if}
 	<ContentArticle content={content} backUrl={`${base}/${labels[content.kind].collection}/`} backLabel={labels[content.kind].back} eyebrow={labels[content.kind].eyebrow} />

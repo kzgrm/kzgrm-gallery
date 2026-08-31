@@ -11,7 +11,7 @@
 	<div class="nostalgic-home">
 	<section class="welcome"><span>WELCOME TO</span><img src={`${base}/header.webp`} alt="かざぐるま" /></section>
 	<section class="box">
-		<h1>WORKS</h1>
+		<h1>ARTICLES</h1>
 		<div class="work-grid">{#each works.slice(0,4) as work,index}<a class:large={index===0} href={work.externalUrl??work.url} target={work.externalUrl?'_blank':undefined} rel={work.externalUrl?'noopener noreferrer':undefined}>{#if work.thumbnail}<img src={work.thumbnail} alt="" />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></a>{/each}</div>
 		<a class="more" href={`${base}/works/`}>≫ 作品をぜんぶ見る</a>
 	</section>

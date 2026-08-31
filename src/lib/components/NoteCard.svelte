@@ -35,16 +35,16 @@
 {/snippet}
 
 {#if item.externalUrl}
-	<a class="note-row" class:without-photo={!item.thumbnail} href={item.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${item.title}を見る`}>{@render body()}</a>
+	<a class="note-card" href={item.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${item.title}を見る`}>{@render body()}</a>
 {:else}
-	<a class="note-row" class:without-photo={!item.thumbnail} href={item.url}>{@render body()}</a>
+	<a class="note-card" href={item.url}>{@render body()}</a>
 {/if}
 
 <style>
-	.note-row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1.1rem; align-items: center; min-width: 0; padding: 1rem 0; border-bottom: 1px dashed var(--border-strong); color: var(--text); text-decoration: none; }
-	.note-row.without-photo { grid-template-columns: minmax(0, 1fr); }
-	.note-row:hover strong { color: var(--accent-strong); }
-	.photo { display: block; overflow: hidden; width: 100%; padding: .25rem .25rem .45rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; transform: rotate(var(--tilt)); animation: place-photo .5s var(--delay) both cubic-bezier(.2, .9, .3, 1.2); }
+	.note-card { display: flex; flex-direction: column; gap: .75rem; min-width: 0; padding: 1rem; border: 1px dashed var(--border-strong); border-radius: 4px; color: var(--text); text-decoration: none; transition: border-color .15s ease; }
+	.note-card:hover { border-color: var(--accent); }
+	.note-card:hover strong { color: var(--accent-strong); }
+	.photo { display: block; overflow: hidden; align-self: center; width: 88%; margin: 0 auto; padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; transform: rotate(var(--tilt)); animation: place-photo .5s var(--delay) both cubic-bezier(.2, .9, .3, 1.2); }
 	.photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d8d8d8; }
 	.copy { display: flex; min-width: 0; flex-direction: column; }
 	.tag { align-self: flex-start; margin-bottom: .4rem; padding: .18rem .55rem; border-radius: 999px; color: #1a1a1a; font-size: .62rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
@@ -56,8 +56,8 @@
 		from { transform: rotate(0deg) scale(.92) translateY(10px); opacity: 0; }
 		to { transform: rotate(var(--tilt)) scale(1) translateY(0); opacity: 1; }
 	}
-	@media (max-width: 560px) { .note-row { grid-template-columns: 4.2rem minmax(0, 1fr); gap: .8rem; } }
 	@media (prefers-reduced-motion: reduce) {
+		.note-card { transition: none; }
 		.photo { animation: none; transform: rotate(var(--tilt)); }
 	}
 </style>

@@ -31,8 +31,7 @@
 </section>
 
 <section class="members-section">
-	<p class="eyebrow">Members</p>
-	<h2>メンバー</h2>
+	<h2>MEMBERS</h2>
 	<ul class="members">
 		<li><strong>はる</strong><span>犬・監督・演出・アート</span></li>
 		<li><strong>ふぉるね</strong><span>企画・撮影・編集・開発</span></li>
@@ -42,8 +41,7 @@
 </section>
 
 <section class="contact">
-	<p class="eyebrow">Contact</p>
-	<h2>お問い合わせ</h2>
+	<h2>CONTACT</h2>
 	<p>お問い合わせフォームは現在準備中です。</p>
 </section>
 

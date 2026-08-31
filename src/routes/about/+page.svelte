@@ -36,7 +36,13 @@
 		<li class="tilt-1"><span class="tape" aria-hidden="true"></span><strong>はる</strong><span class="roles">犬・監督・演出・アート</span></li>
 		<li class="tilt-2"><span class="tape" aria-hidden="true"></span><strong>ふぉるね</strong><span class="roles">企画・撮影・編集・開発</span></li>
 		<li class="tilt-3"><span class="tape" aria-hidden="true"></span><strong>ウィンダル</strong><span class="roles">企画・演出・撮影・編集</span></li>
-		<li class="tilt-4"><span class="tape" aria-hidden="true"></span><strong>なっつ</strong><span class="roles">開発・サウンド・編集・企画</span></li>
+		<li class="tilt-4 me">
+			<span class="tape" aria-hidden="true"></span>
+			<svg class="waveform" viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
+				<rect x="0" y="14" width="4" height="12" /><rect x="8" y="6" width="4" height="28" /><rect x="16" y="10" width="4" height="20" /><rect x="24" y="2" width="4" height="36" /><rect x="32" y="16" width="4" height="8" /><rect x="40" y="8" width="4" height="24" /><rect x="48" y="4" width="4" height="32" /><rect x="56" y="12" width="4" height="16" /><rect x="64" y="0" width="4" height="40" /><rect x="72" y="10" width="4" height="20" /><rect x="80" y="6" width="4" height="28" /><rect x="88" y="14" width="4" height="12" /><rect x="96" y="4" width="4" height="32" /><rect x="104" y="16" width="4" height="8" /><rect x="112" y="8" width="4" height="24" />
+			</svg>
+			<strong>なっつ</strong><span class="roles">開発・サウンド・編集・企画</span>
+		</li>
 	</ul>
 </section>
 
@@ -83,6 +89,11 @@
 	.members li.tilt-4 { transform: rotate(1.6deg); }
 	.members .tape { position: absolute; top: -.4rem; left: 50%; width: 2.4rem; height: 1rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; transform: translateX(-50%) rotate(-2deg); }
 	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
+	.members li.me { color: #628878; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+	.members li.me .waveform { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: .2; }
+	.members li.me .waveform rect { fill: #628878; }
+	.members li.me strong, .members li.me .roles { position: relative; z-index: 1; }
+	.members li.me .roles { color: #4b6b5c; }
 	@media (max-width: 680px) {
 		.character { grid-template-columns: 1fr; }
 		.portrait-frame { width: min(280px, 70%); margin: 0 auto; }

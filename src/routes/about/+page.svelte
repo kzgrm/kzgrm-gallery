@@ -38,12 +38,6 @@
 		<li class="tilt-3"><span class="tape" aria-hidden="true"></span><strong>ウィンダル</strong><span class="roles">企画・演出・撮影・編集</span></li>
 		<li class="tilt-4 me">
 			<span class="tape" aria-hidden="true"></span>
-			<svg class="waveform" viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
-				<g class="spectrum">
-					<rect x="0" y="30" width="2" height="10" /><rect x="4" y="20" width="2" height="20" /><rect x="8" y="10" width="2" height="30" /><rect x="12" y="24" width="2" height="16" /><rect x="16" y="6" width="2" height="34" /><rect x="20" y="16" width="2" height="24" /><rect x="24" y="4" width="2" height="36" /><rect x="28" y="22" width="2" height="18" /><rect x="32" y="12" width="2" height="28" /><rect x="36" y="18" width="2" height="22" /><rect x="40" y="8" width="2" height="32" /><rect x="44" y="26" width="2" height="14" /><rect x="48" y="14" width="2" height="26" /><rect x="52" y="8" width="2" height="32" /><rect x="56" y="20" width="2" height="20" /><rect x="60" y="12" width="2" height="28" /><rect x="64" y="24" width="2" height="16" /><rect x="68" y="6" width="2" height="34" /><rect x="72" y="18" width="2" height="22" /><rect x="76" y="10" width="2" height="30" /><rect x="80" y="22" width="2" height="18" /><rect x="84" y="4" width="2" height="36" /><rect x="88" y="16" width="2" height="24" /><rect x="92" y="28" width="2" height="12" /><rect x="96" y="12" width="2" height="28" /><rect x="100" y="20" width="2" height="20" /><rect x="104" y="8" width="2" height="32" /><rect x="108" y="24" width="2" height="16" /><rect x="112" y="14" width="2" height="26" /><rect x="116" y="18" width="2" height="22" />
-				</g>
-				<path class="envelope" d="M0,22 Q10,8 20,20 Q30,32 40,14 Q50,4 60,24 Q70,34 80,12 Q90,2 100,22 Q110,32 120,16" />
-			</svg>
 			<strong>なっつ</strong><span class="roles">開発・サウンド・編集・企画</span>
 		</li>
 	</ul>
@@ -100,12 +94,7 @@
 	.members li.tilt-4 { transform: rotate(1.6deg); }
 	.members .tape { position: absolute; top: -.4rem; left: 50%; width: 2.4rem; height: 1rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; transform: translateX(-50%) rotate(-2deg); }
 	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
-	.members li.me { color: #628878; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
-	.members li.me .waveform { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
-	.members li.me .waveform .spectrum rect { fill: #628878; opacity: .16; }
-	.members li.me .waveform .envelope { fill: none; stroke: #628878; stroke-width: 1.6; stroke-linecap: round; opacity: .5; }
-	.members li.me strong, .members li.me .roles { position: relative; z-index: 1; }
-	.members li.me .roles { color: #4b6b5c; }
+	.members li.me { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
 	@media (max-width: 680px) {
 		.character { grid-template-columns: 1fr; }
 		.portrait-frame { width: min(280px, 70%); margin: 0 auto; }

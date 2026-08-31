@@ -82,7 +82,15 @@
 	.members-section, .contact { margin-top: 1rem; padding: 1rem; border: 1px solid #4e5a80; background: rgba(255,255,255,.92); box-shadow: 5px 5px 0 rgba(90,101,177,.2); }
 	.members-section h2, .contact h2 { margin: 0 0 .8rem; padding-bottom: .4rem; border-bottom: 2px dotted #7d87a2; color: #303b78; font: 800 .92rem monospace; letter-spacing: .08em; }
 	.members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1.4rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
-	.members li { position: relative; display: grid; gap: .3rem; padding: .9rem .95rem .8rem; border: 1px dashed var(--border-strong); background: #fffdf6; box-shadow: 2px 4px 8px #28304a26; }
+	.members li {
+		position: relative; display: grid; gap: .3rem; padding: 1.15rem 1.2rem 1.05rem; background: #fffdf6; box-shadow: 4px 6px 0 #a89873, 6px 11px 12px #28304a3d;
+		clip-path: polygon(
+			0% 4%, 5% 0%, 10% 6%, 16% 1%, 22% 7%, 28% 0%, 34% 6%, 40% 1%, 46% 7%, 52% 0%, 58% 6%, 64% 1%, 70% 7%, 76% 0%, 82% 6%, 88% 1%, 94% 7%, 100% 2%,
+			92% 10%, 100% 18%, 90% 26%, 100% 34%, 92% 42%, 100% 50%, 90% 58%, 100% 66%, 92% 74%, 100% 82%, 90% 90%, 100% 98%,
+			94% 100%, 88% 94%, 82% 100%, 76% 94%, 70% 100%, 64% 94%, 58% 100%, 52% 94%, 46% 100%, 40% 94%, 34% 100%, 28% 94%, 22% 100%, 16% 94%, 10% 100%, 5% 94%, 0% 98%,
+			8% 90%, 0% 82%, 10% 74%, 0% 66%, 8% 58%, 0% 50%, 10% 42%, 0% 34%, 8% 26%, 0% 18%, 10% 10%
+		);
+	}
 	.members li.tilt-1 { transform: rotate(-1.6deg); }
 	.members li.tilt-2 { transform: rotate(1.3deg); }
 	.members li.tilt-3 { transform: rotate(-1deg); }

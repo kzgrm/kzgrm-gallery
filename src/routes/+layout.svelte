@@ -185,7 +185,10 @@
 {/snippet}
 
 {#snippet menuClip(color: string, rotate: number, x: number, y: number)}
-	<svg viewBox="0 0 24 24" class="menu-clip" style={`--rotate:${rotate}deg; --x:${x}px; --y:${y}px`} aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke={color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+	<svg viewBox="0 0 24 24" class="menu-clip" style={`--rotate:${rotate}deg; --x:${x}px; --y:${y}px`} aria-hidden="true">
+		<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke="#212121" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+		<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke={color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+	</svg>
 {/snippet}
 
 {#snippet menuIconHome()}
@@ -329,8 +332,8 @@
 	.menu-button:hover { background: #f8fafc; }
 	.menu-icon { width: 28px; height: 28px; }
 	.site-menu { position: absolute; top: calc(100% + .65rem); right: 0; display: grid; width: min(21rem, calc(100vw - 1.5rem)); padding: 1.1rem .55rem .55rem; border: 1px solid var(--border); border-radius: 4px; background: #fffdf6; box-shadow: 0 18px 50px #0f172a24; }
-	.menu-clips { position: absolute; top: -.65rem; right: .7rem; width: 3.2rem; height: 2.4rem; pointer-events: none; }
-	.menu-clip { position: absolute; top: var(--y); right: var(--x); width: 1.4rem; height: 1.4rem; transform: rotate(var(--rotate)); filter: drop-shadow(0 1px 1px #0f172a33); }
+	.menu-clips { position: absolute; top: -.85rem; right: .6rem; width: 4rem; height: 3rem; pointer-events: none; }
+	.menu-clip { position: absolute; top: var(--y); right: var(--x); width: 2rem; height: 2rem; transform: rotate(var(--rotate)); filter: drop-shadow(0 1px 1px #0f172a33); }
 	.site-menu a { display: grid; grid-template-columns: 2rem 1fr; column-gap: .55rem; padding: .65rem .7rem; border-bottom: 1px dashed var(--border-strong); color: var(--text); text-decoration: none; }
 	.site-menu a:last-of-type { border-bottom: none; }
 	.site-menu a:hover { background: #f1f5f966; }
@@ -345,13 +348,6 @@
 	.menu-records.active > span { color: #d2d1d6; }
 	.menu-news.active > span { color: #a66fe4; }
 	.menu-about.active > span { color: #5a65b1; }
-	.menu-home.active, .menu-works.active, .menu-records.active, .menu-news.active, .menu-about.active { position: relative; }
-	.menu-home.active::before, .menu-works.active::before, .menu-records.active::before, .menu-news.active::before, .menu-about.active::before { position: absolute; top: .35rem; bottom: .35rem; left: 0; width: 3px; border-radius: 0 999px 999px 0; content: ''; }
-	.menu-home.active::before { background: #a66fe4; }
-	.menu-works.active::before { background: #ffda52; }
-	.menu-records.active::before { background: #d2d1d6; }
-	.menu-news.active::before { background: #a66fe4; }
-	.menu-about.active::before { background: #5a65b1; }
 	main { width: min(100% - 2rem, 1120px); flex: 1; margin: 0 auto; padding: clamp(2rem, 5vw, 4.5rem) 0; }
 	main.home-page { width: min(100% - 2rem, 1280px); padding-top: .75rem; padding-bottom: 1.5rem; }
 	footer { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem 1.25rem; padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }

@@ -184,13 +184,6 @@
 	<svg class="search-icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" /><line x1="21" y1="21" x2="16.65" y2="16.65" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
 {/snippet}
 
-{#snippet menuClip(color: string, rotate: number, x: number, y: number)}
-	<svg viewBox="0 0 24 24" class="menu-clip" style={`--rotate:${rotate}deg; --x:${x}px; --y:${y}px`} aria-hidden="true">
-		<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke="#212121" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
-		<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" fill="none" stroke={color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
-	</svg>
-{/snippet}
-
 {#snippet menuIconHome()}
 	<svg viewBox="0 0 100 100" class="menu-icon-svg" aria-hidden="true"><g transform="translate(0 0) rotate(0 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#5A65B1"></path></g><g transform="translate(0 0) rotate(90 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#FFDA52"></path></g><g transform="translate(0 0) rotate(180 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#D2D1D6"></path></g><g transform="translate(0 0) rotate(270 50 50)"><path stroke-width="9" stroke-linejoin="round" d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#212121" stroke="#212121"></path><path d="M50,50 L50,24 A26,26 0 0 1 76,50 Z" fill="#A66FE4"></path></g></svg>
 {/snippet}
@@ -254,12 +247,6 @@
 			</button>
 			{#if menuOpen}
 				<nav id="site-menu" class="site-menu" aria-label="すべての機能">
-					<span class="menu-clips" aria-hidden="true">
-						{@render menuClip('#5A65B1', -18, 0, 4)}
-						{@render menuClip('#FFDA52', 10, 10, 8)}
-						{@render menuClip('#D2D1D6', -6, 20, 2)}
-						{@render menuClip('#A66FE4', 22, 28, 7)}
-					</span>
 					<form class="header-search menu-search" onsubmit={submitSearch}>
 						{@render searchIcon()}
 						<input bind:value={searchQuery} type="search" placeholder="作品を検索" aria-label="作品を検索" />
@@ -331,9 +318,7 @@
 	.menu-button { display: grid; width: 48px; height: 48px; place-content: center; padding: 0; border: none; border-radius: 12px; color: var(--text); background: transparent; cursor: pointer; }
 	.menu-button:hover { background: #f8fafc; }
 	.menu-icon { width: 28px; height: 28px; }
-	.site-menu { position: absolute; top: calc(100% + .65rem); right: 0; display: grid; width: min(21rem, calc(100vw - 1.5rem)); padding: 1.1rem .55rem .55rem; border: 1px solid var(--border); border-radius: 4px; background: #fffdf6; box-shadow: 0 18px 50px #0f172a24; }
-	.menu-clips { position: absolute; top: -.85rem; right: .6rem; width: 4rem; height: 3rem; pointer-events: none; }
-	.menu-clip { position: absolute; top: var(--y); right: var(--x); width: 2rem; height: 2rem; transform: rotate(var(--rotate)); filter: drop-shadow(0 1px 1px #0f172a33); }
+	.site-menu { position: absolute; top: calc(100% + .65rem); right: 0; display: grid; width: min(21rem, calc(100vw - 1.5rem)); padding: .55rem; border: 1px solid var(--border); border-radius: 4px; background: #fffdf6; box-shadow: 0 18px 50px #0f172a24; }
 	.site-menu a { display: grid; grid-template-columns: 2rem 1fr; column-gap: .55rem; padding: .65rem .7rem; border-bottom: 1px dashed var(--border-strong); color: var(--text); text-decoration: none; }
 	.site-menu a:last-of-type { border-bottom: none; }
 	.site-menu a:hover { background: #f1f5f966; }

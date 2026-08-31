@@ -15,7 +15,7 @@
 </script>
 
 <p class="result-count" aria-live="polite">{filtered.length}件</p>
-<ul class="cards">
+<ul class="note-list">
 	{#each filtered as item, index (item.slug)}
 		<li in:fly={{ y: 10, duration: 180 }} out:fly={{ y: -10, duration: 150 }} animate:flip={{ duration: 240 }}>
 			<NoteCard {item} {index} />
@@ -25,8 +25,6 @@
 
 <style>
 	.result-count { margin: 0 0 1rem; color: var(--faint); font-size: .78rem; }
-	.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
-	.cards li { min-width: 0; }
-	@media (max-width: 860px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-	@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+	.note-list { margin: 0; padding: 0; border-top: 1px dashed var(--border-strong); list-style: none; }
+	.note-list li { min-width: 0; }
 </style>

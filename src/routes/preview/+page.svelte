@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import ContentArticle from '$lib/components/ContentArticle.svelte';
-	import WorkGrid from '$lib/components/WorkGrid.svelte';
+	import ContentGrid from '$lib/components/ContentGrid.svelte';
 	import { decodePreviewMessage, previewMessageType, validPreviewToken } from '$lib/preview-contract.js';
 	import { renderPreviewMarkdown } from '$lib/preview-markdown';
 	import { homepagePreviewState } from '$lib/preview-state.svelte';
@@ -55,12 +55,11 @@
 {:else if !content}
 	<section class="waiting" aria-live="polite"><p class="eyebrow">PREVIEW</p><h1>Compassから内容を受け取っています</h1></section>
 {:else}
-	{#if content.kind === 'work'}
-		<section class="card-preview" aria-label="作品一覧での表示">
-			<p class="eyebrow">作品一覧での表示</p>
-			<div class="noninteractive"><WorkGrid works={[content]} /></div>
-		</section>
-	{/if}
+	{@const listingLabel = { work: '作品', record: '記録', news: 'お知らせ' }[content.kind]}
+	<section class="card-preview" aria-label={`${listingLabel}一覧での表示`}>
+		<p class="eyebrow">{listingLabel}一覧での表示</p>
+		<div class="noninteractive"><ContentGrid items={[content]} /></div>
+	</section>
 	<ContentArticle content={content} backUrl={`${base}/${labels[content.kind].collection}/`} backLabel={labels[content.kind].back} eyebrow={labels[content.kind].eyebrow} />
 {/if}
 

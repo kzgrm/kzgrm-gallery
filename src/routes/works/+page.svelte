@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import WorkGrid from '$lib/components/WorkGrid.svelte';
+	import ContentGrid from '$lib/components/ContentGrid.svelte';
 	import type { ContentSummary } from '$lib/types/content';
 
 	let { data }: { data: { works: ContentSummary[] } } = $props();
@@ -14,6 +14,6 @@
 </svelte:head>
 
 <h1>作品</h1>
-<WorkGrid works={data.works} {query} />
+<ContentGrid items={data.works} {query} />
 
 <style>h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.4rem); }</style>

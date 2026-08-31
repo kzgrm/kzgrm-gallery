@@ -33,10 +33,10 @@
 <section class="members-section">
 	<h2>MEMBERS</h2>
 	<ul class="members">
-		<li><strong>はる</strong><span>犬・監督・演出・アート</span></li>
-		<li><strong>ふぉるね</strong><span>企画・撮影・編集・開発</span></li>
-		<li><strong>ウィンダル</strong><span>企画・演出・撮影・編集</span></li>
-		<li><strong>なっつ</strong><span>開発・サウンド・編集・企画</span></li>
+		<li class="tilt-1"><span class="tape" aria-hidden="true"></span><strong>はる</strong><span class="roles">犬・監督・演出・アート</span></li>
+		<li class="tilt-2"><span class="tape" aria-hidden="true"></span><strong>ふぉるね</strong><span class="roles">企画・撮影・編集・開発</span></li>
+		<li class="tilt-3"><span class="tape" aria-hidden="true"></span><strong>ウィンダル</strong><span class="roles">企画・演出・撮影・編集</span></li>
+		<li class="tilt-4"><span class="tape" aria-hidden="true"></span><strong>なっつ</strong><span class="roles">開発・サウンド・編集・企画</span></li>
 	</ul>
 </section>
 
@@ -75,9 +75,14 @@
 	.character a span { justify-self: end; color: #596483; font: .72rem monospace; text-decoration: none; }
 	.members-section, .contact { margin-top: 1rem; padding: 1rem; border: 1px solid #4e5a80; background: rgba(255,255,255,.92); box-shadow: 5px 5px 0 rgba(90,101,177,.2); }
 	.members-section h2, .contact h2 { margin: 0 0 .8rem; padding-bottom: .4rem; border-bottom: 2px dotted #7d87a2; color: #303b78; font: 800 .92rem monospace; letter-spacing: .08em; }
-	.members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0 0; padding: 0; list-style: none; }
-	.members li { display: grid; gap: .25rem; padding: .85rem; border-radius: var(--radius); background: var(--accent-soft); }
-	.members span, .contact p:last-child { color: var(--muted); font-size: .82rem; }
+	.members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1.4rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
+	.members li { position: relative; display: grid; gap: .3rem; padding: .9rem .95rem .8rem; border: 1px dashed var(--border-strong); background: #fffdf6; box-shadow: 2px 4px 8px #28304a26; }
+	.members li.tilt-1 { transform: rotate(-1.6deg); }
+	.members li.tilt-2 { transform: rotate(1.3deg); }
+	.members li.tilt-3 { transform: rotate(-1deg); }
+	.members li.tilt-4 { transform: rotate(1.6deg); }
+	.members .tape { position: absolute; top: -.4rem; left: 50%; width: 2.4rem; height: 1rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; transform: translateX(-50%) rotate(-2deg); }
+	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
 	@media (max-width: 680px) {
 		.character { grid-template-columns: 1fr; }
 		.portrait-frame { width: min(280px, 70%); margin: 0 auto; }

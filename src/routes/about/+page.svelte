@@ -39,7 +39,10 @@
 		<li class="tilt-4 me">
 			<span class="tape" aria-hidden="true"></span>
 			<svg class="waveform" viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
-				<rect x="0" y="14" width="4" height="12" /><rect x="8" y="6" width="4" height="28" /><rect x="16" y="10" width="4" height="20" /><rect x="24" y="2" width="4" height="36" /><rect x="32" y="16" width="4" height="8" /><rect x="40" y="8" width="4" height="24" /><rect x="48" y="4" width="4" height="32" /><rect x="56" y="12" width="4" height="16" /><rect x="64" y="0" width="4" height="40" /><rect x="72" y="10" width="4" height="20" /><rect x="80" y="6" width="4" height="28" /><rect x="88" y="14" width="4" height="12" /><rect x="96" y="4" width="4" height="32" /><rect x="104" y="16" width="4" height="8" /><rect x="112" y="8" width="4" height="24" />
+				<g class="spectrum">
+					<rect x="0" y="30" width="2" height="10" /><rect x="4" y="20" width="2" height="20" /><rect x="8" y="10" width="2" height="30" /><rect x="12" y="24" width="2" height="16" /><rect x="16" y="6" width="2" height="34" /><rect x="20" y="16" width="2" height="24" /><rect x="24" y="4" width="2" height="36" /><rect x="28" y="22" width="2" height="18" /><rect x="32" y="12" width="2" height="28" /><rect x="36" y="18" width="2" height="22" /><rect x="40" y="8" width="2" height="32" /><rect x="44" y="26" width="2" height="14" /><rect x="48" y="14" width="2" height="26" /><rect x="52" y="8" width="2" height="32" /><rect x="56" y="20" width="2" height="20" /><rect x="60" y="12" width="2" height="28" /><rect x="64" y="24" width="2" height="16" /><rect x="68" y="6" width="2" height="34" /><rect x="72" y="18" width="2" height="22" /><rect x="76" y="10" width="2" height="30" /><rect x="80" y="22" width="2" height="18" /><rect x="84" y="4" width="2" height="36" /><rect x="88" y="16" width="2" height="24" /><rect x="92" y="28" width="2" height="12" /><rect x="96" y="12" width="2" height="28" /><rect x="100" y="20" width="2" height="20" /><rect x="104" y="8" width="2" height="32" /><rect x="108" y="24" width="2" height="16" /><rect x="112" y="14" width="2" height="26" /><rect x="116" y="18" width="2" height="22" />
+				</g>
+				<path class="envelope" d="M0,22 Q10,8 20,20 Q30,32 40,14 Q50,4 60,24 Q70,34 80,12 Q90,2 100,22 Q110,32 120,16" />
 			</svg>
 			<strong>なっつ</strong><span class="roles">開発・サウンド・編集・企画</span>
 		</li>
@@ -83,12 +86,12 @@
 	.members-section h2, .contact h2 { margin: 0 0 .8rem; padding-bottom: .4rem; border-bottom: 2px dotted #7d87a2; color: #303b78; font: 800 .92rem monospace; letter-spacing: .08em; }
 	.members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1.4rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
 	.members li {
-		position: relative; display: grid; gap: .3rem; padding: 1.15rem 1.2rem 1.05rem; background: #fffdf6; box-shadow: 4px 6px 0 #a89873, 6px 11px 12px #28304a3d;
+		position: relative; display: grid; gap: .3rem; padding: 1.15rem 1.2rem 1.05rem; background: #fffdf6; box-shadow: 2px 3px 0 #a89873, 4px 7px 10px #28304a30;
 		clip-path: polygon(
-			0% 4%, 5% 0%, 10% 6%, 16% 1%, 22% 7%, 28% 0%, 34% 6%, 40% 1%, 46% 7%, 52% 0%, 58% 6%, 64% 1%, 70% 7%, 76% 0%, 82% 6%, 88% 1%, 94% 7%, 100% 2%,
-			92% 10%, 100% 18%, 90% 26%, 100% 34%, 92% 42%, 100% 50%, 90% 58%, 100% 66%, 92% 74%, 100% 82%, 90% 90%, 100% 98%,
-			94% 100%, 88% 94%, 82% 100%, 76% 94%, 70% 100%, 64% 94%, 58% 100%, 52% 94%, 46% 100%, 40% 94%, 34% 100%, 28% 94%, 22% 100%, 16% 94%, 10% 100%, 5% 94%, 0% 98%,
-			8% 90%, 0% 82%, 10% 74%, 0% 66%, 8% 58%, 0% 50%, 10% 42%, 0% 34%, 8% 26%, 0% 18%, 10% 10%
+			0% 1%, 12% 0%, 25% 1.5%, 38% 0.5%, 50% 1.5%, 62% 0%, 75% 1.5%, 88% 0.5%, 100% 1%,
+			99% 15%, 100% 30%, 99% 50%, 100% 70%, 99% 85%, 100% 99%,
+			88% 100%, 75% 98.5%, 62% 100%, 50% 98.5%, 38% 100%, 25% 98.5%, 12% 100%, 0% 99%,
+			1% 85%, 0% 70%, 1% 50%, 0% 30%, 1% 15%
 		);
 	}
 	.members li.tilt-1 { transform: rotate(-1.6deg); }
@@ -98,8 +101,9 @@
 	.members .tape { position: absolute; top: -.4rem; left: 50%; width: 2.4rem; height: 1rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; transform: translateX(-50%) rotate(-2deg); }
 	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
 	.members li.me { color: #628878; font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
-	.members li.me .waveform { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: .2; }
-	.members li.me .waveform rect { fill: #628878; }
+	.members li.me .waveform { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
+	.members li.me .waveform .spectrum rect { fill: #628878; opacity: .16; }
+	.members li.me .waveform .envelope { fill: none; stroke: #628878; stroke-width: 1.6; stroke-linecap: round; opacity: .5; }
 	.members li.me strong, .members li.me .roles { position: relative; z-index: 1; }
 	.members li.me .roles { color: #4b6b5c; }
 	@media (max-width: 680px) {

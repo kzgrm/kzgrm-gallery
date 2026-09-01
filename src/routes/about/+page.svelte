@@ -12,16 +12,16 @@
 </header>
 
 <section class="character">
+	<div class="character-info">
+		<h2>風下 <small>kazashimo</small></h2>
+	</div>
 	<div class="portrait-frame">
 		<img class="character-portrait" src={portrait} alt="片手を上げる風下" />
 		<span class="tape corner-tl" aria-hidden="true"></span>
 		<span class="tape corner-tr" aria-hidden="true"></span>
 		<span class="tape corner-bl" aria-hidden="true"></span>
 		<span class="tape corner-br" aria-hidden="true"></span>
-	</div>
-	<div class="character-info">
-		<h2>風下 <small>kazashimo</small></h2>
-		<ul>
+		<ul class="character-links">
 			<li class="tilt-1"><a href="https://www.youtube.com/@Kazashimo_Ch" target="_blank" rel="noopener noreferrer">YouTube <span>@Kazashimo_Ch</span></a></li>
 			<li class="tilt-2"><a href="https://x.com/haru01234567890" target="_blank" rel="noopener noreferrer">X <span>@haru01234567890</span></a></li>
 			<li class="tilt-3"><a href="https://www.tiktok.com/@kazashimo9346" target="_blank" rel="noopener noreferrer">TikTok <span>@kazashimo9346</span></a></li>
@@ -51,18 +51,20 @@
 <style>
 	.intro { max-width: 820px; margin-bottom: clamp(2rem, 5vw, 4rem); }
 	.intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
-	.character { display: grid; grid-template-columns: minmax(0, 420px) 1fr; align-items: center; gap: clamp(1.5rem, 5vw, 3rem); }
-	.portrait-frame { position: relative; }
+	.character { display: block; }
+	.character-info { min-width: 0; margin-bottom: 1.25rem; }
+	.portrait-frame { position: relative; width: 100%; }
 	.character-portrait { display: block; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #0000001a; object-fit: cover; object-position: center 25%; background: #fffdf6; box-shadow: 3px 6px 14px #28304a3d; }
 	.tape { position: absolute; width: 2.8rem; height: 1.15rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; }
 	.corner-tl { top: -.45rem; left: -.5rem; transform: rotate(-42deg); }
 	.corner-tr { top: -.45rem; right: -.5rem; transform: rotate(42deg); }
 	.corner-bl { bottom: -.45rem; left: -.5rem; transform: rotate(42deg); }
 	.corner-br { bottom: -.45rem; right: -.5rem; transform: rotate(-42deg); }
-	.character-info { min-width: 0; }
 	.character h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.3rem); }
 	.character h2 small { display: block; color: var(--muted); font-size: .8rem; font-weight: 500; letter-spacing: .14em; }
-	.character ul { display: flex; flex-direction: column; align-items: flex-start; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+	/* SNSリンクは写真の上に直接貼り付けられた付箋として表示する。
+	   写真の下端に沿って並べ、幅が足りない画面では自然に折り返す。 */
+	.character-links { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: .55rem; margin: 0; padding: 1rem; list-style: none; }
 	.character li { --link-color: #5a65b1; }
 	.character li:nth-child(2) { --link-color: #a66fe4; }
 	.character li:nth-child(3) { --link-color: #d0a900; }
@@ -115,11 +117,9 @@
 	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
 	.members li.me { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
 	@media (max-width: 680px) {
-		.character { grid-template-columns: 1fr; }
-		.portrait-frame { width: min(280px, 70%); margin: 0 auto; }
-		.character-info { width: 100%; }
 		.character h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
-		.character ul { margin-top: 1.25rem; }
+		.character-links { padding: .65rem; gap: .4rem; }
+		.character a { padding: .3rem .5rem; font-size: .7rem; }
 		.members { grid-template-columns: 1fr; }
 	}
 	@media (prefers-reduced-motion: reduce) { .character a { transition: none; animation: none; } }

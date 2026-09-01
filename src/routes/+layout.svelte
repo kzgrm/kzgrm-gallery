@@ -333,7 +333,7 @@
 	.menu-records.active > span { color: #d2d1d6; }
 	.menu-news.active > span { color: #a66fe4; }
 	.menu-about.active > span { color: #5a65b1; }
-	main { width: min(100% - 2rem, 1120px); flex: 1; margin: 0 auto; padding: clamp(2rem, 5vw, 4.5rem) 0; }
+	main { width: min(100% - 2rem, 1120px); flex: 1; margin: 0 auto; padding: clamp(1rem, 2vw, 1.5rem) 0 clamp(2rem, 5vw, 4.5rem); }
 	main.home-page { width: min(100% - 2rem, 1280px); padding-top: .75rem; padding-bottom: 1.5rem; }
 	footer { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem 1.25rem; padding: 1rem; border-top: 1px solid var(--border); color: var(--faint); text-align: center; }
 	footer small { font-size: .74rem; letter-spacing: .04em; }
@@ -356,7 +356,7 @@
 		.desktop-only-search { display: none; }
 		.menu-shell { display: block; }
 		.menu-button { width: 44px; height: 44px; }
-		main { width: min(100% - 1.25rem, 1120px); padding-top: 1rem; padding-bottom: 4rem; }
+		main { width: min(100% - 1.25rem, 1120px); padding-top: .75rem; padding-bottom: 4rem; }
 		main.home-page { width: min(100% - 1.25rem, 1280px); padding-top: .35rem; padding-bottom: 1rem; }
 	}
 </style>

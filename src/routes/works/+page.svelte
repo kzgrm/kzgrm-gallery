@@ -16,4 +16,4 @@
 <h1>作品</h1>
 <ContentGrid items={data.works} {query} />
 
-<style>h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.4rem); }</style>
+<style>h1 { margin: 0 0 1.5rem; font-size: clamp(2rem, 6vw, 3.4rem); }</style>

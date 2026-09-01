@@ -53,7 +53,7 @@
 	.intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
 	.character { display: grid; grid-template-columns: minmax(0, 420px) 1fr; align-items: center; gap: clamp(1.5rem, 5vw, 3rem); }
 	.portrait-frame { position: relative; }
-	.character-portrait { display: block; width: 100%; aspect-ratio: 3 / 4; border: 1px solid #0000001a; object-fit: cover; object-position: center 25%; background: #fffdf6; box-shadow: 3px 6px 14px #28304a3d; }
+	.character-portrait { display: block; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #0000001a; object-fit: cover; object-position: center 25%; background: #fffdf6; box-shadow: 3px 6px 14px #28304a3d; }
 	.tape { position: absolute; width: 2.8rem; height: 1.15rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; }
 	.corner-tl { top: -.45rem; left: -.5rem; transform: rotate(-42deg); }
 	.corner-tr { top: -.45rem; right: -.5rem; transform: rotate(42deg); }
@@ -62,7 +62,7 @@
 	.character-info { min-width: 0; }
 	.character h2 { margin: 0; font-size: clamp(2rem, 5vw, 3.3rem); }
 	.character h2 small { display: block; color: var(--muted); font-size: .8rem; font-weight: 500; letter-spacing: .14em; }
-	.character ul { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+	.character ul { display: flex; flex-direction: column; align-items: flex-start; gap: .6rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
 	.character li { --link-color: #5a65b1; }
 	.character li:nth-child(2) { --link-color: #a66fe4; }
 	.character li:nth-child(3) { --link-color: #d0a900; }

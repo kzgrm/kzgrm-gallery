@@ -115,7 +115,10 @@
 	.members li.tilt-4 { transform: rotate(1.6deg); }
 	.members .tape { position: absolute; z-index: 1; top: -.4rem; left: 50%; width: 2.4rem; height: 1rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; transform: translateX(-50%) rotate(-2deg); }
 	.members .roles, .contact p:last-child { color: var(--muted); font-size: .82rem; }
-	.members li.me { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+	/* モノスペース指定は名前だけに留める。liごと適用すると.rolesの日本語も
+	   このフォントスタックへフォールバックし、他メンバーと書体が変わって
+	   見た目の太さが違って見えてしまう。 */
+	.members li.me strong { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
 	@media (max-width: 680px) {
 		.character h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
 		.character-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: start; padding: .65rem; gap: .4rem; }

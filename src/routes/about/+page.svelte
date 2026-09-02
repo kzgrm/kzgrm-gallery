@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { trackImageLoad } from '$lib/actions/trackImageLoad';
 	import portrait from '../../assets/images/about/kzsm.jpg?url';
+	let portraitLoaded = $state(false);
 </script>
 
 <svelte:head>
@@ -16,7 +18,7 @@
 		<h2>風下 <small>kazashimo</small></h2>
 	</div>
 	<div class="portrait-frame">
-		<img class="character-portrait" src={portrait} alt="片手を上げる風下" />
+		<img class="character-portrait" class:loaded={portraitLoaded} src={portrait} alt="片手を上げる風下" use:trackImageLoad={() => (portraitLoaded = true)} />
 		<span class="tape corner-tl" aria-hidden="true"></span>
 		<span class="tape corner-tr" aria-hidden="true"></span>
 		<span class="tape corner-bl" aria-hidden="true"></span>
@@ -54,7 +56,8 @@
 	.character { display: block; }
 	.character-info { min-width: 0; margin-bottom: 1.25rem; }
 	.portrait-frame { position: relative; width: 100%; }
-	.character-portrait { display: block; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #0000001a; object-fit: cover; object-position: center 25%; background: #fffdf6; box-shadow: 3px 6px 14px #28304a3d; }
+	.character-portrait { display: block; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #0000001a; object-fit: cover; object-position: center 25%; background: #fffdf6; box-shadow: 3px 6px 14px #28304a3d; opacity: 0; transform: scale(1.04); transition: opacity .45s ease, transform .45s ease; }
+	.character-portrait.loaded { opacity: 1; transform: scale(1); }
 	.tape { position: absolute; width: 2.8rem; height: 1.15rem; background: #fff9dbb3; box-shadow: 0 1px 2px #0f172a26; }
 	.corner-tl { top: -.45rem; left: -.5rem; transform: rotate(-42deg); }
 	.corner-tr { top: -.45rem; right: -.5rem; transform: rotate(42deg); }
@@ -126,5 +129,5 @@
 		.character a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 		.members { grid-template-columns: 1fr; }
 	}
-	@media (prefers-reduced-motion: reduce) { .character a { transition: none; animation: none; } }
+	@media (prefers-reduced-motion: reduce) { .character a { transition: none; animation: none; } .character-portrait { transition: none; opacity: 1; transform: none; } }
 </style>

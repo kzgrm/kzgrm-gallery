@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
+	import { trackImageLoad } from '$lib/actions/trackImageLoad';
 	import { displayedHomePinPhotos, selectedHomePins, type HomePinPhoto } from '$lib/home-pins';
 	import { addWindImpulse, getWindowMotionImpulse, pendulumIsAtRest, stepPendulum, type PendulumState, type WindowPosition } from '$lib/photo-motion';
 
 	let { photos }: { photos: HomePinPhoto[] } = $props();
+	let loadedPhotos = $state<Record<string, boolean>>({});
 	let board = $state<HTMLElement>();
 	let displayed = $state<HomePinPhoto[]>([]);
 	// Keep ten photos in prerendered HTML and during client-side route mounting. Hydration then
@@ -113,7 +115,7 @@
 			{@const position = gridPosition(index, visiblePhotos.length)}
 			{@const offset = cardOffsets[index]}
 			<figure style={`--start:${initialAngles[index]}deg;--column:${position.column};--row:${position.row};--offset-x:${offset.x}px;--offset-y:${offset.y}px`} data-index={index}>
-				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} />
+				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} class:loaded={loadedPhotos[photo.id]} use:trackImageLoad={() => (loadedPhotos[photo.id] = true)} />
 				{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}
 			</figure>
 		{/each}
@@ -122,7 +124,7 @@
 
 <style>
 	@media(max-width:620px){.photo-board{order:2}}
-	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;pointer-events:none;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
+	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;pointer-events:none;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .45s ease}.photo-board img.loaded{opacity:1;transform:scale(1)}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
 	@media(max-width:620px){.photo-board{display:block;column-count:2;column-gap:.8rem;margin-top:1.25rem;padding:.9rem .35rem}.photo-board figure,.photo-board figure:nth-child(n){width:92%;margin:0 auto 1.2rem;break-inside:avoid}.photo-board figcaption{font-size:.55rem}}
-	@media(prefers-reduced-motion:reduce){.photo-board figure{transform:rotate(0deg);will-change:auto}}
+	@media(prefers-reduced-motion:reduce){.photo-board figure{transform:rotate(0deg);will-change:auto}.photo-board img{transition:none;opacity:1;transform:none}}
 </style>

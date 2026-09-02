@@ -105,8 +105,11 @@ function formatDateLabel(date: string): string {
 	return `${year}/${month}/${day}`;
 }
 
-function routeFor(kind: ContentKind, slug: string): string {
-	const collection = kind === 'work' ? 'works' : kind === 'record' ? 'records' : 'news';
+// worksには個別ページが無い(リンクはexternalUrl頼み)。externalUrlの無い
+// workのurlは旧activities URLからのリダイレクト先として一覧ページに落とす。
+function routeFor(kind: ContentKind, slug: string, externalUrl?: string): string {
+	if (kind === 'work') return externalUrl ?? `${base}/works/`;
+	const collection = kind === 'record' ? 'records' : 'news';
 	return `${base}/${collection}/${encodeURIComponent(slug)}/`;
 }
 
@@ -147,7 +150,7 @@ function readContent(path: string, source: string): SiteContent {
 		rail: attributes.rail === true,
 		listed: publicationState === 'published' && attributes.listed !== false,
 		publicationState,
-		url: routeFor(kind, slug),
+		url: routeFor(kind, slug, optionalString(attributes.externalUrl)),
 		legacyUrl: legacy ? `${base}/activities/${encodeURIComponent(slug)}/` : undefined,
 		html: safeHtml(body, directory)
 	};

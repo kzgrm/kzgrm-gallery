@@ -36,6 +36,8 @@
 
 {#if item.externalUrl}
 	<a class="note-card" href={item.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${item.title}を見る`}>{@render body()}</a>
+{:else if item.kind === 'work'}
+	<div class="note-card no-link">{@render body()}</div>
 {:else}
 	<a class="note-card" href={item.url}>{@render body()}</a>
 {/if}
@@ -44,6 +46,8 @@
 	.note-card { display: flex; flex-direction: column; gap: .75rem; min-width: 0; padding: 1rem; border: 1px dashed var(--border-strong); border-radius: 4px; color: var(--text); text-decoration: none; transition: border-color .15s ease; }
 	.note-card:hover { border-color: var(--accent); }
 	.note-card:hover strong { color: var(--accent-strong); }
+	.note-card.no-link:hover { border-color: var(--border-strong); }
+	.note-card.no-link:hover strong { color: var(--text); }
 	.photo { display: block; overflow: hidden; align-self: center; width: 88%; margin: 0 auto; padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; transform: rotate(var(--tilt)); animation: place-photo .5s var(--delay) both cubic-bezier(.2, .9, .3, 1.2); }
 	.photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d8d8d8; }
 	.copy { display: flex; min-width: 0; flex-direction: column; }

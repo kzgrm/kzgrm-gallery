@@ -5,6 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./001-clip.png
+summary: 風下とほたろーによるTomSka「EVERYBODY DO THE FLOP!」の踊ってみた動画です。
 caption: with ほたろー
 ---
 

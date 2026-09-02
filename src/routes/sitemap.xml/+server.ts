@@ -11,7 +11,6 @@ export function GET() {
 		{ path: '/works/', lastmod: works[0]?.date },
 		{ path: '/records/', lastmod: records[0]?.date },
 		{ path: '/news/', lastmod: news[0]?.date },
-		...works.map((item) => ({ path: `/works/${item.slug}/`, lastmod: item.date })),
 		...records.map((item) => ({ path: `/records/${item.slug}/`, lastmod: item.date })),
 		...news.map((item) => ({ path: `/news/${item.slug}/`, lastmod: item.date }))
 	];

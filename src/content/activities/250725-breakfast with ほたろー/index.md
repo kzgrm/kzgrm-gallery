@@ -5,6 +5,8 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./001.png
+externalUrl: https://x.com/haru01234567890/status/1948654458780402160
+summary: 風下とほたろーによるMrs. GREEN APPLE「breakfast」の踊ってみた動画です。
 caption: with ほたろー
 ---
 

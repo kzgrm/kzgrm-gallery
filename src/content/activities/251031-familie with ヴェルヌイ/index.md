@@ -5,6 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail.jpg
+summary: 風下とヴェルヌイによるMrs. GREEN APPLE「familie」の踊ってみた動画です。
 caption: with ヴェルヌイ
 ---
 

@@ -118,8 +118,9 @@
 	.members li.me { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
 	@media (max-width: 680px) {
 		.character h2 { font-size: clamp(1.8rem, 10vw, 2.5rem); }
-		.character-links { padding: .65rem; gap: .4rem; }
-		.character a { padding: .3rem .5rem; font-size: .7rem; }
+		.character-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: start; padding: .65rem; gap: .4rem; }
+		.character a { max-width: 100%; padding: .3rem .5rem; font-size: .66rem; }
+		.character a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 		.members { grid-template-columns: 1fr; }
 	}
 	@media (prefers-reduced-motion: reduce) { .character a { transition: none; animation: none; } }

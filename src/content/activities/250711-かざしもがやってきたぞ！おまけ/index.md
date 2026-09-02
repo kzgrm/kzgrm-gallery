@@ -6,7 +6,7 @@ tags:
   - PV
 thumbnail: ./thumbnail.jpeg
 externalUrl: https://x.com/haru01234567890/status/1943581033154187715
-summary: 風下のグリーティングPV「かざしもがやってきたぞ！」のおまけ映像です。楽曲:旅する人へ/Stranger。
+summary: 楽曲:旅する人へ/Stranger　撮影:ウィンダル・ふぉるね
 caption: おまけ
 ---
 

@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail-clip.png
-summary: 風下とヒンリの「ビターバカンス」踊ってみた動画です。
+summary: 「ビターバカンス」 with ヒンリ　撮影・編集:ウィンダル
 caption: with ヒンリ
 ---
 

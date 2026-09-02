@@ -6,7 +6,7 @@ publicationState: published
 tags:
   - 映像
 thumbnailUrl: https://i.ytimg.com/vi/9-hUz7K5ee0/hqdefault.jpg
-summary: 風下がゆるっと自己紹介する動画です。
+summary: 自己紹介
 externalUrl: https://www.youtube.com/watch?v=9-hUz7K5ee0
 ---
 

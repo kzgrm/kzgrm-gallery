@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/8gtTkhBhUYM/hqdefault.jpg
-summary: 風下とMikiの「プロポーズ」踊ってみたShortsです。
+summary: 「プロポーズ」 with Miki
 externalUrl: https://www.youtube.com/watch?v=8gtTkhBhUYM
 caption: with Miki
 ---

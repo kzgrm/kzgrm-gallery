@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/ydnHK0zrNaQ/hqdefault.jpg
-summary: 風下とノアの「青と夏」踊ってみたShortsです。
+summary: 「青と夏」 with ノア
 externalUrl: https://www.youtube.com/watch?v=ydnHK0zrNaQ
 caption: with ノア
 ---

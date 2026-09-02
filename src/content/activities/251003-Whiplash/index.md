@@ -6,7 +6,7 @@ tags:
   - 踊ってみた
 thumbnail: ./thumbnail.jpg
 externalUrl: https://x.com/haru01234567890/status/1974052249434280222
-summary: 風下がaespa「Whiplash」を踊ってみた動画です。
+summary: aespa「Whiplash」　撮影・編集:ウィンダル
 ---
 
 ![](./thumbnail.jpg)

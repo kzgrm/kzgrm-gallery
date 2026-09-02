@@ -5,7 +5,7 @@ kind: work
 tags:
   - PV
 thumbnail: ./thumbnail.png
-summary: 風下の初お披露目グリーティングPVです。企画:haru・ふぉるね/演出:ウィンダル。
+summary: 音楽:ああああ　演出・制作:ウィンダル
 externalUrl: https://www.youtube.com/watch?v=i8d0nt1eM7Y
 ---
 

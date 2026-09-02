@@ -6,7 +6,7 @@ tags:
   - 踊ってみた
 thumbnail: ./thumbnail.jpg
 externalUrl: https://x.com/haru01234567890/status/1968948180088750239
-summary: 風下が「ハッピーシンセサイザ」を踊ってみた動画です。撮影・編集:ウィンダル。
+summary: EasyPop「ハッピーシンセサイザ」　撮影・編集:ウィンダル
 ---
 
 ![](./thumbnail.jpg)

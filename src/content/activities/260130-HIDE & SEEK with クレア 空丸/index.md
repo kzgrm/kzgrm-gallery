@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail.png
-summary: 風下とクレア・空丸によるプロダクション体育館「HIDE & SEEK」の踊ってみた動画です。
+summary: プロダクション体育館「HIDE & SEEK」　撮影・編集:ウィンダル
 caption: with クレア・空丸
 ---
 

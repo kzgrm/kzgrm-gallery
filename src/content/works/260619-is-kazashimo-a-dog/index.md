@@ -6,7 +6,7 @@ publicationState: published
 tags:
   - 映像
 thumbnailUrl: https://i.ytimg.com/vi/gi-uXelM6zk/hqdefault.jpg
-summary: 風下の種族は犬なのかを検証する動画です。
+summary: 検証動画
 externalUrl: https://www.youtube.com/watch?v=gi-uXelM6zk
 ---
 

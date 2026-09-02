@@ -12,7 +12,7 @@ export default {
 			strict: true
 		}),
 		paths: {
-			base: process.env.GITHUB_ACTIONS === 'true' ? '/kzgrm-gallery' : ''
+			base: ''
 		},
 		prerender: {
 			handleHttpError: 'warn'

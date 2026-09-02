@@ -2,7 +2,7 @@ import { contents, news, records, works } from '$lib/server/content';
 
 export const prerender = true;
 
-const origin = 'https://kzgrm.github.io/kzgrm-gallery';
+const origin = 'https://kzgrm.com';
 
 export function GET() {
 	const pages = [

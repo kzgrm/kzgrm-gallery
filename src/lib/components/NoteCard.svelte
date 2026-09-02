@@ -17,13 +17,34 @@
 	// Deterministic per-item tilt (stable across reloads, no two neighbors
 	// dead-even) instead of a pin holding the photo down.
 	const tiltDeg = $derived(((hash(item.slug) % 130) - 65) / 10); // -6.5..6.5deg
-	const delay = $derived(`${Math.min(index * 60, 480)}ms`);
+
+	let loaded = $state(false);
+
+	// Play the place-photo animation once the image has actually arrived,
+	// not on a fixed timer -- otherwise slow/lazy images pop in mid-animation.
+	// img.complete covers the case where the browser already loaded it from
+	// the prerendered <img src> before this action runs (cache, or fast SSR paint).
+	function trackLoad(img: HTMLImageElement) {
+		if (img.complete) {
+			loaded = true;
+			return;
+		}
+		const onDone = () => { loaded = true; };
+		img.addEventListener('load', onDone);
+		img.addEventListener('error', onDone);
+		return {
+			destroy() {
+				img.removeEventListener('load', onDone);
+				img.removeEventListener('error', onDone);
+			}
+		};
+	}
 </script>
 
 {#snippet body()}
 	{#if item.thumbnail}
-		<span class="photo" style={`--tilt:${tiltDeg}deg; --delay:${delay}`}>
-			<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} />
+		<span class="photo" class:loaded style={`--tilt:${tiltDeg}deg`}>
+			<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} use:trackLoad />
 		</span>
 	{/if}
 	<span class="copy">
@@ -48,7 +69,8 @@
 	.note-card:hover strong { color: var(--accent-strong); }
 	.note-card.no-link:hover { border-color: var(--border-strong); }
 	.note-card.no-link:hover strong { color: var(--text); }
-	.photo { display: block; overflow: hidden; align-self: center; width: 88%; margin: 0 auto; padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; transform: rotate(var(--tilt)); animation: place-photo .5s var(--delay) both cubic-bezier(.2, .9, .3, 1.2); }
+	.photo { display: block; overflow: hidden; align-self: center; width: 88%; margin: 0 auto; padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; opacity: 0; transform: rotate(0deg) scale(.92) translateY(10px); }
+	.photo.loaded { animation: place-photo .5s cubic-bezier(.2, .9, .3, 1.2) both; }
 	.photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d8d8d8; }
 	.copy { display: flex; min-width: 0; flex-direction: column; }
 	.tag { align-self: flex-start; margin-bottom: .4rem; padding: .18rem .55rem; border-radius: 999px; color: #1a1a1a; font-size: .62rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
@@ -62,6 +84,6 @@
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.note-card { transition: none; }
-		.photo { animation: none; transform: rotate(var(--tilt)); }
+		.photo, .photo.loaded { animation: none; opacity: 1; transform: rotate(var(--tilt)); }
 	}
 </style>

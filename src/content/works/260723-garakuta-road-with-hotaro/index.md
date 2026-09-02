@@ -5,6 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/zc3Rh3HEFc8/hqdefault.jpg
+summary: 風下とほたろーの「ガラクタロード」踊ってみたShortsです。
 externalUrl: https://www.youtube.com/watch?v=zc3Rh3HEFc8
 caption: with ほたろー
 ---

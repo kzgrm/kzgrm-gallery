@@ -5,6 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/WPYsdVSsFEg/hqdefault.jpg
+summary: 風下が「Realize!」を踊ってみたShortsです。
 externalUrl: https://www.youtube.com/watch?v=WPYsdVSsFEg
 ---
 

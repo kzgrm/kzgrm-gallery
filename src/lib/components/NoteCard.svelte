@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { trackImageLoad } from '$lib/actions/trackImageLoad';
 	import type { ContentSummary } from '$lib/types/content';
 
 	let { item, index = 0 }: { item: ContentSummary; index?: number } = $props();
@@ -19,32 +20,12 @@
 	const tiltDeg = $derived(((hash(item.slug) % 130) - 65) / 10); // -6.5..6.5deg
 
 	let loaded = $state(false);
-
-	// Play the place-photo animation once the image has actually arrived,
-	// not on a fixed timer -- otherwise slow/lazy images pop in mid-animation.
-	// img.complete covers the case where the browser already loaded it from
-	// the prerendered <img src> before this action runs (cache, or fast SSR paint).
-	function trackLoad(img: HTMLImageElement) {
-		if (img.complete) {
-			loaded = true;
-			return;
-		}
-		const onDone = () => { loaded = true; };
-		img.addEventListener('load', onDone);
-		img.addEventListener('error', onDone);
-		return {
-			destroy() {
-				img.removeEventListener('load', onDone);
-				img.removeEventListener('error', onDone);
-			}
-		};
-	}
 </script>
 
 {#snippet body()}
 	{#if item.thumbnail}
 		<span class="photo" class:loaded style={`--tilt:${tiltDeg}deg`}>
-			<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} use:trackLoad />
+			<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} use:trackImageLoad={() => (loaded = true)} />
 		</span>
 	{/if}
 	<span class="copy">

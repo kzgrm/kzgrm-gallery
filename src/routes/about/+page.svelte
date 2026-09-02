@@ -6,11 +6,12 @@
 
 <svelte:head>
 	<title>かざぐるまについて | かざぐるま</title>
-	<meta name="description" content="サークルKZGRM・かざぐるまについて。" />
+	<meta name="description" content="かざぐるまとは、風下が所属するサークルで、4人のメンバーがイラスト・映像・音楽などを持ち寄り、作品をつくっています。" />
 </svelte:head>
 
 <header class="intro">
 	<h1>かざぐるまについて</h1>
+	<p>かざぐるまとは、風下が所属するサークルで、4人のメンバーがイラスト・映像・音楽などを持ち寄り、作品をつくっています。</p>
 </header>
 
 <section class="character">
@@ -53,6 +54,7 @@
 <style>
 	.intro { max-width: 820px; margin-bottom: clamp(2rem, 5vw, 4rem); }
 	.intro h1 { margin: 0; font-size: clamp(2rem, 6vw, 3.5rem); }
+	.intro p { margin: .9rem 0 0; color: var(--muted); font-size: 1rem; line-height: 1.7; }
 	.character { display: block; }
 	.character-info { min-width: 0; margin-bottom: 1.25rem; }
 	.portrait-frame { position: relative; width: 100%; }

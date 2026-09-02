@@ -4,7 +4,7 @@ date: 2026-03-27
 kind: work
 tags:
   - PV
-thumbnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.webp
 externalUrl: https://x.com/haru01234567890/status/2037439480425320759
 summary: 撮影:ウィンダル　音楽:なっつ
 ---

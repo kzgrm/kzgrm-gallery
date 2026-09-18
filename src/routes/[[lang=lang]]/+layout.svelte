@@ -268,11 +268,11 @@
 			{#if menuOpen}
 				<nav id="site-menu" class="site-menu" aria-label={strings.nav.menuAria}>
 					<div class="menu-search-row">
-						<LanguageSwitch {lang} href={otherLangPath} />
 						<form class="header-search menu-search" onsubmit={submitSearch}>
 							{@render searchIcon()}
 							<input bind:value={searchQuery} type="search" placeholder={strings.nav.search} aria-label={strings.nav.search} />
 						</form>
+						<LanguageSwitch {lang} href={otherLangPath} />
 					</div>
 					<a class="menu-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}><span>{@render menuIconHome()}</span><strong>{strings.nav.home}</strong><small>{strings.nav.homeDesc}</small></a>
 					<a class="menu-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}><span>{@render menuIconActivities()}</span><strong>{strings.nav.works}</strong><small>{strings.nav.worksDesc}</small></a>
@@ -337,7 +337,11 @@
 	.header-search input::placeholder { color: var(--faint); }
 	.desktop-only-search { width: 10.5rem; }
 	.menu-search-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
-	.menu-search { width: 100%; margin-bottom: 0; }
+	/* .header-search's shared base rule sets flex:none, sized to its own content -- fine for the
+	   fixed-width desktop search box, but here .menu-search needs to actually share the row with
+	   the language switch instead of independently claiming width:100% (which, with flex:none
+	   preventing any shrink, pushed the row wider than the menu and clipped/overflowed it). */
+	.menu-search { flex: 1; width: auto; min-width: 0; margin-bottom: 0; }
 	.menu-shell { position: relative; display: none; }
 	.menu-button { display: grid; width: 48px; height: 48px; place-content: center; padding: 0; border: none; border-radius: 12px; color: var(--text); background: transparent; cursor: pointer; }
 	.menu-button:hover { background: #f8fafc; }

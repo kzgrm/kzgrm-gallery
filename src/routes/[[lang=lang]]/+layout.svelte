@@ -236,7 +236,6 @@
 		<img class="site-logo" src={assetPath('/header.webp')} alt="かざぐるま" width="201" height="40" />
 	</a>
 	<div class="header-actions">
-		<LanguageSwitch {lang} href={otherLangPath} label={strings.nav.langSwitch} />
 		<form class="header-search desktop-only-search" onsubmit={submitSearch}>
 			{@render searchIcon()}
 			<input bind:value={searchQuery} type="search" placeholder={strings.nav.search} aria-label={strings.nav.search} />
@@ -246,6 +245,7 @@
 			<a class="nav-records" data-en="records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>{strings.nav.records}</a>
 			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>{strings.nav.about}</a>
 		</nav>
+		<span class="desktop-only-lang"><LanguageSwitch {lang} href={otherLangPath} /></span>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label={strings.nav.openMenuAria} aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
 				<svg class="menu-icon" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false">
@@ -268,7 +268,7 @@
 			{#if menuOpen}
 				<nav id="site-menu" class="site-menu" aria-label={strings.nav.menuAria}>
 					<div class="menu-search-row">
-						<LanguageSwitch {lang} href={otherLangPath} label={strings.nav.langSwitch} />
+						<LanguageSwitch {lang} href={otherLangPath} />
 						<form class="header-search menu-search" onsubmit={submitSearch}>
 							{@render searchIcon()}
 							<input bind:value={searchQuery} type="search" placeholder={strings.nav.search} aria-label={strings.nav.search} />
@@ -378,6 +378,7 @@
 		.site-logo { height: 30px; }
 		.desktop-nav { display: none; }
 		.desktop-only-search { display: none; }
+		.desktop-only-lang { display: none; }
 		.menu-shell { display: block; }
 		.menu-button { width: 44px; height: 44px; }
 		main { width: min(100% - 1.25rem, 1120px); padding-top: .75rem; padding-bottom: 4rem; }

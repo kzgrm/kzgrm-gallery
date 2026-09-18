@@ -1,12 +1,24 @@
 <script lang="ts">
 	import type { Lang } from '$lib/types/content';
 
-	let { lang, href, label }: { lang: Lang; href: string; label: string } = $props();
+	let { lang, href }: { lang: Lang; href: string } = $props();
 </script>
 
-<a class="lang-switch" {href} hreflang={lang === 'en' ? 'ja' : 'en'} rel="alternate">{label}</a>
+<div class="lang-switch" role="group" aria-label="Language / 言語">
+	{#if lang === 'en'}
+		<span class="chip chip-en active" aria-current="true">EN</span>
+		<a class="chip chip-jp" {href} hreflang="ja" rel="alternate">JP</a>
+	{:else}
+		<a class="chip chip-en" {href} hreflang="en" rel="alternate">EN</a>
+		<span class="chip chip-jp active" aria-current="true">JP</span>
+	{/if}
+</div>
 
 <style>
-	.lang-switch { display: inline-flex; align-items: center; flex: none; height: 2.1rem; padding: 0 .7rem; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font-size: .74rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
-	.lang-switch:hover, .lang-switch:focus-visible { border-color: var(--accent); color: var(--accent-strong); }
+	.lang-switch { display: inline-flex; flex: none; gap: .25rem; }
+	.chip { display: inline-flex; align-items: center; justify-content: center; height: 1.5rem; padding: 0 .5rem; border-radius: 999px; font-size: .62rem; font-weight: 800; letter-spacing: .02em; text-decoration: none; line-height: 1; opacity: .55; transition: opacity .12s ease, box-shadow .12s ease; }
+	.chip-en { color: #2f5fa8; background: #dbe8fb; }
+	.chip-jp { color: #a83b3b; background: #fbdcdc; }
+	.chip.active { opacity: 1; box-shadow: inset 0 0 0 1px currentColor; cursor: default; }
+	a.chip:hover, a.chip:focus-visible { opacity: .85; }
 </style>

@@ -58,8 +58,7 @@ export const strings = {
 			recordsDesc: '制作や出来事を読む',
 			news: 'お知らせ',
 			newsDesc: '過去のお知らせも見る',
-			aboutDesc: 'メンバーと風下について',
-			langSwitch: 'English'
+			aboutDesc: 'メンバーと風下について'
 		},
 		announcement: { label: 'お知らせ', seeAll: 'すべて見る' },
 		resultCount: (n: number) => `${n}件`,
@@ -109,8 +108,7 @@ export const strings = {
 			recordsDesc: 'Read production notes and events',
 			news: 'News',
 			newsDesc: 'See past announcements too',
-			aboutDesc: 'About the members and Kazashimo',
-			langSwitch: '日本語'
+			aboutDesc: 'About the members and Kazashimo'
 		},
 		announcement: { label: 'News', seeAll: 'See all' },
 		resultCount: (n: number) => `${n} item${n === 1 ? '' : 's'}`,

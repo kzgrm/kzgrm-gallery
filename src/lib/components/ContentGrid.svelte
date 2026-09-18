@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { flip } from 'svelte/animate';
 	import { fly } from 'svelte/transition';
+	import { page } from '$app/state';
+	import { t } from '$lib/i18n';
 	import NoteCard from '$lib/components/NoteCard.svelte';
 	import type { ContentSummary } from '$lib/types/content';
 
 	let { items = [], query = '' }: { items?: ContentSummary[]; query?: string } = $props();
+	const strings = $derived(t(page.data.lang ?? 'ja'));
 	const normalizedQuery = $derived(query.toLocaleLowerCase('ja-JP'));
 	const filtered = $derived(
 		items.filter((item) => {
@@ -14,7 +17,7 @@
 	);
 </script>
 
-<p class="result-count" aria-live="polite">{filtered.length}件</p>
+<p class="result-count" aria-live="polite">{strings.resultCount(filtered.length)}</p>
 <ul class="cards">
 	{#each filtered as item, index (item.slug)}
 		<li in:fly={{ y: 10, duration: 180 }} out:fly={{ y: -10, duration: 150 }} animate:flip={{ duration: 240 }}>

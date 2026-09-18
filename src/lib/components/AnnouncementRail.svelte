@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import { t } from '$lib/i18n';
 	import type { ContentSummary } from '$lib/types/content';
 	let { items = [], newsUrl }: { items?: ContentSummary[]; newsUrl: string } = $props();
+	const strings = $derived(t(page.data.lang ?? 'ja').announcement);
 
 	function hash(text: string): number {
 		let value = 0;
@@ -13,8 +16,8 @@
 </script>
 
 {#if items.length}
-	<aside class="announcement" aria-label="お知らせ">
-		<strong>お知らせ</strong>
+	<aside class="announcement" aria-label={strings.label}>
+		<strong>{strings.label}</strong>
 		<div class="announcement-items">
 			{#each items as item}
 				<a href={item.url}>
@@ -24,7 +27,7 @@
 					<time datetime={item.date}>{item.date.slice(5).replace('-', '/')}</time><span>{item.title}</span><b aria-hidden="true">→</b>
 				</a>
 			{/each}
-			<a class="all-news" href={newsUrl}><span>すべて見る</span><b aria-hidden="true">→</b></a>
+			<a class="all-news" href={newsUrl}><span>{strings.seeAll}</span><b aria-hidden="true">→</b></a>
 		</div>
 	</aside>
 {/if}

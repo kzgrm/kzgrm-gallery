@@ -1,3 +1,4 @@
+export type Lang = 'ja' | 'en';
 export type ContentKind = 'work' | 'record' | 'news';
 export type PublicationState = 'draft' | 'published' | 'unpublished';
 

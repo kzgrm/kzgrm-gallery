@@ -2,7 +2,7 @@ import { base } from '$app/paths';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import { parse as parseYaml } from 'yaml';
-import type { ContentKind, ContentSummary, PublicationState, SiteContent } from '$lib/types/content';
+import type { ContentKind, ContentSummary, Lang, PublicationState, SiteContent } from '$lib/types/content';
 
 type ContentFrontmatter = {
 	title?: unknown;
@@ -22,6 +22,16 @@ type ContentFrontmatter = {
 };
 
 const markdownModules = import.meta.glob('/src/content/**/index.md', {
+	eager: true,
+	query: '?raw',
+	import: 'default'
+}) as Record<string, string>;
+
+// English siblings are optional per entry — content.ts falls back to the Japanese
+// title/body/etc. field-by-field (see readContent) whenever no index.en.md exists,
+// or whenever it exists but omits a given frontmatter key (date/kind/tags/thumbnail
+// are rarely worth re-typing per language).
+const markdownModulesEn = import.meta.glob('/src/content/**/index.en.md', {
 	eager: true,
 	query: '?raw',
 	import: 'default'
@@ -105,21 +115,50 @@ function formatDateLabel(date: string): string {
 	return `${year}/${month}/${day}`;
 }
 
+// index.en.md files are looked up by directory, not slug, since the loader below still
+// reads the Japanese index.md as the canonical enumeration of entries.
+const enSourceByDirectory: Record<string, string> = {};
+for (const enPath of Object.keys(markdownModulesEn)) {
+	const directory = enPath.replace(/\/index\.en\.md$/, '');
+	enSourceByDirectory[directory] = markdownModulesEn[enPath]!;
+}
+
 // worksには個別ページが無い(リンクはexternalUrl頼み)。externalUrlの無い
 // workのurlは旧activities URLからのリダイレクト先として一覧ページに落とす。
-function routeFor(kind: ContentKind, slug: string, externalUrl?: string): string {
-	if (kind === 'work') return externalUrl ?? `${base}/works/`;
+function langPrefix(lang: Lang): string {
+	return lang === 'en' ? `${base}/en` : base;
+}
+
+function routeFor(kind: ContentKind, slug: string, lang: Lang, externalUrl?: string): string {
+	if (kind === 'work') return externalUrl ?? `${langPrefix(lang)}/works/`;
 	const collection = kind === 'record' ? 'records' : 'news';
-	return `${base}/${collection}/${encodeURIComponent(slug)}/`;
+	return `${langPrefix(lang)}/${collection}/${encodeURIComponent(slug)}/`;
 }
 
 function optionalString(value: unknown): string | undefined {
 	return typeof value === 'string' && value.trim() ? value.trim() : undefined;
 }
 
-function readContent(path: string, source: string): SiteContent {
+// Merges the localized frontmatter over the Japanese original field-by-field, so an
+// index.en.md only needs to carry the fields that actually change per language
+// (title/summary/caption) and can omit date/kind/tags/thumbnail entirely.
+function mergeAttributes(ja: ContentFrontmatter, en: ContentFrontmatter | undefined): ContentFrontmatter {
+	if (!en) return ja;
+	const merged: ContentFrontmatter = { ...ja };
+	for (const [key, value] of Object.entries(en)) {
+		if (value !== undefined) (merged as Record<string, unknown>)[key] = value;
+	}
+	return merged;
+}
+
+function readContent(path: string, source: string, lang: Lang): SiteContent {
 	const { slug, directory, legacy } = contentLocation(path);
-	const { attributes, body } = splitDocument(source);
+	const ja = splitDocument(source);
+	const enSource = lang === 'en' ? enSourceByDirectory[directory] : undefined;
+	const en = enSource ? splitDocument(enSource) : undefined;
+	const attributes = mergeAttributes(ja.attributes, en?.attributes);
+	const body = en ? en.body : ja.body;
+
 	const title = typeof attributes.title === 'string' ? attributes.title : slug;
 	const date = normalizeDate(attributes.date, path);
 	const kind = normalizeKind(attributes.kind, path);
@@ -150,28 +189,47 @@ function readContent(path: string, source: string): SiteContent {
 		rail: attributes.rail === true,
 		listed: publicationState === 'published' && attributes.listed !== false,
 		publicationState,
-		url: routeFor(kind, slug, optionalString(attributes.externalUrl)),
+		url: routeFor(kind, slug, lang, optionalString(attributes.externalUrl)),
 		legacyUrl: legacy ? `${base}/activities/${encodeURIComponent(slug)}/` : undefined,
 		html: safeHtml(body, directory)
 	};
 }
 
-export const contents = Object.entries(markdownModules)
-	.map(([path, source]) => readContent(path, source))
-	.sort((a, b) => b.date.localeCompare(a.date));
+const contentsCache = new Map<Lang, SiteContent[]>();
 
-export const works = contents.filter((item) => item.kind === 'work' && item.listed);
-export const records = contents.filter((item) => item.kind === 'record' && item.listed);
-export const news = contents.filter((item) => item.kind === 'news' && item.listed);
-export const railNews = news.filter((item) => item.rail).slice(0, 3);
+export function contentsFor(lang: Lang): SiteContent[] {
+	const cached = contentsCache.get(lang);
+	if (cached) return cached;
+	const built = Object.entries(markdownModules)
+		.map(([path, source]) => readContent(path, source, lang))
+		.sort((a, b) => b.date.localeCompare(a.date));
+	contentsCache.set(lang, built);
+	return built;
+}
+
+export const worksFor = (lang: Lang) => contentsFor(lang).filter((item) => item.kind === 'work' && item.listed);
+export const recordsFor = (lang: Lang) => contentsFor(lang).filter((item) => item.kind === 'record' && item.listed);
+export const newsFor = (lang: Lang) => contentsFor(lang).filter((item) => item.kind === 'news' && item.listed);
+export const railNewsFor = (lang: Lang) => newsFor(lang).filter((item) => item.rail).slice(0, 3);
 
 export const contentSummaries = (items: SiteContent[]): ContentSummary[] =>
 	items.map(({ html: _html, ...item }) => item);
 
-export function findContent(kind: ContentKind, slug: string): SiteContent | undefined {
-	return contents.find((item) => item.kind === kind && item.slug === slug && item.listed);
+export function findContentFor(kind: ContentKind, slug: string, lang: Lang): SiteContent | undefined {
+	return contentsFor(lang).find((item) => item.kind === kind && item.slug === slug && item.listed);
 }
 
-export function findAnyContent(slug: string): SiteContent | undefined {
-	return contents.find((item) => item.slug === slug && item.listed);
+export function findAnyContentFor(slug: string, lang: Lang): SiteContent | undefined {
+	return contentsFor(lang).find((item) => item.slug === slug && item.listed);
 }
+
+// Japanese-default aliases for callers that predate language support (the legacy
+// /activities/* redirect route, which intentionally stays outside [[lang=lang]] —
+// old external links to it never had a language prefix to begin with).
+export const contents = contentsFor('ja');
+export const works = worksFor('ja');
+export const records = recordsFor('ja');
+export const news = newsFor('ja');
+export const railNews = railNewsFor('ja');
+export const findContent = (kind: ContentKind, slug: string) => findContentFor(kind, slug, 'ja');
+export const findAnyContent = (slug: string) => findAnyContentFor(slug, 'ja');

@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { page } from '$app/state';
 	import { trackImageLoad } from '$lib/actions/trackImageLoad';
+	import { langPath, t } from '$lib/i18n';
 	import PinnedPhotoBoard from '$lib/components/PinnedPhotoBoard.svelte';
 	import type { HomePinPhoto } from '$lib/home-pins';
 	import type { ContentSummary } from '$lib/types/content';
 	let { works, records, photos }: { works: ContentSummary[]; records: ContentSummary[]; photos: HomePinPhoto[] } = $props();
+	const lang = $derived(page.data.lang ?? 'ja');
+	const strings = $derived(t(lang).home);
 
 	// Keyed by slug so each tile/entry fades in independently once its own
 	// image actually arrives, instead of all popping in together on a timer.
@@ -19,12 +23,12 @@
 	<section class="box">
 		<h1>WORKS</h1>
 		<div class="work-grid">{#each works.slice(0,8) as work,index}{#if work.externalUrl}<a class="tile" class:large={index===0||index===4} href={work.externalUrl} target="_blank" rel="noopener noreferrer">{#if work.thumbnail}<img src={work.thumbnail} alt="" class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></a>{:else}<div class="tile" class:large={index===0||index===4}>{#if work.thumbnail}<img src={work.thumbnail} alt="" class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></div>{/if}{/each}</div>
-		<a class="more" href={`${base}/works/`}>≫ 作品をぜんぶ見る</a>
+		<a class="more" href={langPath(lang, '/works/')}>{strings.allWorks}</a>
 	</section>
 	<section class="box recent">
 		<h2>ARTICLES</h2>
-		<ul>{#each records as record,index}<li><a class="record-entry" href={record.url}>{#if record.thumbnail}<img src={record.thumbnail} alt="" class:loaded={recordLoaded[record.slug]} use:trackImageLoad={() => (recordLoaded[record.slug] = true)} />{/if}<span class="record-copy"><span class="record-meta"><time datetime={record.date}>{record.dateLabel}</time><em>制作記録</em>{#if index===0}<b>NEW</b>{/if}</span><strong>{record.title}</strong>{#if record.summary}<small>{record.summary}</small>{/if}</span></a></li>{/each}</ul>
-		<a class="more" href={`${base}/records/`}>≫ もっと読む</a>
+		<ul>{#each records as record,index}<li><a class="record-entry" href={record.url}>{#if record.thumbnail}<img src={record.thumbnail} alt="" class:loaded={recordLoaded[record.slug]} use:trackImageLoad={() => (recordLoaded[record.slug] = true)} />{/if}<span class="record-copy"><span class="record-meta"><time datetime={record.date}>{record.dateLabel}</time><em>{strings.recordBadge}</em>{#if index===0}<b>NEW</b>{/if}</span><strong>{record.title}</strong>{#if record.summary}<small>{record.summary}</small>{/if}</span></a></li>{/each}</ul>
+		<a class="more" href={langPath(lang, '/records/')}>{strings.moreRecords}</a>
 	</section>
 	</div>
 </div>

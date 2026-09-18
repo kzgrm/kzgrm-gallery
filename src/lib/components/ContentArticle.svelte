@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import { t, tagLabel } from '$lib/i18n';
 	import type { SiteContent } from '$lib/types/content';
 	let { content, backUrl, backLabel, eyebrow, showThumbnail = false }: { content: SiteContent; backUrl: string; backLabel: string; eyebrow: string; showThumbnail?: boolean } = $props();
+	const lang = $derived(page.data.lang ?? 'ja');
+	const strings = $derived(t(lang));
 </script>
 
 <article class="article">
@@ -10,13 +14,13 @@
 		<h1>{content.title}</h1>
 		<div class="meta">
 			<time datetime={content.date}>{content.dateLabel}</time>
-			{#if content.author}<span>文：{content.author}</span>{/if}
-			{#if content.tags.length}<span>{content.tags.join(' / ')}</span>{/if}
+			{#if content.author}<span>{strings.byAuthor}{content.author}</span>{/if}
+			{#if content.tags.length}<span>{content.tags.map((tag) => tagLabel(lang, tag)).join(' / ')}</span>{/if}
 		</div>
 	</header>
 	{#if showThumbnail && content.thumbnail}
 		<figure class="hero-image">
-			<img src={content.thumbnail} alt={`${content.title}の画像`} />
+			<img src={content.thumbnail} alt={strings.imageOf(content.title)} />
 			{#if content.caption}<figcaption>{content.caption}</figcaption>{/if}
 		</figure>
 	{/if}

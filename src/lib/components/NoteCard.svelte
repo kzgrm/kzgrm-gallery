@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { trackImageLoad } from '$lib/actions/trackImageLoad';
+	import { t, tagLabel } from '$lib/i18n';
 	import type { ContentSummary } from '$lib/types/content';
 
 	let { item, index = 0 }: { item: ContentSummary; index?: number } = $props();
+	const lang = $derived(page.data.lang ?? 'ja');
+	const strings = $derived(t(lang));
 
 	// Same 4-color palette used elsewhere in the kzgrm apps -- a brand-new
 	// tag gets a stable color with no code change needed here.
@@ -29,7 +33,7 @@
 		</span>
 	{/if}
 	<span class="copy">
-		{#if item.tags[0]}<span class="tag" style={`background:${categoryColor(item.tags[0])}`}>{item.tags[0]}</span>{/if}
+		{#if item.tags[0]}<span class="tag" style={`background:${categoryColor(item.tags[0])}`}>{tagLabel(lang, item.tags[0])}</span>{/if}
 		<strong>{item.title}</strong>
 		<time datetime={item.date}>{item.dateLabel}</time>
 		{#if item.summary ?? item.caption}<span class="summary">{item.summary ?? item.caption}</span>{/if}
@@ -37,7 +41,7 @@
 {/snippet}
 
 {#if item.externalUrl}
-	<a class="note-card" href={item.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={`${item.title}を見る`}>{@render body()}</a>
+	<a class="note-card" href={item.externalUrl} target="_blank" rel="noopener noreferrer" aria-label={strings.viewItem(item.title)}>{@render body()}</a>
 {:else if item.kind === 'work'}
 	<div class="note-card no-link">{@render body()}</div>
 {:else}

@@ -18,5 +18,5 @@ Keeping not just the finished works but also how they came to be might help peop
 
 This homepage will keep growing alongside the works and records themselves.
 
-Writing: Nattsu
-Site design: Nattsu
+Writing: なっつ
+Site design: なっつ

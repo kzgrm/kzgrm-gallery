@@ -83,7 +83,7 @@ export const strings = {
 			wishlist: 'ほしい物リスト',
 			membersHeading: 'MEMBERS',
 			roles: {
-				haru: '犬・監督・演出・アート',
+				haru: '犬・企画・演出・アート',
 				forune: '企画・撮影・編集・開発',
 				windal: '企画・演出・撮影・編集',
 				nattsu: '開発・サウンド・編集・企画'
@@ -128,12 +128,12 @@ export const strings = {
 		about: {
 			title: 'About | Kazashimo',
 			description: 'Kazashimo is the circle Kazashimo (a character) belongs to — four members bringing illustration, video, and music together to make works.',
-			heading: 'About Kazashimo',
+			heading: 'About',
 			intro: 'Kazashimo is the circle Kazashimo (a character) belongs to — four members bringing illustration, video, and music together to make works.',
 			wishlist: 'Wishlist',
 			membersHeading: 'MEMBERS',
 			roles: {
-				haru: 'Dog, director, direction, art',
+				haru: 'Dog, planning, direction, art',
 				forune: 'Planning, filming, editing, development',
 				windal: 'Planning, direction, filming, editing',
 				nattsu: 'Development, sound, editing, planning'

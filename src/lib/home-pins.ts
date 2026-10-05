@@ -4,7 +4,8 @@ export const maxHomePinPhotos = 100;
 export const displayedHomePinPhotos = 10;
 
 const idPattern = /^[0-9a-f]{64}$/;
-const srcPattern = /^\/home-pins\/[0-9a-f]{64}\.jpg$/;
+// WebP is what kzgrm-compass publishes now; .jpg stays valid for photos added before the switch.
+const srcPattern = /^\/home-pins\/[0-9a-f]{64}\.(?:webp|jpg)$/;
 
 export function parseHomePins(value: unknown): HomePinPhoto[] {
 	if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
@@ -15,7 +16,7 @@ export function parseHomePins(value: unknown): HomePinPhoto[] {
 		if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return [];
 		const photo = candidate as Record<string, unknown>;
 		if (Object.keys(photo).some((key) => !['id', 'src', 'alt', 'caption'].includes(key))) return [];
-		if (typeof photo.id !== 'string' || !idPattern.test(photo.id) || typeof photo.src !== 'string' || !srcPattern.test(photo.src) || typeof photo.alt !== 'string' || photo.alt.length > 300 || typeof photo.caption !== 'string' || photo.caption.length > 120) return [];
+		if (typeof photo.id !== 'string' || !idPattern.test(photo.id) || typeof photo.src !== 'string' || !srcPattern.test(photo.src) || !photo.src.startsWith(`/home-pins/${photo.id}.`) || typeof photo.alt !== 'string' || photo.alt.length > 300 || typeof photo.caption !== 'string' || photo.caption.length > 120) return [];
 		photos.push({ id: photo.id, src: photo.src, alt: photo.alt, caption: photo.caption });
 	}
 	return new Set(photos.map((photo) => photo.id)).size === photos.length ? photos : [];

@@ -37,3 +37,13 @@ test('Fisher-Yates shuffles without losing photos', () => {
 	assert.notDeepEqual(shuffled.map((photo) => photo.id), photos.map((photo) => photo.id));
 	assert.deepEqual(new Set(shuffled.map((photo) => photo.id)), new Set(photos.map((photo) => photo.id)));
 });
+
+test('home pins accept WebP and JPEG files named after their own id only', () => {
+	const id = 'a'.repeat(64), other = 'b'.repeat(64);
+	const pin = (src) => ({ schemaVersion: 1, photos: [{ id, src, alt: '', caption: '' }] });
+	assert.equal(parseHomePins(pin(`/home-pins/${id}.webp`)).length, 1);
+	assert.equal(parseHomePins(pin(`/home-pins/${id}.jpg`)).length, 1);
+	assert.deepEqual(parseHomePins(pin(`/home-pins/${id}.png`)), []);
+	assert.deepEqual(parseHomePins(pin(`/home-pins/${other}.webp`)), []);
+	assert.deepEqual(parseHomePins(pin(`https://example.com/${id}.webp`)), []);
+});

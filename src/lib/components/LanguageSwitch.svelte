@@ -3,17 +3,16 @@
 	import { langs } from '$lib/i18n';
 
 	let { lang, hrefFor, compact = false }: { lang: Lang; hrefFor: (lang: Lang) => string; compact?: boolean } = $props();
-	const labels: Record<Lang, string> = { ja: 'JP', en: 'EN', 'zh-TW': '繁中', ko: '한국어' };
-	const compactLabels: Record<Lang, string> = { ja: 'JP', en: 'EN', 'zh-TW': 'TC', ko: 'KR' };
+	const labels: Record<Lang, string> = { ja: 'JP', en: 'EN', 'zh-TW': 'TC', ko: 'KR' };
 	const names: Record<Lang, string> = { ja: '日本語', en: 'English', 'zh-TW': '繁體中文', ko: '한국어' };
 </script>
 
 <div class="lang-switch" class:compact role="group" aria-label="Language / 言語">
 	{#each langs as target}
 		{#if lang === target}
-			<span class="chip chip-{target} active" aria-current="true" aria-label={names[target]}>{compact ? compactLabels[target] : labels[target]}</span>
+			<span class="chip chip-{target} active" aria-current="true" aria-label={names[target]}>{labels[target]}</span>
 		{:else}
-			<a class="chip chip-{target}" href={hrefFor(target)} hreflang={target} rel="alternate" aria-label={names[target]}>{compact ? compactLabels[target] : labels[target]}</a>
+			<a class="chip chip-{target}" href={hrefFor(target)} hreflang={target} rel="alternate" aria-label={names[target]}>{labels[target]}</a>
 		{/if}
 	{/each}
 </div>

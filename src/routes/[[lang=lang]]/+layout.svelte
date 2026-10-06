@@ -242,7 +242,7 @@
 			<a class="nav-records" data-en="records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>{strings.nav.records}</a>
 			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>{strings.nav.about}</a>
 		</nav>
-		<span class="desktop-only-lang"><LanguageSwitch {lang} hrefFor={switchHref} /></span>
+		<span class="desktop-only-lang"><LanguageSwitch {lang} hrefFor={switchHref} compact /></span>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label={strings.nav.openMenuAria} aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
 				<svg class="menu-icon" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false">

@@ -2,6 +2,9 @@
 // Photos without it share whatever slots are left, as before. Set from kzgrm-compass's homepage page.
 export type HomePinPhoto = { id: string; src: string; alt: string; caption: string; chance?: number };
 export const minHomePinChance = 0.1, maxHomePinChance = 100;
+// A photo this unlikely gets a gold frame on the board, so a visitor can tell they got a rare one.
+export const ultraRareHomePinChance = 5;
+export const isUltraRareHomePin = (photo: HomePinPhoto) => photo.chance !== undefined && photo.chance <= ultraRareHomePinChance;
 export const validHomePinChance = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value) && value >= minHomePinChance && value <= maxHomePinChance;
 
 export const maxHomePinPhotos = 100;

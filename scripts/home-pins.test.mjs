@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { maxHomePinPhotos, parseHomePins, selectedHomePins, shuffledHomePins } from '../src/lib/home-pins.ts';
+import { isUltraRareHomePin, maxHomePinPhotos, parseHomePins, selectedHomePins, shuffledHomePins } from '../src/lib/home-pins.ts';
 
 const photos = Array.from({ length: 10 }, (_, index) => {
 	const id = index.toString(16).padStart(64, '0');
@@ -89,4 +89,13 @@ test('home pins accept a chance between 0.1 and 100 only', () => {
 	assert.equal(parseHomePins(pin(0.1))[0].chance, 0.1);
 	assert.equal(parseHomePins(pin(100))[0].chance, 100);
 	for (const bad of [0, 0.05, 101, -1, '10', null, Number.NaN]) assert.deepEqual(parseHomePins(pin(bad)), []);
+});
+
+test('only a photo with a chance of 5% or less counts as ultra rare', () => {
+	const photo = (chance) => ({ id: 'd'.repeat(64), src: '', alt: '', caption: '', ...(chance === undefined ? {} : { chance }) });
+	assert.equal(isUltraRareHomePin(photo(1)), true);
+	assert.equal(isUltraRareHomePin(photo(5)), true);
+	assert.equal(isUltraRareHomePin(photo(5.1)), false);
+	assert.equal(isUltraRareHomePin(photo(100)), false);
+	assert.equal(isUltraRareHomePin(photo(undefined)), false);
 });

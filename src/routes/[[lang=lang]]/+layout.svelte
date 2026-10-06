@@ -9,7 +9,7 @@
 	import AnnouncementRail from '$lib/components/AnnouncementRail.svelte';
 	import LanguageSwitch from '$lib/components/LanguageSwitch.svelte';
 	import { homepagePreviewState } from '$lib/preview-state.svelte';
-	import { otherLangPathname, otherLangUrl, t } from '$lib/i18n';
+	import { langPrefix, langs, localizedPathname, t } from '$lib/i18n';
 	import type { ContentSummary, Lang } from '$lib/types/content';
 	import type { Snippet } from 'svelte';
 
@@ -19,19 +19,17 @@
 	let menuShell: HTMLElement;
 	const lang = $derived(data.lang);
 	const strings = $derived(t(lang));
-	const path = (value: string) => `${base}${lang === 'en' ? '/en' : ''}${value}`;
-	// Static assets (icons, logo) never live under /en — only page routes do.
+	const path = (value: string) => `${base}${langPrefix(lang)}${value}`;
+	// Static assets (icons, logo) never use a language prefix.
 	const assetPath = (value: string) => `${base}${value}`;
 	const currentSection = $derived.by(() => {
 		const withoutBase = page.url.pathname.replace(base, '');
-		const withoutLang = lang === 'en' && withoutBase.startsWith('/en') ? withoutBase.slice(3) : withoutBase;
+		const withoutLang = withoutBase.replace(/^\/(?:en|zh-TW|ko)(?=\/|$)/, '') || '/';
 		return withoutLang.split('/')[1] || 'home';
 	});
-	// The language switch link must stay relative — an absolute https://kzgrm.com/...
-	// href isn't followed by the prerender crawler, so /en would never be discovered.
-	const otherLangPath = $derived(otherLangUrl(page.url.pathname));
-	const jaHref = $derived(`https://kzgrm.com${lang === 'en' ? otherLangPathname(page.url.pathname) : page.url.pathname}`);
-	const enHref = $derived(`https://kzgrm.com${lang === 'en' ? page.url.pathname : otherLangPathname(page.url.pathname)}`);
+	// Relative switch links let the prerender crawler discover every locale.
+	const switchHref = (target: Lang) => `${base}${localizedPathname(page.url.pathname, target)}`;
+	const canonicalHref = (target: Lang) => `https://kzgrm.com${localizedPathname(page.url.pathname, target)}`;
 	const displayedRailNews = $derived(currentSection === 'preview' && homepagePreviewState.railItem?.kind === 'news' && homepagePreviewState.railItem.rail
 		? [homepagePreviewState.railItem, ...data.railNews.filter((item) => item.slug !== homepagePreviewState.railItem?.slug)].slice(0, 3)
 		: data.railNews);
@@ -193,10 +191,9 @@
 	<meta name="apple-mobile-web-app-title" content="かざぐるま" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta property="og:site_name" content="かざぐるま" />
-	<meta property="og:locale" content={lang === 'en' ? 'en_US' : 'ja_JP'} />
-	<link rel="alternate" hreflang="ja" href={jaHref} />
-	<link rel="alternate" hreflang="en" href={enHref} />
-	<link rel="alternate" hreflang="x-default" href={jaHref} />
+	<meta property="og:locale" content={{ ja: 'ja_JP', en: 'en_US', 'zh-TW': 'zh_TW', ko: 'ko_KR' }[lang]} />
+	{#each langs as target}<link rel="alternate" hreflang={target} href={canonicalHref(target)} />{/each}
+	<link rel="alternate" hreflang="x-default" href={canonicalHref('ja')} />
 </svelte:head>
 
 {#snippet searchIcon()}
@@ -245,7 +242,7 @@
 			<a class="nav-records" data-en="records" class:active={currentSection === 'records'} aria-current={currentSection === 'records' ? 'page' : undefined} href={path('/records/')}>{strings.nav.records}</a>
 			<a class="nav-about" data-en="about" class:active={currentSection === 'about'} aria-current={currentSection === 'about' ? 'page' : undefined} href={path('/about/')}>{strings.nav.about}</a>
 		</nav>
-		<span class="desktop-only-lang"><LanguageSwitch {lang} href={otherLangPath} /></span>
+		<span class="desktop-only-lang"><LanguageSwitch {lang} hrefFor={switchHref} /></span>
 		<div class="menu-shell" bind:this={menuShell}>
 			<button class="menu-button" type="button" aria-label={strings.nav.openMenuAria} aria-expanded={menuOpen} aria-controls="site-menu" onclick={() => menuOpen = !menuOpen}>
 				<svg class="menu-icon" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false">
@@ -272,7 +269,7 @@
 							{@render searchIcon()}
 							<input bind:value={searchQuery} type="search" placeholder={strings.nav.search} aria-label={strings.nav.search} />
 						</form>
-						<LanguageSwitch {lang} href={otherLangPath} />
+						<LanguageSwitch {lang} hrefFor={switchHref} />
 					</div>
 					<a class="menu-home" class:active={currentSection === 'home'} aria-current={currentSection === 'home' ? 'page' : undefined} href={path('/')}><span>{@render menuIconHome()}</span><strong>{strings.nav.home}</strong><small>{strings.nav.homeDesc}</small></a>
 					<a class="menu-works" class:active={currentSection === 'works'} aria-current={currentSection === 'works' ? 'page' : undefined} href={path('/works/')}><span>{@render menuIconActivities()}</span><strong>{strings.nav.works}</strong><small>{strings.nav.worksDesc}</small></a>
@@ -376,7 +373,7 @@
 	@keyframes spin { to { transform: rotate(360deg); } }
 	@keyframes progress { from { transform: translateX(-105%); } to { transform: translateX(365%); } }
 	@media (prefers-reduced-motion: reduce) { .site-icon, .site-icon.spinning, .page-progress span { animation: none; }.page-progress span { width: 100%; }.desktop-nav a::after { transition: none; } }
-	@media (max-width: 720px) {
+	@media (max-width: 900px) {
 		.site-header { padding: .7rem .85rem; }
 		.site-icon { width: 36px; height: 36px; }
 		.site-logo { height: 30px; }

@@ -2,16 +2,17 @@
 	import { flip } from 'svelte/animate';
 	import { fly } from 'svelte/transition';
 	import { page } from '$app/state';
-	import { t } from '$lib/i18n';
+	import { t, tagLabel } from '$lib/i18n';
 	import NoteCard from '$lib/components/NoteCard.svelte';
 	import type { ContentSummary } from '$lib/types/content';
 
 	let { items = [], query = '' }: { items?: ContentSummary[]; query?: string } = $props();
 	const strings = $derived(t(page.data.lang ?? 'ja'));
+	const lang = $derived(page.data.lang ?? 'ja');
 	const normalizedQuery = $derived(query.toLocaleLowerCase('ja-JP'));
 	const filtered = $derived(
 		items.filter((item) => {
-			const searchable = `${item.title} ${item.tags.join(' ')} ${item.caption ?? ''} ${item.date}`.toLocaleLowerCase('ja-JP');
+			const searchable = `${item.title} ${item.tags.join(' ')} ${item.tags.map((tag) => tagLabel(lang, tag)).join(' ')} ${item.caption ?? ''} ${item.date}`.toLocaleLowerCase('ja-JP');
 			return !normalizedQuery || searchable.includes(normalizedQuery);
 		})
 	);

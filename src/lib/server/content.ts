@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 import { parse as parseYaml } from 'yaml';
 import type { ContentKind, ContentSummary, Lang, PublicationState, SiteContent } from '$lib/types/content';
+import { langPrefix } from '$lib/i18n';
 
 type ContentFrontmatter = {
 	title?: unknown;
@@ -27,11 +28,8 @@ const markdownModules = import.meta.glob('/src/content/**/index.md', {
 	import: 'default'
 }) as Record<string, string>;
 
-// English siblings are optional per entry — content.ts falls back to the Japanese
-// title/body/etc. field-by-field (see readContent) whenever no index.en.md exists,
-// or whenever it exists but omits a given frontmatter key (date/kind/tags/thumbnail
-// are rarely worth re-typing per language).
-const markdownModulesEn = import.meta.glob('/src/content/**/index.en.md', {
+// Localized siblings are optional. Missing entries and fields use Japanese content.
+const localizedMarkdownModules = import.meta.glob('/src/content/**/index.{en,zh-TW,ko}.md', {
 	eager: true,
 	query: '?raw',
 	import: 'default'
@@ -115,24 +113,20 @@ function formatDateLabel(date: string): string {
 	return `${year}/${month}/${day}`;
 }
 
-// index.en.md files are looked up by directory, not slug, since the loader below still
-// reads the Japanese index.md as the canonical enumeration of entries.
-const enSourceByDirectory: Record<string, string> = {};
-for (const enPath of Object.keys(markdownModulesEn)) {
-	const directory = enPath.replace(/\/index\.en\.md$/, '');
-	enSourceByDirectory[directory] = markdownModulesEn[enPath]!;
+// Japanese index.md remains the canonical enumeration of entries.
+const sourceByDirectory: Record<string, Partial<Record<Lang, string>>> = {};
+for (const [localizedPath, source] of Object.entries(localizedMarkdownModules)) {
+	const match = localizedPath.match(/^(.*)\/index\.(en|zh-TW|ko)\.md$/);
+	if (!match) continue;
+	(sourceByDirectory[match[1]] ??= {})[match[2] as Lang] = source;
 }
 
 // worksには個別ページが無い(リンクはexternalUrl頼み)。externalUrlの無い
 // workのurlは旧activities URLからのリダイレクト先として一覧ページに落とす。
-function langPrefix(lang: Lang): string {
-	return lang === 'en' ? `${base}/en` : base;
-}
-
 function routeFor(kind: ContentKind, slug: string, lang: Lang, externalUrl?: string): string {
-	if (kind === 'work') return externalUrl ?? `${langPrefix(lang)}/works/`;
+	if (kind === 'work') return externalUrl ?? `${base}${langPrefix(lang)}/works/`;
 	const collection = kind === 'record' ? 'records' : 'news';
-	return `${langPrefix(lang)}/${collection}/${encodeURIComponent(slug)}/`;
+	return `${base}${langPrefix(lang)}/${collection}/${encodeURIComponent(slug)}/`;
 }
 
 function optionalString(value: unknown): string | undefined {
@@ -140,12 +134,12 @@ function optionalString(value: unknown): string | undefined {
 }
 
 // Merges the localized frontmatter over the Japanese original field-by-field, so an
-// index.en.md only needs to carry the fields that actually change per language
+// A localized index file only needs fields that change per language
 // (title/summary/caption) and can omit date/kind/tags/thumbnail entirely.
-function mergeAttributes(ja: ContentFrontmatter, en: ContentFrontmatter | undefined): ContentFrontmatter {
-	if (!en) return ja;
+function mergeAttributes(ja: ContentFrontmatter, localized: ContentFrontmatter | undefined): ContentFrontmatter {
+	if (!localized) return ja;
 	const merged: ContentFrontmatter = { ...ja };
-	for (const [key, value] of Object.entries(en)) {
+	for (const [key, value] of Object.entries(localized)) {
 		if (value !== undefined) (merged as Record<string, unknown>)[key] = value;
 	}
 	return merged;
@@ -154,10 +148,10 @@ function mergeAttributes(ja: ContentFrontmatter, en: ContentFrontmatter | undefi
 function readContent(path: string, source: string, lang: Lang): SiteContent {
 	const { slug, directory, legacy } = contentLocation(path);
 	const ja = splitDocument(source);
-	const enSource = lang === 'en' ? enSourceByDirectory[directory] : undefined;
-	const en = enSource ? splitDocument(enSource) : undefined;
-	const attributes = mergeAttributes(ja.attributes, en?.attributes);
-	const body = en ? en.body : ja.body;
+	const localizedSource = sourceByDirectory[directory]?.[lang];
+	const localized = localizedSource ? splitDocument(localizedSource) : undefined;
+	const attributes = mergeAttributes(ja.attributes, localized?.attributes);
+	const body = localized ? localized.body : ja.body;
 
 	const title = typeof attributes.title === 'string' ? attributes.title : slug;
 	const date = normalizeDate(attributes.date, path);

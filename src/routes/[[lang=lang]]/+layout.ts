@@ -1,5 +1,6 @@
 import type { LayoutLoad } from './$types';
+import { parseLang } from '$lib/i18n';
 
 export const load: LayoutLoad = ({ params }) => {
-	return { lang: params.lang === 'en' ? 'en' : 'ja' };
+	return { lang: parseLang(params.lang) };
 };

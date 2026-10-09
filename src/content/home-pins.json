@@ -144,7 +144,8 @@
 			"id": "a916e38ab2745b85a4731b06b151b6f66c8735c56df5d569508235914a233925",
 			"src": "/home-pins/a916e38ab2745b85a4731b06b151b6f66c8735c56df5d569508235914a233925.webp",
 			"alt": "",
-			"caption": ""
+			"caption": "",
+			"chance": 0.1
 		}
 	]
 }

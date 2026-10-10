@@ -4,13 +4,13 @@ date: 2025-07-25
 kind: work
 tags:
   - 踊ってみた
-thumbnail: ./001.png
+thumbnail: ./thumbnail.webp
 externalUrl: https://x.com/haru01234567890/status/1948654458780402160
 summary: Mrs. GREEN APPLE「breakfast」　撮影・編集:ウィンダル
 caption: with ほたろー
 ---
 
-![](./001.png)
+![](./thumbnail.webp)
 
 [breakfast](https://www.youtube.com/watch?v=-zsYJTSw_V0)
 

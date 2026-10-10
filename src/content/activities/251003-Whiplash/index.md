@@ -4,12 +4,12 @@ date: 2025-10-03
 kind: work
 tags:
   - 踊ってみた
-thumbnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.webp
 externalUrl: https://x.com/haru01234567890/status/1974052249434280222
 summary: aespa「Whiplash」　撮影・編集:ウィンダル
 ---
 
-![](./thumbnail.jpg)
+![](./thumbnail.webp)
 
 Whiplash
 aespa

@@ -4,7 +4,7 @@ date: 2025-05-30
 kind: work
 tags:
   - PV
-thumbnail: ./thumbnail.png
+thumbnail: ./thumbnail.webp
 summary: 音楽:ああああ　演出・制作:ウィンダル
 externalUrl: https://www.youtube.com/watch?v=i8d0nt1eM7Y
 ---

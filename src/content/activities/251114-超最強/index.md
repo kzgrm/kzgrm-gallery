@@ -4,12 +4,12 @@ date: 2025-11-14
 kind: work
 tags:
   - 踊ってみた
-thumbnail: ./thumbnail.jpg
+thumbnail: ./thumbnail.webp
 summary: 超ときめき♡宣伝部「超最強」　撮影・編集:ウィンダル
 externalUrl: https://www.youtube.com/watch?v=3_GVVS9h8ek
 ---
 
-![](./thumbnail.jpg)
+![](./thumbnail.webp)
 
 超最強
 超ときめき♡宣伝部

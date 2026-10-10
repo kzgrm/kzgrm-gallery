@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail.webp
-thumbnailAspect: "16:9"
+thumbnailFocus: "72% 50%"
 externalUrl: https://x.com/haru01234567890/status/1968948180088750239
 summary: EasyPop「ハッピーシンセサイザ」　撮影・編集:ウィンダル
 ---

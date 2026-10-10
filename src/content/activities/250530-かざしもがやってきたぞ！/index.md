@@ -5,7 +5,7 @@ kind: work
 tags:
   - PV
 thumbnail: ./thumbnail.webp
-thumbnailAspect: "16:9"
+thumbnailFocus: "66% 50%"
 summary: 音楽:ああああ　演出・制作:ウィンダル
 externalUrl: https://www.youtube.com/watch?v=i8d0nt1eM7Y
 ---

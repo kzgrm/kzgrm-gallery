@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/8gtTkhBhUYM/oardefault.jpg
-thumbnailAspect: "9:16"
+thumbnailFocus: "50% 64%"
 summary: 「プロポーズ」 with Miki
 externalUrl: https://www.youtube.com/watch?v=8gtTkhBhUYM
 caption: with Miki

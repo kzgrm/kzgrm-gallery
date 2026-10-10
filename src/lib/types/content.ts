@@ -10,8 +10,9 @@ export type ContentSummary = {
 	kind: ContentKind;
 	tags: string[];
 	thumbnail?: string;
-	// Width over height of the picture as it should be shown (16:9 → 1.78). Unset: the card's own 4:3.
-	thumbnailAspect?: number;
+	// Which part of the picture stays in view where it is cut to a frame's shape, as a CSS
+	// position ("50% 20%"). Unset: the middle.
+	thumbnailFocus?: string;
 	summary?: string;
 	caption?: string;
 	author?: string;

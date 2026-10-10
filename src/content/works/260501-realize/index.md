@@ -5,7 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnailUrl: https://i.ytimg.com/vi/WPYsdVSsFEg/oardefault.jpg
-thumbnailAspect: "9:16"
+thumbnailFocus: "50% 36%"
 summary: 踊ってみたShorts
 externalUrl: https://www.youtube.com/watch?v=WPYsdVSsFEg
 ---

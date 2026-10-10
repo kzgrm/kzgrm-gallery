@@ -22,7 +22,7 @@
 	<section class="welcome"><span>WELCOME TO</span><h1><img src={`${base}/header.webp`} alt="かざぐるま（KZGRM）" /></h1></section>
 	<section class="box">
 		<h2>WORKS</h2>
-		<div class="work-grid">{#each works.slice(0,8) as work,index}{#if work.externalUrl}<a class="tile" class:large={index===0||index===4} class:tall={(work.thumbnailAspect ?? 1.33) < 1} style={work.thumbnail ? `--picture:url("${work.thumbnail}")` : undefined} href={work.externalUrl} target="_blank" rel="noopener noreferrer">{#if work.thumbnail}<img src={work.thumbnail} alt="" class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></a>{:else}<div class="tile" class:large={index===0||index===4} class:tall={(work.thumbnailAspect ?? 1.33) < 1} style={work.thumbnail ? `--picture:url("${work.thumbnail}")` : undefined}>{#if work.thumbnail}<img src={work.thumbnail} alt="" class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></div>{/if}{/each}</div>
+		<div class="work-grid">{#each works.slice(0,8) as work,index}{#if work.externalUrl}<a class="tile" class:large={index===0||index===4} href={work.externalUrl} target="_blank" rel="noopener noreferrer">{#if work.thumbnail}<img src={work.thumbnail} alt="" style={work.thumbnailFocus ? `object-position:${work.thumbnailFocus}` : undefined} class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></a>{:else}<div class="tile" class:large={index===0||index===4}>{#if work.thumbnail}<img src={work.thumbnail} alt="" style={work.thumbnailFocus ? `object-position:${work.thumbnailFocus}` : undefined} class:loaded={workLoaded[work.slug]} use:trackImageLoad={() => (workLoaded[work.slug] = true)} />{/if}<span><strong>{work.title}</strong><time datetime={work.date}>{work.dateLabel}</time></span></div>{/if}{/each}</div>
 		<a class="more" href={langPath(lang, '/works/')}>{strings.allWorks}</a>
 	</section>
 	<section class="box recent">
@@ -40,11 +40,4 @@
 	@media(min-width:1200px){.home-stage.with-photos{grid-template-columns:minmax(125px,150px) minmax(0,900px) minmax(125px,150px);column-gap:1.5rem}}
 	@media(max-width:620px){.nostalgic-home{padding:.1rem .65rem 1rem}.welcome{padding:.45rem 0 .75rem}.welcome img{width:78%}.box{padding:.7rem;box-shadow:3px 3px 0 rgba(90,101,177,.2)}.work-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,150px 110px 110px)}.work-grid>.tile.large{grid-column:1/3;grid-row:auto}.work-grid>.tile:nth-child(4n){grid-column:1/3}.record-entry{grid-template-columns:6.5rem minmax(0,1fr);gap:.6rem}.record-meta b{display:none}.record-copy>small{-webkit-line-clamp:1;line-clamp:1}}
 	@media(prefers-reduced-motion:reduce){.work-grid img,.record-entry>img{transition:none;opacity:1;transform:none}}
-	/* A tall picture fills a big tile from a little above its middle, where the faces are.
-	   In the very wide tiles (every fourth, and the big ones on a phone) that would leave a thin
-	   band, so there it is shown whole over a blurred copy of itself. */
-	.work-grid>.tile.tall.large img{object-position:50% 30%}
-	.work-grid>.tile.tall:nth-child(4n)::before{content:'';position:absolute;inset:-18px;background:var(--picture) center/cover;filter:blur(14px) brightness(.72)}
-	.work-grid>.tile.tall:nth-child(4n) img{position:relative;object-fit:contain}
-	@media(max-width:620px){.work-grid>.tile.tall.large::before{content:'';position:absolute;inset:-18px;background:var(--picture) center/cover;filter:blur(14px) brightness(.72)}.work-grid>.tile.tall.large img{position:relative;object-fit:contain}}
 </style>

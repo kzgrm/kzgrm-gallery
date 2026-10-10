@@ -13,7 +13,7 @@ type ContentFrontmatter = {
 	thumbnail?: unknown;
 	thumnail?: unknown;
 	thumbnailUrl?: unknown;
-	thumbnailAspect?: unknown;
+	thumbnailFocus?: unknown;
 	summary?: unknown;
 	caption?: unknown;
 	author?: unknown;
@@ -146,13 +146,15 @@ function mergeAttributes(ja: ContentFrontmatter, localized: ContentFrontmatter |
 	return merged;
 }
 
-// `thumbnailAspect: "16:9"` in the frontmatter → 1.78. Anything else (unset, misspelt, absurd)
-// means "not set", so the card keeps its own 4:3.
-function aspectOf(value: unknown): number | undefined {
-	const match = typeof value === 'string' ? /^(\d+(?:\.\d+)?)\s*[:/]\s*(\d+(?:\.\d+)?)$/.exec(value.trim()) : null;
-	if (!match) return undefined;
-	const ratio = Number(match[1]) / Number(match[2]);
-	return ratio >= 0.4 && ratio <= 2.5 ? ratio : undefined;
+// `thumbnailFocus` in the frontmatter: `top`, `center`, `bottom`, one percentage (how far down:
+// `20%`) or two (across and down: `50% 20%`). Anything else means "not set" — the middle.
+function focusOf(value: unknown): string | undefined {
+	const text = typeof value === 'string' ? value.trim() : typeof value === 'number' ? `${value}%` : '';
+	const named: Record<string, string> = { top: '50% 0%', center: '50% 50%', bottom: '50% 100%' };
+	if (named[text]) return named[text];
+	const match = /^(\d{1,3})%(?:\s+(\d{1,3})%)?$/.exec(text);
+	if (!match || Number(match[1]) > 100 || Number(match[2] ?? 0) > 100) return undefined;
+	return match[2] === undefined ? `50% ${match[1]}%` : `${match[1]}% ${match[2]}%`;
 }
 
 function readContent(path: string, source: string, lang: Lang): SiteContent {
@@ -186,7 +188,7 @@ function readContent(path: string, source: string, lang: Lang): SiteContent {
 		kind,
 		tags,
 		thumbnail,
-		thumbnailAspect: aspectOf(attributes.thumbnailAspect),
+		thumbnailFocus: focusOf(attributes.thumbnailFocus),
 		summary: optionalString(attributes.summary),
 		caption: optionalString(attributes.caption),
 		author: optionalString(attributes.author),

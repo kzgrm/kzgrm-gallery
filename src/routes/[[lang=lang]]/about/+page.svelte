@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '$lib/components/Seo.svelte';
 	import { page } from '$app/state';
 	import { trackImageLoad } from '$lib/actions/trackImageLoad';
 	import { t } from '$lib/i18n';
@@ -7,10 +8,7 @@
 	const strings = $derived(t(page.data.lang ?? 'ja').about);
 </script>
 
-<svelte:head>
-	<title>{strings.title}</title>
-	<meta name="description" content={strings.description} />
-</svelte:head>
+<Seo title={strings.title} description={strings.description} />
 
 <header class="intro">
 	<h1>{strings.heading}</h1>

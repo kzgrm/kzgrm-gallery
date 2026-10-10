@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '$lib/components/Seo.svelte';
 	import { page } from '$app/state';
 	import NostalgicHome from '$lib/components/NostalgicHome.svelte';
 	import { t } from '$lib/i18n';
@@ -9,12 +10,7 @@
 	const strings = $derived(t(page.data.lang ?? 'ja').home_meta);
 </script>
 
-<svelte:head>
-	<title>{strings.title}</title>
-	<meta name="description" content={strings.description} />
-	<meta property="og:title" content={strings.title} />
-	<meta property="og:description" content={strings.description} />
-</svelte:head>
+<Seo title={strings.title} description={strings.description} />
 
 <NostalgicHome works={data.works} records={data.latestRecords} photos={data.homePins} />
 

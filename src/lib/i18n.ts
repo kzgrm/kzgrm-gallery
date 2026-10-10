@@ -72,7 +72,7 @@ export const strings = {
 			records: { title: '記録 | かざぐるま', description: 'かざぐるまの制作・開発・出演の記録です。', heading: '記録' },
 			news: { title: 'お知らせ | かざぐるま', description: 'かざぐるまからのお知らせです。', heading: 'お知らせ' }
 		},
-		home_meta: { title: 'かざぐるま', description: 'KZGRM・かざぐるまの公式サイトです。' },
+		home_meta: { title: 'かざぐるま（KZGRM）公式サイト', description: 'かざぐるま（KZGRM）の公式サイト。風下（かざしも）が所属するサークルで、4人のメンバーがイラスト・映像・音楽などを持ち寄ってつくった作品、制作の記録、お知らせを載せています。' },
 		about: {
 			title: 'かざぐるまについて | かざぐるま',
 			description: 'かざぐるまとは、風下が所属するサークルで、4人のメンバーがイラスト・映像・音楽などを持ち寄り、作品をつくっています。',
@@ -122,7 +122,7 @@ export const strings = {
 			records: { title: 'かざぐるま | Records', description: 'Production, development, and appearance records from かざぐるま.', heading: 'Records' },
 			news: { title: 'かざぐるま | News', description: 'Announcements from かざぐるま.', heading: 'News' }
 		},
-		home_meta: { title: 'かざぐるま', description: 'The official site of かざぐるま.' },
+		home_meta: { title: 'かざぐるま (KZGRM) Official Site', description: 'The official site of かざぐるま (KZGRM, Kazaguruma), the circle Kazashimo belongs to: works, production records and news from four members bringing illustration, video, and music together.' },
 		about: {
 			title: 'かざぐるま | About',
 			description: 'Kazashimo is the circle Kazashimo (a character) belongs to — four members bringing illustration, video, and music together to make works.',
@@ -162,7 +162,7 @@ export const strings = {
 			records: { title: 'かざぐるま | 紀錄', description: 'かざぐるま的製作、開發與演出紀錄。', heading: '紀錄' },
 			news: { title: 'かざぐるま | 最新消息', description: '來自かざぐるま的最新消息。', heading: '最新消息' }
 		},
-		home_meta: { title: 'かざぐるま', description: 'かざぐるま的官方網站。' },
+		home_meta: { title: 'かざぐるま（KZGRM）官方網站', description: 'かざぐるま（KZGRM）的官方網站。風下所屬的創作團體，四位成員共同創作插畫、影像與音樂，在此刊載作品、製作紀錄與最新消息。' },
 		about: {
 			title: 'かざぐるま | 關於我們', description: 'かざぐるま是風下所屬的創作團體，四位成員共同創作插畫、影像與音樂。',
 			heading: '關於我們', intro: 'かざぐるま是風下所屬的創作團體，四位成員共同創作插畫、影像與音樂。',
@@ -193,7 +193,7 @@ export const strings = {
 			records: { title: 'かざぐるま | 기록', description: 'かざぐるま의 제작, 개발, 출연 기록입니다.', heading: '기록' },
 			news: { title: 'かざぐるま | 소식', description: 'かざぐるま의 소식입니다.', heading: '소식' }
 		},
-		home_meta: { title: 'かざぐるま', description: 'かざぐるま 공식 사이트입니다.' },
+		home_meta: { title: 'かざぐるま (KZGRM) 공식 사이트', description: 'かざぐるま(KZGRM) 공식 사이트입니다. 카자시모가 소속된 창작 동아리로, 네 명의 멤버가 함께 만든 일러스트·영상·음악 작품과 제작 기록, 소식을 싣고 있습니다.' },
 		about: {
 			title: 'かざぐるま | 소개', description: 'かざぐるま는 카자시모가 소속된 창작 동아리입니다. 네 명의 멤버가 일러스트, 영상, 음악을 함께 만들고 있습니다.',
 			heading: '소개', intro: 'かざぐるま는 카자시모가 소속된 창작 동아리입니다. 네 명의 멤버가 일러스트, 영상, 음악을 함께 만들고 있습니다.',

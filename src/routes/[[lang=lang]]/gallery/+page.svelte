@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '$lib/components/Seo.svelte';
 	const modules = import.meta.glob('/src/assets/images/gallery/*.{avif,gif,jpeg,jpg,png,svg,webp}', {
 		eager: true,
 		query: '?url',
@@ -10,10 +11,7 @@
 		.map(([path, src]) => ({ src, alt: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '' }));
 </script>
 
-<svelte:head>
-	<title>写真 | かざぐるま</title>
-	<meta name="description" content="かざぐるまの写真ギャラリーです。" />
-</svelte:head>
+<Seo title="写真 | かざぐるま" description="かざぐるまの写真ギャラリーです。" />
 
 <div class="masonry">
 	{#each photos as photo}

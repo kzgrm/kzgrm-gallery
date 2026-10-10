@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '$lib/components/Seo.svelte';
 	import { page } from '$app/state';
 	import ContentArticle from '$lib/components/ContentArticle.svelte';
 	import { articleTitle, langPath, t } from '$lib/i18n';
@@ -8,5 +9,5 @@
 	const strings = $derived(t(lang).news);
 </script>
 
-<svelte:head><title>{articleTitle(lang, data.content.title)}</title><meta name="description" content={data.content.summary ?? data.content.title} /></svelte:head>
+<Seo title={articleTitle(lang, data.content.title)} description={data.content.summary ?? data.content.title} image={data.content.thumbnail} type="article" />
 <ContentArticle content={data.content} backUrl={langPath(lang, '/news/')} backLabel={strings.back} eyebrow={strings.eyebrow} />

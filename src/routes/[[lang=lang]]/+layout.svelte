@@ -30,6 +30,16 @@
 	// Relative switch links let the prerender crawler discover every locale.
 	const switchHref = (target: Lang) => `${base}${localizedPathname(page.url.pathname, target)}`;
 	const canonicalHref = (target: Lang) => `https://kzgrm.com${localizedPathname(page.url.pathname, target)}`;
+	// Tells search engines who this site belongs to and which accounts are the same group, so the
+	// site, the channel and the accounts are understood as one. On the home page only.
+	const isHome = $derived(localizedPathname(page.url.pathname, 'ja') === '/');
+	const siteData = $derived({
+		'@context': 'https://schema.org',
+		'@graph': [
+			{ '@type': 'Organization', '@id': 'https://kzgrm.com/#organization', name: 'かざぐるま', alternateName: ['KZGRM', 'Kazaguruma'], url: 'https://kzgrm.com/', logo: 'https://kzgrm.com/apple-touch-icon.png', image: 'https://kzgrm.com/og.png', description: t('ja').about.description, sameAs: ['https://www.youtube.com/@Kazashimo_Ch', 'https://x.com/haru01234567890', 'https://www.tiktok.com/@kazashimo9346'] },
+			{ '@type': 'WebSite', '@id': 'https://kzgrm.com/#website', name: 'かざぐるま', alternateName: 'KZGRM', url: 'https://kzgrm.com/', inLanguage: lang, publisher: { '@id': 'https://kzgrm.com/#organization' } }
+		]
+	});
 	const displayedRailNews = $derived(currentSection === 'preview' && homepagePreviewState.railItem?.kind === 'news' && homepagePreviewState.railItem.rail
 		? [homepagePreviewState.railItem, ...data.railNews.filter((item) => item.slug !== homepagePreviewState.railItem?.slug)].slice(0, 3)
 		: data.railNews);
@@ -192,6 +202,10 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta property="og:site_name" content="かざぐるま" />
 	<meta property="og:locale" content={{ ja: 'ja_JP', en: 'en_US', 'zh-TW': 'zh_TW', ko: 'ko_KR' }[lang]} />
+	<!-- The one address of this page, so the same page reached another way is not counted twice. -->
+	<link rel="canonical" href={canonicalHref(lang)} />
+	<meta property="og:url" content={canonicalHref(lang)} />
+	{#if isHome}{@html `<script type="application/ld+json">${JSON.stringify(siteData)}</` + `script>`}{/if}
 	{#each langs as target}<link rel="alternate" hreflang={target} href={canonicalHref(target)} />{/each}
 	<link rel="alternate" hreflang="x-default" href={canonicalHref('ja')} />
 </svelte:head>

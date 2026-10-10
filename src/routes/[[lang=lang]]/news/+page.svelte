@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Seo from '$lib/components/Seo.svelte';
 	import { page } from '$app/state';
 	import ContentGrid from '$lib/components/ContentGrid.svelte';
 	import { t } from '$lib/i18n';
@@ -7,7 +8,7 @@
 	const strings = $derived(t(page.data.lang ?? 'ja').listPages.news);
 </script>
 
-<svelte:head><title>{strings.title}</title><meta name="description" content={strings.description} /></svelte:head>
+<Seo title={strings.title} description={strings.description} />
 <h1>{strings.heading}</h1>
 <ContentGrid items={data.news} />
 

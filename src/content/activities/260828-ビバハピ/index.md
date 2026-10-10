@@ -1,5 +1,6 @@
 ---
 thumbnail: ./thumbnail.webp
+thumbnailAspect: "9:16"
 title: ビバハピ with ルーチェ
 date: 2026-08-28
 kind: work

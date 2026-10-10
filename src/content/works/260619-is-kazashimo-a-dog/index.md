@@ -5,7 +5,8 @@ kind: work
 publicationState: published
 tags:
   - 映像
-thumbnailUrl: https://i.ytimg.com/vi/gi-uXelM6zk/hqdefault.jpg
+thumbnailUrl: https://i.ytimg.com/vi/gi-uXelM6zk/maxresdefault.jpg
+thumbnailAspect: "16:9"
 summary: 検証動画
 externalUrl: https://www.youtube.com/watch?v=gi-uXelM6zk
 ---

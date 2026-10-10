@@ -4,7 +4,8 @@ date: 2026-07-17
 kind: work
 tags:
   - 踊ってみた
-thumbnailUrl: https://i.ytimg.com/vi/8gtTkhBhUYM/hqdefault.jpg
+thumbnailUrl: https://i.ytimg.com/vi/8gtTkhBhUYM/oardefault.jpg
+thumbnailAspect: "9:16"
 summary: 「プロポーズ」 with Miki
 externalUrl: https://www.youtube.com/watch?v=8gtTkhBhUYM
 caption: with Miki

@@ -23,13 +23,22 @@
 	// dead-even) instead of a pin holding the photo down.
 	const tiltDeg = $derived(((hash(item.slug) % 130) - 65) / 10); // -6.5..6.5deg
 
+	// The place a photo takes on the card never changes (the 4:3 the cards have always had); a
+	// work that names its own shape is laid inside it whole — a wide one across the full width
+	// and shorter, a tall one at the full height and narrower.
+	const cardAspect = 4 / 3;
+	const aspect = $derived(item.thumbnailAspect ?? cardAspect);
+	const fit = $derived(Math.min(1, aspect / cardAspect));
+
 	let loaded = $state(false);
 </script>
 
 {#snippet body()}
 	{#if item.thumbnail}
-		<span class="photo" class:loaded style={`--tilt:${tiltDeg}deg`}>
-			<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} use:trackImageLoad={() => (loaded = true)} />
+		<span class="slot">
+			<span class="photo" class:loaded style={`--tilt:${tiltDeg}deg;--aspect:${aspect};--fit:${fit}`}>
+				<img src={item.thumbnail} alt="" loading={index < 3 ? 'eager' : 'lazy'} use:trackImageLoad={() => (loaded = true)} />
+			</span>
 		</span>
 	{/if}
 	<span class="copy">
@@ -54,9 +63,12 @@
 	.note-card:hover strong { color: var(--accent-strong); }
 	.note-card.no-link:hover { border-color: var(--border-strong); }
 	.note-card.no-link:hover strong { color: var(--text); }
-	.photo { display: block; overflow: hidden; align-self: center; width: 88%; margin: 0 auto; padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; opacity: 0; transform: rotate(0deg) scale(.92) translateY(10px); }
+	/* The slot is exactly the box the 4:3 photo (with its paper border) has always taken. */
+	.slot { display: grid; place-items: center; align-self: center; width: 88%; margin: 0 auto; }
+	.slot::before { content: ''; grid-area: 1 / 1; width: 100%; padding-top: calc(75% + .4rem); }
+	.photo { display: block; overflow: hidden; grid-area: 1 / 1; box-sizing: border-box; width: calc((100% - .6rem) * var(--fit, 1) + .6rem); padding: .3rem .3rem .55rem; background: #fffdf6; box-shadow: 2px 5px 9px #28304a3d; opacity: 0; transform: rotate(0deg) scale(.92) translateY(10px); }
 	.photo.loaded { animation: place-photo .5s cubic-bezier(.2, .9, .3, 1.2) both; }
-	.photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #d8d8d8; }
+	.photo img { display: block; width: 100%; aspect-ratio: var(--aspect, 4 / 3); object-fit: cover; background: #d8d8d8; }
 	.copy { display: flex; min-width: 0; flex-direction: column; }
 	.tag { align-self: flex-start; margin-bottom: .4rem; padding: .18rem .55rem; border-radius: 999px; color: #1a1a1a; font-size: .62rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
 	strong { overflow: hidden; font-family: var(--font-display); font-size: 1rem; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }

@@ -5,6 +5,7 @@ kind: work
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail.webp
+thumbnailAspect: "16:9"
 externalUrl: https://x.com/haru01234567890/status/2090710501718151375
 summary: "「ねぇねぇねぇ。」 with ほたろー"
 caption: with ほたろー

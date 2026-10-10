@@ -4,7 +4,8 @@ date: 2026-08-14
 kind: work
 tags:
   - 踊ってみた
-thumbnailUrl: https://i.ytimg.com/vi/ydnHK0zrNaQ/hqdefault.jpg
+thumbnailUrl: https://i.ytimg.com/vi/ydnHK0zrNaQ/oardefault.jpg
+thumbnailAspect: "9:16"
 summary: 「青と夏」 with ノア
 externalUrl: https://www.youtube.com/watch?v=ydnHK0zrNaQ
 caption: with ノア

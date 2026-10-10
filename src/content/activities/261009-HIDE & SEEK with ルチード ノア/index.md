@@ -6,6 +6,7 @@ publicationState: published
 tags:
   - 踊ってみた
 thumbnail: ./thumbnail.webp
+thumbnailAspect: "9:16"
 externalUrl: https://x.com/haru01234567890/status/2108475052312109370
 summary: "「HIDE & SEEK」 with ルチード・ドルソニャ、ノア"
 caption: with ルチード・ドルソニャ、ノア

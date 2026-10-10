@@ -13,6 +13,7 @@ type ContentFrontmatter = {
 	thumbnail?: unknown;
 	thumnail?: unknown;
 	thumbnailUrl?: unknown;
+	thumbnailAspect?: unknown;
 	summary?: unknown;
 	caption?: unknown;
 	author?: unknown;
@@ -145,6 +146,15 @@ function mergeAttributes(ja: ContentFrontmatter, localized: ContentFrontmatter |
 	return merged;
 }
 
+// `thumbnailAspect: "16:9"` in the frontmatter → 1.78. Anything else (unset, misspelt, absurd)
+// means "not set", so the card keeps its own 4:3.
+function aspectOf(value: unknown): number | undefined {
+	const match = typeof value === 'string' ? /^(\d+(?:\.\d+)?)\s*[:/]\s*(\d+(?:\.\d+)?)$/.exec(value.trim()) : null;
+	if (!match) return undefined;
+	const ratio = Number(match[1]) / Number(match[2]);
+	return ratio >= 0.4 && ratio <= 2.5 ? ratio : undefined;
+}
+
 function readContent(path: string, source: string, lang: Lang): SiteContent {
 	const { slug, directory, legacy } = contentLocation(path);
 	const ja = splitDocument(source);
@@ -176,6 +186,7 @@ function readContent(path: string, source: string, lang: Lang): SiteContent {
 		kind,
 		tags,
 		thumbnail,
+		thumbnailAspect: aspectOf(attributes.thumbnailAspect),
 		summary: optionalString(attributes.summary),
 		caption: optionalString(attributes.caption),
 		author: optionalString(attributes.author),

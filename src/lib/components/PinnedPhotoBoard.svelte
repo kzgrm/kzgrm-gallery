@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { base } from '$app/paths';
+	import { page } from '$app/state';
+	import { t } from '$lib/i18n';
+	import RarePinRain from '$lib/components/RarePinRain.svelte';
 	import { trackImageLoad } from '$lib/actions/trackImageLoad';
 	import { displayedHomePinPhotos, isUltraRareHomePin, selectedHomePins, type HomePinPhoto } from '$lib/home-pins';
 	import { addWindImpulse, getWindowMotionImpulse, pendulumIsAtRest, stepPendulum, type PendulumState, type WindowPosition } from '$lib/photo-motion';
@@ -17,6 +20,10 @@
 	let frameId = 0;
 	let lastTime = 0;
 	let movementTimer = 0;
+	// 激レアの写真がボードに出た回だけ、「風下の雨」を流す。降らせるのはボードに出ている通常の写真
+	let rareFigure = $state<HTMLElement | null>(null);
+	const rarePhoto = $derived(displayed.find(isUltraRareHomePin));
+	const rainSources = $derived(displayed.filter((photo) => !isUltraRareHomePin(photo)).map((photo) => `${base}${photo.src}`));
 	let lastWindowPosition: WindowPosition | null = null;
 	const initialAngles = [-11, 8, -7, 12, -9, 10, -13, 7, -8, 11];
 	const cardOffsets = [
@@ -97,6 +104,14 @@
 	onMount(() => {
 		if (photos.length === 0) return;
 		displayed = selectedHomePins(photos);
+		// 金の写真が読み込まれてから雨を始める（雨が止んだとき、そこに金の写真があるように）
+		void tick().then(() => {
+			const figure = board?.querySelector<HTMLElement>('figure.ultra-rare');
+			const image = figure?.querySelector('img');
+			if (!figure || !image) return;
+			if (image.complete) rareFigure = figure;
+			else image.addEventListener('load', () => (rareFigure = figure), { once: true });
+		});
 		window.addEventListener('kzgrm:header-wind', catchHeaderWind);
 		const setupFrame = requestAnimationFrame(startMotion);
 		movementTimer = window.setInterval(sampleWindowMovement, 50);
@@ -120,6 +135,7 @@
 			</figure>
 		{/each}
 	</section>
+	{#if rarePhoto && rareFigure}<RarePinRain target={rareFigure} photoSources={rainSources} label={t(page.data.lang ?? 'ja').home.ultraRare} />{/if}
 {/if}
 
 <style>

@@ -65,7 +65,7 @@ export const strings = {
 		byAuthor: '文：',
 		records: { back: '記録一覧へ', eyebrow: 'Record' },
 		news: { back: 'お知らせ一覧へ', eyebrow: 'News' },
-		home: { allWorks: '≫ 作品をぜんぶ見る', moreRecords: '≫ もっと読む', recordBadge: '制作記録' },
+		home: { allWorks: '≫ 作品をぜんぶ見る', moreRecords: '≫ もっと読む', recordBadge: '制作記録', ultraRare: '激レア!' },
 		footer: { externalLinksAria: '外部リンク', contactSoon: 'お問い合わせ準備中' },
 		listPages: {
 			works: { title: '作品 | かざぐるま', description: 'かざぐるまの作品一覧です。', heading: '作品' },
@@ -115,7 +115,7 @@ export const strings = {
 		byAuthor: 'By: ',
 		records: { back: 'Back to records', eyebrow: 'Record' },
 		news: { back: 'Back to news', eyebrow: 'News' },
-		home: { allWorks: '≫ See all works', moreRecords: '≫ Read more', recordBadge: 'Production record' },
+		home: { allWorks: '≫ See all works', moreRecords: '≫ Read more', recordBadge: 'Production record', ultraRare: 'Ultra rare!' },
 		footer: { externalLinksAria: 'External links', contactSoon: 'Contact form coming soon' },
 		listPages: {
 			works: { title: 'かざぐるま | Works', description: 'All works by かざぐるま.', heading: 'Works' },
@@ -155,7 +155,7 @@ export const strings = {
 		byAuthor: '撰文：',
 		records: { back: '返回紀錄列表', eyebrow: 'Record' },
 		news: { back: '返回消息列表', eyebrow: 'News' },
-		home: { allWorks: '≫ 查看所有作品', moreRecords: '≫ 閱讀更多', recordBadge: '製作紀錄' },
+		home: { allWorks: '≫ 查看所有作品', moreRecords: '≫ 閱讀更多', recordBadge: '製作紀錄', ultraRare: '超稀有!' },
 		footer: { externalLinksAria: '外部連結', contactSoon: '聯絡表單準備中' },
 		listPages: {
 			works: { title: 'かざぐるま | 作品', description: 'かざぐるま的作品一覽。', heading: '作品' },
@@ -186,7 +186,7 @@ export const strings = {
 		byAuthor: '글: ',
 		records: { back: '기록 목록으로', eyebrow: 'Record' },
 		news: { back: '소식 목록으로', eyebrow: 'News' },
-		home: { allWorks: '≫ 모든 작품 보기', moreRecords: '≫ 더 읽기', recordBadge: '제작 기록' },
+		home: { allWorks: '≫ 모든 작품 보기', moreRecords: '≫ 더 읽기', recordBadge: '제작 기록', ultraRare: '초레어!' },
 		footer: { externalLinksAria: '외부 링크', contactSoon: '문의 양식 준비 중' },
 		listPages: {
 			works: { title: 'かざぐるま | 작품', description: 'かざぐるま의 작품 목록입니다.', heading: '작품' },

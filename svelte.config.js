@@ -12,7 +12,8 @@ export default {
 			strict: true
 		}),
 		paths: {
-			base: ''
+			base: '',
+			relative: false // 404.html is also served at arbitrary nested URLs by GitHub Pages.
 		},
 		prerender: {
 			handleHttpError: 'warn'

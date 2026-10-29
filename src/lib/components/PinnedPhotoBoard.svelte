@@ -105,6 +105,17 @@
 		wakePendulums();
 	}
 
+	function swayPhoto(index: number) {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const pendulum = pendulums.find((photo) => photo.index === index);
+		if (!pendulum) return;
+		// A normal click covers mouse, touch and keyboard without turning a
+		// scrolling gesture into an impulse or applying the same tap twice.
+		const direction = pendulum.velocity === 0 ? (index % 2 === 0 ? 1 : -1) : (pendulum.velocity > 0 ? 1 : -1);
+		pendulum.velocity = addWindImpulse(pendulum, direction, 0.65).velocity;
+		wakePendulums();
+	}
+
 	function sampleWindowMovement() {
 		if (document.visibilityState !== 'visible' || window.innerWidth <= 620 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			lastWindowPosition = null;
@@ -160,6 +171,7 @@
 			<figure style={`--start:${initialAngles[index]}deg;--mobile-start:${Math.max(-MOBILE_PHOTO_MAX_ANGLE, Math.min(initialAngles[index]!, MOBILE_PHOTO_MAX_ANGLE))}deg;--column:${position.column};--row:${position.row};--offset-x:${offset.x}px;--offset-y:${offset.y}px`} data-index={index} class:ultra-rare={isUltraRareHomePin(photo)}>
 				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} class:loaded={loadedPhotos[photo.id]} use:trackImageLoad={() => (loadedPhotos[photo.id] = true)} />
 				{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}
+				<button class="photo-sway" type="button" aria-label={t(page.data.lang ?? 'ja').home.swayPhoto(photo.alt || photo.caption || String(index + 1))} onclick={() => swayPhoto(index)}></button>
 			</figure>
 		{/each}
 	</section>
@@ -168,7 +180,9 @@
 
 <style>
 	@media(max-width:620px){.photo-board{order:2}}
-	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;pointer-events:none;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .45s ease}.photo-board img.loaded{opacity:1;transform:scale(1)}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
+	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .45s ease}.photo-board img.loaded{opacity:1;transform:scale(1)}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
+	.photo-sway{position:absolute;inset:0;z-index:3;display:block;width:100%;height:100%;margin:0;padding:0;appearance:none;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:manipulation}
+	.photo-sway:focus-visible{outline:3px solid #5362a4;outline-offset:3px}
 	/* 激レア（表示確率5%以下）の写真は、白い台紙の代わりに金の縁にする。斜めの明暗で、平らな黄色ではなく金属に見せる。 */
 	.photo-board figure.ultra-rare{background:linear-gradient(135deg,#a8791a 0%,#f3d776 22%,#c9992e 45%,#fbeeb0 62%,#b98a22 82%,#e9c95d 100%);box-shadow:0 0 0 1px #8a6412,0 0 12px #f0cf6a99,2px 5px 9px #28304a3d}.photo-board figure.ultra-rare img{box-shadow:0 0 0 1px #7d5a10}.photo-board figure.ultra-rare figcaption{color:#4a3508}
 	@media(max-width:620px){

@@ -8,5 +8,5 @@ export const load: PageServerLoad = ({ params }) => {
 	const lang = parseLang(params.lang);
 	const records = recordsFor(lang);
 	const works = worksFor(lang);
-	return { latestRecords: contentSummaries(records.slice(0, 3)), works: contentSummaries(works.slice(0, 8)), homePins: parseHomePins(homePinsDocument) };
+	return { latestRecords: contentSummaries(records.slice(0, 3)), works: contentSummaries(works.slice(0, 9)), homePins: parseHomePins(homePinsDocument) };
 };

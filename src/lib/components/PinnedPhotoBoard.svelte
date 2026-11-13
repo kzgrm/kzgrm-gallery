@@ -32,10 +32,6 @@
 		{ x: -4, y: 2 }, { x: 3, y: -3 }, { x: 1, y: 4 }, { x: -3, y: -1 }, { x: 4, y: -4 },
 		{ x: -2, y: -3 }, { x: 4, y: 1 }, { x: -4, y: 4 }, { x: 2, y: -2 }, { x: -1, y: 3 }
 	];
-	function gridPosition(index: number, total: number) {
-		const leftCount = Math.ceil(total / 2);
-		return index < leftCount ? { column: 1, row: index + 1 } : { column: 3, row: index - leftCount + 1 };
-	}
 
 	function animate(time: number) {
 		const elapsed = lastTime ? (time - lastTime) / 1000 : 1 / 60;
@@ -165,14 +161,18 @@
 
 {#if visiblePhotos.length > 0}
 	<section class="photo-board" bind:this={board} use:mobilePhotoLayout aria-label="かざぐるまの活動写真">
-		{#each visiblePhotos as photo, index (photo.id)}
-			{@const position = gridPosition(index, visiblePhotos.length)}
-			{@const offset = cardOffsets[index]}
-			<figure style={`--start:${initialAngles[index]}deg;--mobile-start:${Math.max(-MOBILE_PHOTO_MAX_ANGLE, Math.min(initialAngles[index]!, MOBILE_PHOTO_MAX_ANGLE))}deg;--column:${position.column};--row:${position.row};--offset-x:${offset.x}px;--offset-y:${offset.y}px`} data-index={index} class:ultra-rare={isUltraRareHomePin(photo)}>
-				<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} class:loaded={loadedPhotos[photo.id]} use:trackImageLoad={() => (loadedPhotos[photo.id] = true)} />
-				{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}
-				<button class="photo-sway" type="button" aria-label={t(page.data.lang ?? 'ja').home.swayPhoto(photo.alt || photo.caption || String(index + 1))} onclick={() => swayPhoto(index)}></button>
-			</figure>
+		{#each [0, 1] as side}
+			<div class="photo-column" class:right={side === 1}>
+				{#each visiblePhotos.slice(side * Math.ceil(visiblePhotos.length / 2), (side + 1) * Math.ceil(visiblePhotos.length / 2)) as photo, sideIndex (photo.id)}
+					{@const index = side * Math.ceil(visiblePhotos.length / 2) + sideIndex}
+					{@const offset = cardOffsets[index]}
+					<figure style={`--start:${initialAngles[index]}deg;--mobile-start:${Math.max(-MOBILE_PHOTO_MAX_ANGLE, Math.min(initialAngles[index]!, MOBILE_PHOTO_MAX_ANGLE))}deg;--offset-x:${offset.x}px;--offset-y:${offset.y}px`} data-index={index} class:ultra-rare={isUltraRareHomePin(photo)}>
+						<span class="pin" aria-hidden="true"></span><img src={`${base}${photo.src}`} alt={photo.alt} class:loaded={loadedPhotos[photo.id]} use:trackImageLoad={() => (loadedPhotos[photo.id] = true)} />
+						{#if photo.caption}<figcaption>{photo.caption}</figcaption>{/if}
+						<button class="photo-sway" type="button" aria-label={t(page.data.lang ?? 'ja').home.swayPhoto(photo.alt || photo.caption || String(index + 1))} onclick={() => swayPhoto(index)}></button>
+					</figure>
+				{/each}
+			</div>
 		{/each}
 	</section>
 	{#if rarePhoto && rareFigure}<RarePinRain target={rareFigure} photoSources={rainSources} label={t(page.data.lang ?? 'ja').home.ultraRare} />{/if}
@@ -180,13 +180,13 @@
 
 <style>
 	@media(max-width:620px){.photo-board{order:2}}
-	.photo-board{display:contents}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);grid-column:var(--column);grid-row:var(--row);width:92%;margin:0 auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:98%}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .45s ease}.photo-board img.loaded{opacity:1;transform:scale(1)}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
+	.photo-board{display:grid;grid-template-columns:subgrid;grid-column:1/-1;grid-row:1;align-items:start;pointer-events:none}.photo-column{display:flex;grid-column:1;flex-direction:column;align-items:flex-start;gap:0;min-width:0}.photo-column.right{grid-column:3;align-items:flex-end}.photo-board figure{position:relative;z-index:2;top:var(--offset-y);left:var(--offset-x);box-sizing:border-box;flex:none;width:calc(var(--desktop-photo-width) * .96);margin:0;pointer-events:auto;padding:.3rem .3rem .65rem;background:#fffdf6;box-shadow:2px 5px 9px #28304a3d;transform:rotate(var(--start));transform-origin:50% 2px;will-change:transform}.photo-board figure:nth-child(odd){width:var(--desktop-photo-width)}.photo-board img{display:block;width:100%;height:auto;background:#d8d8d8;opacity:0;transform:scale(1.04);transition:opacity .45s ease,transform .45s ease}.photo-board img.loaded{opacity:1;transform:scale(1)}.photo-board figcaption{overflow:hidden;margin-top:.25rem;color:#4e453d;font:italic clamp(.45rem,.65vw,.56rem) 'Comic Sans MS',cursive;text-align:center;text-overflow:ellipsis;white-space:nowrap}.pin{position:absolute;z-index:2;top:-5px;left:50%;width:13px;height:13px;border:2px solid #762f39;border-radius:50%;background:#d64d61;box-shadow:0 2px 2px #26191a66,inset -2px -2px #8c2638;transform:translateX(-50%)}
 	.photo-sway{position:absolute;inset:0;z-index:3;display:block;width:100%;height:100%;margin:0;padding:0;appearance:none;border:0;border-radius:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:manipulation}
 	.photo-sway:focus-visible{outline:3px solid #5362a4;outline-offset:3px}
 	/* 激レア（表示確率5%以下）の写真は、白い台紙の代わりに金の縁にする。斜めの明暗で、平らな黄色ではなく金属に見せる。 */
 	.photo-board figure.ultra-rare{background:linear-gradient(135deg,#a8791a 0%,#f3d776 22%,#c9992e 45%,#fbeeb0 62%,#b98a22 82%,#e9c95d 100%);box-shadow:0 0 0 1px #8a6412,0 0 12px #f0cf6a99,2px 5px 9px #28304a3d}.photo-board figure.ultra-rare img{box-shadow:0 0 0 1px #7d5a10}.photo-board figure.ultra-rare figcaption{color:#4a3508}
 	@media(max-width:620px){
-		.photo-board{box-sizing:border-box;position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:2rem .8rem;width:100%;margin-top:1.25rem;padding:.9rem .6rem 2rem}
+		.photo-column,.photo-column.right{display:contents}.photo-board{box-sizing:border-box;position:relative;display:grid;pointer-events:auto;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:2rem .8rem;width:100%;margin-top:1.25rem;padding:.9rem .6rem 2rem}
 		.photo-board figure,.photo-board figure:nth-child(n){box-sizing:border-box;top:auto;left:auto;grid-column:auto;grid-row:auto;width:92%;margin:0 auto;transform:none}
 		.photo-board:global(.has-mobile-layout){display:block;height:var(--mobile-board-height);padding:0}
 		.photo-board:global(.has-mobile-layout) figure{position:absolute;top:var(--mobile-top);left:var(--mobile-left);width:var(--mobile-card-width);margin:0;transform:rotate(var(--mobile-start));scale:var(--mobile-scale)}

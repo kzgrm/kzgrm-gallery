@@ -53,7 +53,7 @@ export function mobilePhotoLayout(board: HTMLElement) {
 		previousMeasurement = '';
 		schedule();
 	});
-	mutationObserver.observe(board, { childList: true });
+	mutationObserver.observe(board, { childList: true, subtree: true });
 	mobile.addEventListener('change', schedule);
 	board.addEventListener('load', schedule, true);
 	board.addEventListener('error', schedule, true);

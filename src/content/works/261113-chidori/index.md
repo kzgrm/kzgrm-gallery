@@ -5,9 +5,9 @@ kind: work
 publicationState: published
 tags:
   - MV
-thumbnailUrl: https://i.ytimg.com/vi/yYdDDbEaRZ8/maxresdefault.jpg
+thumbnailUrl: https://i.ytimg.com/vi/xbG52ZJfDz0/maxresdefault.jpg
 summary: ヨルシカ「千鳥」　演出・制作:ウィンダル
-externalUrl: https://www.youtube.com/watch?v=yYdDDbEaRZ8
+externalUrl: https://www.youtube.com/watch?v=xbG52ZJfDz0
 ---
 
 ヨルシカ「千鳥」（OFFICIAL VIDEO COVER）

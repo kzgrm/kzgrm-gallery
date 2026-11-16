@@ -1,6 +1,6 @@
 ---
 title: "ヨルシカ - 千鳥（OFFICIAL VIDEO COVER）"
-date: 2026-11-13
+date: 2026-11-14
 kind: work
 publicationState: published
 tags:
